@@ -1,0 +1,117 @@
+
+> resinaraft-frontend@0.1.0 dev
+> vite --host 0.0.0.0 --port 5173
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m1037[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.10.58:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.23.224.1:[1m5173[22m/[39m
+[2m09:07:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m09:09:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m09:10:31[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:10:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:10:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:11:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:11:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:11:42[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:12:01[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:12:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:12:20[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:12:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m09:13:48[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Landing.jsx[22m
+[2m09:14:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m09:22:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m09:23:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m09:23:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m09:23:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m09:23:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m09:24:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Landing.jsx[22m
+[2m09:25:24[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:25:56[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:26:42[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m09:27:02[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:27:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:27:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:37:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:37:36[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:37:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:37:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:37:54[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m09:38:32[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:12:37[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:17:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:17:48[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:18:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:18:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:18:26[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:18:33[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:26:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:26:15[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:26:24[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:26:34[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:26:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:26:52[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:27:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:27:20[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:27:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:35:03[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m10:35:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:36:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:36:25[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:36:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:53:20[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:54:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m10:54:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:05:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:06:21[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:16:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:16:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:17:08[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:17:20[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:17:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:17:52[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:18:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:18:31[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:39:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m11:41:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:51:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:51:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:51:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:52:21[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:52:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:53:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:53:37[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:54:01[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m11:54:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:54:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:00:03[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:00:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:00:44[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:01:22[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m12:01:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m12:05:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m12:06:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m12:06:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m12:06:21[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m12:06:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m12:12:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FuncionarioDashboard.jsx[22m
+[2m12:13:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:14:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:15:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:15:34[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/dashboard/AdminDashboardHome.jsx[22m
+[2m12:15:34[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/dashboard/AdminTypeSidebar.jsx[22m
+[2m12:15:34[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/funcionario/FuncionarioHeader.jsx[22m
+[2m12:15:34[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/funcionario/FuncionarioKanban.jsx[22m
+[2m12:15:34[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/funcionario/FuncionarioTypeSidebar.jsx[22m
+[2m12:17:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:17:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m12:19:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:20:08[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/dashboard/AdminTypeSidebar.jsx[22m
+[2m12:20:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:20:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:20:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m12:21:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/funcionario/FuncionarioTypeSidebar.jsx[22m
+[2m12:21:15[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m12:22:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m

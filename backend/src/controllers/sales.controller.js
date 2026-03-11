@@ -1,0 +1,215 @@
+const { salesService } = require('../services/sales.service');
+const { audit } = require('../utils/audit');
+const { Joi, validate } = require('../utils/validation');
+
+const saleStatus = ['BUDGET', 'APPROVED', 'IN_PRODUCTION', 'DONE', 'DELIVERED', 'CANCELLED'];
+const paymentStatus = ['PENDING', 'PARTIAL', 'PAID', 'REFUNDED'];
+const paymentMethods = ['PIX', 'CARD', 'CASH', 'TRANSFER', 'BOLETO'];
+
+const idSchema = Joi.object({
+  id: Joi.string().guid({ version: ['uuidv4'] }).required(),
+});
+
+const listSchema = Joi.object({
+  start_date: Joi.string().isoDate().optional(),
+  end_date: Joi.string().isoDate().optional(),
+  status: Joi.string().valid(...saleStatus).optional(),
+  payment_status: Joi.string().valid(...paymentStatus).optional(),
+  customer_id: Joi.string().guid({ version: ['uuidv4'] }).optional(),
+  type: Joi.string().valid('RESINA', 'FDM').optional(),
+});
+
+const saleItemSchema = Joi.object({
+  description: Joi.string().required(),
+  qty: Joi.number().positive().required(),
+  unit_price: Joi.number().min(0).required(),
+  line_total: Joi.number().min(0).required(),
+});
+
+const createSchema = Joi.object({
+  customer_id: Joi.string().guid({ version: ['uuidv4'] }).allow(null, ''),
+  customer_name_snapshot: Joi.string().allow('', null),
+  type: Joi.string().valid('RESINA', 'FDM').optional(),
+  status: Joi.string().valid(...saleStatus).required(),
+  sale_date: Joi.string().isoDate().required(),
+  due_date: Joi.string().isoDate().allow(null, ''),
+  subtotal: Joi.number().min(0).required(),
+  discount_total: Joi.number().min(0).default(0),
+  total: Joi.number().min(0).required(),
+  payment_status: Joi.string().valid(...paymentStatus).required(),
+  payment_method: Joi.string().valid(...paymentMethods).allow('', null),
+  notes: Joi.string().allow('', null),
+  items: Joi.array().items(saleItemSchema).default([]),
+});
+
+const updateSchema = Joi.object({
+  customer_id: Joi.string().guid({ version: ['uuidv4'] }).allow(null, ''),
+  customer_name_snapshot: Joi.string().allow('', null),
+  type: Joi.string().valid('RESINA', 'FDM').optional(),
+  status: Joi.string().valid(...saleStatus).optional(),
+  sale_date: Joi.string().isoDate().optional(),
+  due_date: Joi.string().isoDate().allow(null, ''),
+  subtotal: Joi.number().min(0).optional(),
+  discount_total: Joi.number().min(0).optional(),
+  total: Joi.number().min(0).optional(),
+  payment_status: Joi.string().valid(...paymentStatus).optional(),
+  payment_method: Joi.string().valid(...paymentMethods).allow('', null),
+  notes: Joi.string().allow('', null),
+  items: Joi.array().items(saleItemSchema).optional(),
+});
+
+const statusSchema = Joi.object({
+  status: Joi.string().valid(...saleStatus).optional(),
+  payment_status: Joi.string().valid(...paymentStatus).optional(),
+  payment_method: Joi.string().valid(...paymentMethods).allow('', null),
+}).or('status', 'payment_status', 'payment_method');
+
+const paymentSchema = Joi.object({
+  method: Joi.string().valid('PIX', 'CARD', 'CASH', 'TRANSFER', 'BOLETO').required(),
+  amount: Joi.number().min(0.01).required(),
+  paid_at: Joi.string().isoDate().required(),
+  notes: Joi.string().allow('', null),
+});
+
+const cancelSchema = Joi.object({
+  senha: Joi.string().trim().required(),
+});
+
+function ensureSalesTypePermission(req, saleType) {
+  const role = req.user?.role;
+  if (role === 'ADMIN') return;
+
+  const permissions = req.user?.permissions || [];
+  if (permissions.includes('producao')) return;
+  if (saleType === 'RESINA' && permissions.includes('producao-resina')) return;
+  if (saleType === 'FDM' && permissions.includes('producao-fdm')) return;
+
+  const error = new Error('Forbidden: insufficient permissions');
+  error.statusCode = 403;
+  error.code = 'FORBIDDEN';
+  throw error;
+}
+
+async function list(req, res, next) {
+  try {
+    const filters = validate(listSchema, req.query);
+    const result = await salesService.list(filters);
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function create(req, res, next) {
+  try {
+    const userId = req.user.sub;
+    const payload = validate(createSchema, req.body);
+    ensureSalesTypePermission(req, payload.type || 'RESINA');
+    const result = await salesService.create(payload, userId);
+    await audit({
+      userId,
+      entity: 'sales',
+      entityId: result.id,
+      action: 'CREATE',
+      data: { total: result.total, status: result.status || payload.status || 'BUDGET' },
+    });
+    res.status(201).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function getById(req, res, next) {
+  try {
+    const { id } = validate(idSchema, req.params);
+    const result = await salesService.getById(id);
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function update(req, res, next) {
+  try {
+    const userId = req.user.sub;
+    const { id } = validate(idSchema, req.params);
+    const payload = validate(updateSchema, req.body);
+    const currentSale = await salesService.getById(id);
+    if (!currentSale) {
+      const error = new Error('Sale not found');
+      error.statusCode = 404;
+      error.code = 'NOT_FOUND';
+      throw error;
+    }
+    ensureSalesTypePermission(req, payload.type || currentSale.type || 'RESINA');
+    const result = await salesService.update(id, payload);
+    await audit({ userId, entity: 'sales', entityId: id, action: 'UPDATE', data: payload });
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function updateStatus(req, res, next) {
+  try {
+    const userId = req.user.sub;
+    const { id } = validate(idSchema, req.params);
+    const payload = validate(statusSchema, req.body);
+    const result = await salesService.updateStatus(id, payload);
+    await audit({ userId, entity: 'sales', entityId: id, action: 'UPDATE', data: payload });
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function cancel(req, res, next) {
+  try {
+    const userId = req.user.sub;
+    const role = req.user.role;
+    const permissions = req.user.permissions || [];
+    const { id } = validate(idSchema, req.params);
+    const payload = validate(cancelSchema, req.body);
+    const result = await salesService.cancel(id, userId, role, permissions, payload.senha);
+    await audit({ userId, entity: 'sales', entityId: id, action: 'CANCEL' });
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function listPayments(req, res, next) {
+  try {
+    const { id } = validate(idSchema, req.params);
+    const result = await salesService.listPayments(id);
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function addPayment(req, res, next) {
+  try {
+    const userId = req.user.sub;
+    const { id } = validate(idSchema, req.params);
+    const payload = validate(paymentSchema, req.body);
+    const result = await salesService.addPayment(id, payload, userId);
+    await audit({ userId, entity: 'payments', entityId: result.id, action: 'CREATE', data: { amount: result.amount, method: result.method } });
+    res.status(201).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = {
+  salesController: {
+    list,
+    create,
+    getById,
+    update,
+    updateStatus,
+    cancel,
+    listPayments,
+    addPayment,
+  },
+};

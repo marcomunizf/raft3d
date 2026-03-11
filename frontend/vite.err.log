@@ -1,0 +1,367 @@
+[2m11:52:22[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\src\pages\FuncionarioDashboard.jsx: Identifier 'getAvailableTypes' has already been declared. (220:9)
+
+[0m [90m 218 |[31m }
+ [90m 219 |[31m
+[31m[1m>[22m[31m[90m 220 |[31m [36mfunction[31m getAvailableTypes(permissions) {
+ [90m     |[31m          [31m[1m^[22m[31m
+ [90m 221 |[31m   [36mconst[31m hasResina [33m=[31m permissions[33m.[31mincludes([32m'producao-resina'[31m)[33m;[31m
+ [90m 222 |[31m   [36mconst[31m hasFdm [33m=[31m permissions[33m.[31mincludes([32m'producao-fdm'[31m)[33m;[31m
+ [90m 223 |[31m   [36mconst[31m hasAll [33m=[31m permissions[33m.[31mincludes([32m'producao'[31m)[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/resinaraft/specflow/frontend/src/pages/FuncionarioDashboard.jsx[39m:220:9
+[33m  218|  }
+  219|  
+  220|  function getAvailableTypes(permissions) {
+     |           ^
+  221|    const hasResina = permissions.includes('producao-resina');
+  222|    const hasFdm = permissions.includes('producao-fdm');[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.registerFunctionStatementId (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13466:16)
+      at JSXParserMixin.parseFunction (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13450:12)
+      at JSXParserMixin.parseFunctionStatement (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13125:17)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12791:21)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\gensync\index.js:223:11)
+[2m12:06:08[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\src\pages\FuncionarioDashboard.jsx: Expected corresponding JSX closing tag for <div>. (1020:14)
+
+[0m [90m 1018 |[31m               [33m>[31m
+ [90m 1019 |[31m                 {typeLabel[t]}
+[31m[1m>[22m[31m[90m 1020 |[31m               [33m<[31m[33m/[31m[33mbutton[31m[33m>[31m
+ [90m      |[31m               [31m[1m^[22m[31m
+ [90m 1021 |[31m             ))}
+ [90m 1022 |[31m           [33m<[31m[33m/[31m[33maside[31m[33m>[31m
+ [90m 1023 |[31m         )}[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/resinaraft/specflow/frontend/src/pages/FuncionarioDashboard.jsx[39m:1020:14
+[33m  1018|                >
+  1019|                  {typeLabel[t]}
+  1020|                </button>
+     |                 ^
+  1021|              ))}
+  1022|            </aside>[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at JSXParserMixin.jsxParseElementAt (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4727:16)
+      at JSXParserMixin.jsxParseElementAt (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4698:32)
+      at JSXParserMixin.jsxParseElement (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4749:17)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4759:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12493:17)
+      at JSXParserMixin.parseParenAndDistinguishExpression (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11675:28)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11331:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10784:23)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10780:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12421:16)
+      at JSXParserMixin.parseExpression (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10780:17)
+      at JSXParserMixin.parseReturnStatement (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13142:28)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12798:21)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseStatementListItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12747:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13316:61)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseBlock (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13297:10)
+      at JSXParserMixin.parseFunctionBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12100:24)
+      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12086:10)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13445:12
+      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12403:14)
+      at JSXParserMixin.parseFunction (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13444:10)
+      at JSXParserMixin.parseExportDefaultExpression (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13907:19)
+      at JSXParserMixin.parseExport (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13828:25)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12878:27)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+[2m12:06:21[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\src\pages\FuncionarioDashboard.jsx: Expected corresponding JSX closing tag for <div>. (1020:14)
+
+[0m [90m 1018 |[31m               [33m>[31m
+ [90m 1019 |[31m                 {typeLabel[t]}
+[31m[1m>[22m[31m[90m 1020 |[31m               [33m<[31m[33m/[31m[33mbutton[31m[33m>[31m
+ [90m      |[31m               [31m[1m^[22m[31m
+ [90m 1021 |[31m             ))}
+ [90m 1022 |[31m           [33m<[31m[33m/[31m[33maside[31m[33m>[31m
+ [90m 1023 |[31m         )}[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/resinaraft/specflow/frontend/src/pages/FuncionarioDashboard.jsx[39m:1020:14
+[33m  1018|                >
+  1019|                  {typeLabel[t]}
+  1020|                </button>
+     |                 ^
+  1021|              ))}
+  1022|            </aside>[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at JSXParserMixin.jsxParseElementAt (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4727:16)
+      at JSXParserMixin.jsxParseElementAt (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4698:32)
+      at JSXParserMixin.jsxParseElement (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4749:17)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4759:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12493:17)
+      at JSXParserMixin.parseParenAndDistinguishExpression (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11675:28)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11331:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10784:23)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10780:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12421:16)
+      at JSXParserMixin.parseExpression (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10780:17)
+      at JSXParserMixin.parseReturnStatement (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13142:28)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12798:21)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseStatementListItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12747:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13316:61)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseBlock (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13297:10)
+      at JSXParserMixin.parseFunctionBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12100:24)
+      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12086:10)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13445:12
+      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12403:14)
+      at JSXParserMixin.parseFunction (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13444:10)
+      at JSXParserMixin.parseExportDefaultExpression (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13907:19)
+      at JSXParserMixin.parseExport (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13828:25)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12878:27)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+[2m12:06:47[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\src\pages\FuncionarioDashboard.jsx: Unexpected token, expected "," (151:0)
+
+[0m [90m 149 |[31m }
+ [90m 150 |[31m
+[31m[1m>[22m[31m[90m 151 |[31m
+ [90m     |[31m [31m[1m^[22m[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/resinaraft/specflow/frontend/src/pages/FuncionarioDashboard.jsx[39m:151:0
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at JSXParserMixin.unexpected (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6619:16)
+      at JSXParserMixin.expect (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6899:12)
+      at JSXParserMixin.parseCallExpressionArguments (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11243:14)
+      at JSXParserMixin.parseCoverCallAndAsyncArrowHead (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11186:29)
+      at JSXParserMixin.parseSubscript (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11120:19)
+      at JSXParserMixin.parseSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11094:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11085:17)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10784:23)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10780:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12421:16)
+      at JSXParserMixin.parseExpression (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10780:17)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12895:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseStatementListItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12747:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13316:61)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseBlock (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13297:10)
+      at JSXParserMixin.parseFunctionBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12100:24)
+      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12086:10)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13445:12
+      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12403:14)
+      at JSXParserMixin.parseFunction (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13444:10)
+      at JSXParserMixin.parseExportDefaultExpression (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13907:19)
+      at JSXParserMixin.parseExport (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13828:25)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12878:27)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\gensync\index.js:261:32)
+[2m12:14:11[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\src\pages\Dashboard.jsx: Unexpected token, expected "," (130:0)
+
+[0m [90m 128 |[31m }
+ [90m 129 |[31m
+[31m[1m>[22m[31m[90m 130 |[31m
+ [90m     |[31m [31m[1m^[22m[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/resinaraft/specflow/frontend/src/pages/Dashboard.jsx[39m:130:0
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at JSXParserMixin.unexpected (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6619:16)
+      at JSXParserMixin.expect (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6899:12)
+      at JSXParserMixin.parseCallExpressionArguments (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11243:14)
+      at JSXParserMixin.parseCoverCallAndAsyncArrowHead (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11186:29)
+      at JSXParserMixin.parseSubscript (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11120:19)
+      at JSXParserMixin.parseSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11094:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11085:17)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10784:23)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10780:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12421:16)
+      at JSXParserMixin.parseExpression (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10780:17)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12895:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseStatementListItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12747:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13316:61)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseBlock (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13297:10)
+      at JSXParserMixin.parseFunctionBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12100:24)
+      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12086:10)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13445:12
+      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12403:14)
+      at JSXParserMixin.parseFunction (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13444:10)
+      at JSXParserMixin.parseExportDefaultExpression (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13907:19)
+      at JSXParserMixin.parseExport (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13828:25)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12878:27)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\gensync\index.js:261:32)
+[2m12:20:27[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\src\pages\Dashboard.jsx: Unexpected token (1828:40)
+
+[0m [90m 1826 |[31m   [36mreturn[31m l[33m.[31mjsxs([32m"div"[31m[33m,[31m {
+ [90m 1827 |[31m     className[33m:[31m [32m"dashboard-layout"[31m[33m,[31m
+[31m[1m>[22m[31m[90m 1828 |[31m     children[33m:[31m [l[33m.[31mjsx([33mAdminTypeSidebar[31m[33m,[31m {[32m`r`[31mn      activeType[33m:[31m [33mV[31m[33m,[31m[32m`r`[31mn      onSelectType[33m:[31m [33mEe[31m[32m`r`[31mn    })[33m,[31m l[33m.[31mjsx([32m"div"[31m[33m,[31m {
+ [90m      |[31m                                         [31m[1m^[22m[31m
+ [90m 1829 |[31m       className[33m:[31m [32m"dashboard-content"[31m[33m,[31m
+ [90m 1830 |[31m       children[33m:[31m l[33m.[31mjsxs([32m"div"[31m[33m,[31m {
+ [90m 1831 |[31m         className[33m:[31m [32m"dashboard"[31m[33m,[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/resinaraft/specflow/frontend/src/pages/Dashboard.jsx[39m:1828:40
+[33m  1826|    return l.jsxs("div", {
+  1827|      className: "dashboard-layout",
+  1828|      children: [l.jsx(AdminTypeSidebar, {`r`n      activeType: V,`r`n      onSelectType: Ee`r`n    }), l.jsx("div", {
+     |                                          ^
+  1829|        className: "dashboard-content",
+  1830|        children: l.jsxs("div", {[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at JSXParserMixin.unexpected (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:6619:16)
+      at JSXParserMixin.parsePropertyName (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12024:18)
+      at JSXParserMixin.parsePropertyDefinition (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11889:10)
+      at JSXParserMixin.parseObjectLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11832:21)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11339:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12493:17)
+      at JSXParserMixin.parseExprListItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12175:18)
+      at JSXParserMixin.parseCallExpressionArguments (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11252:22)
+      at JSXParserMixin.parseCoverCallAndAsyncArrowHead (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11186:29)
+      at JSXParserMixin.parseSubscript (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11120:19)
+      at JSXParserMixin.parseSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11094:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11085:17)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12493:17)
+      at JSXParserMixin.parseExprListItem (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12175:18)
+      at JSXParserMixin.parseExprList (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12150:22)
+      at JSXParserMixin.parseArrayLike (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12057:26)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11335:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\resinaraft\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
