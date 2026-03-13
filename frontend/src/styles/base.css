@@ -573,6 +573,11 @@ textarea {
   color: var(--raft-magenta);
 }
 
+.type-sidebar-btn--drawing {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
 .type-sidebar-btn--resina.type-sidebar-btn--active,
 .type-sidebar-btn--resina:hover {
   background: var(--raft-green);
@@ -582,6 +587,12 @@ textarea {
 .type-sidebar-btn--fdm.type-sidebar-btn--active,
 .type-sidebar-btn--fdm:hover {
   background: var(--raft-magenta);
+  color: #fff;
+}
+
+.type-sidebar-btn--drawing.type-sidebar-btn--active,
+.type-sidebar-btn--drawing:hover {
+  background: var(--accent);
   color: #fff;
 }
 
@@ -1346,4 +1357,95 @@ textarea {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #5d5142;
+}
+
+.btn--xs {
+  font-size: 12px !important;
+  padding: 3px 8px !important;
+}
+
+/* ===== Sales Page ===== */
+
+.sales-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f4f0e8;
+}
+
+.sales-page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 28px;
+  background: #fff;
+  border-bottom: 1px solid #e2d9c7;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.sales-page-header h2 {
+  flex: 1;
+  margin: 0;
+  font-size: 22px;
+  font-family: var(--font-display);
+  color: #2c2417;
+}
+
+.sales-filters {
+  padding: 16px 28px;
+  background: #fff;
+  border-bottom: 1px solid #e2d9c7;
+}
+
+.sales-filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+}
+
+.filter-field--wide {
+  min-width: 200px;
+  flex: 1;
+}
+
+.filter-field span {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5d5142;
+}
+
+.filter-field input,
+.filter-field select {
+  padding: 8px 10px;
+  border: 1px solid #d7ccb9;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  background: #faf8f3;
+  color: #2c2417;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  padding-bottom: 1px;
+}
+
+.sales-page-table-wrap {
+  flex: 1;
+  padding: 24px 28px;
+  overflow-x: auto;
 }

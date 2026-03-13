@@ -45,7 +45,7 @@ async function list(filters) {
 
   const result = await db.query(
     `SELECT s.id, s.sale_date, s.due_date, s.customer_name_snapshot, s.status, s.payment_status, s.total,
-       s.payment_method,
+       s.type, s.payment_method,
        (SELECT description FROM sale_items WHERE sale_id = s.id ORDER BY id LIMIT 1) AS file_name
      FROM sales s ` + where + ` ORDER BY s.sale_date DESC`,
     values
@@ -112,26 +112,90 @@ async function findById(id) {
        AND a.entity_id = $1
        AND (
          a.action = 'CREATE'
-         OR (a.action = 'UPDATE' AND (a.data ? 'status'))
+         OR (a.action = 'UPDATE' AND ((a.data ? 'status') OR (a.data ? 'payment_status')))
          OR a.action = 'CANCEL'
        )
      ORDER BY a.created_at ASC`,
     [id]
   );
 
-  const status_history = statusHistoryResult.rows.map((row) => {
-    const nextStatus = row.action === 'CREATE'
-      ? (row.data && row.data.status ? row.data.status : 'BUDGET')
-      : (row.action === 'CANCEL'
-          ? 'CANCELLED'
-          : (row.data && row.data.status ? row.data.status : null));
-    return {
-      action: row.action,
-      status: nextStatus,
-      username: row.username || 'usuario',
-      created_at: row.created_at,
-    };
-  }).filter((entry) => entry.status);
+  const status_history = [];
+  let lastStatusValue = null;
+  let lastPaymentValue = null;
+
+  for (const row of statusHistoryResult.rows) {
+    const username = row.username || 'usuario';
+    const created_at = row.created_at;
+    const data = row.data || {};
+
+    if (row.action === 'CREATE') {
+      const statusValue = data.status || 'BUDGET';
+      if (statusValue !== lastStatusValue) {
+        status_history.push({
+          action: row.action,
+          kind: 'STATUS',
+          status: statusValue,
+          username,
+          created_at,
+        });
+        lastStatusValue = statusValue;
+      }
+
+      if (data.payment_status) {
+        if (data.payment_status !== lastPaymentValue) {
+          status_history.push({
+            action: row.action,
+            kind: 'PAYMENT',
+            payment_status: data.payment_status,
+            username,
+            created_at,
+          });
+          lastPaymentValue = data.payment_status;
+        }
+      }
+      continue;
+    }
+
+    if (row.action === 'CANCEL') {
+      if ('CANCELLED' !== lastStatusValue) {
+        status_history.push({
+          action: row.action,
+          kind: 'STATUS',
+          status: 'CANCELLED',
+          username,
+          created_at,
+        });
+        lastStatusValue = 'CANCELLED';
+      }
+      continue;
+    }
+
+    if (typeof data.status !== 'undefined') {
+      if (data.status !== lastStatusValue) {
+        status_history.push({
+          action: row.action,
+          kind: 'STATUS',
+          status: data.status,
+          username,
+          created_at,
+        });
+        lastStatusValue = data.status;
+      }
+    }
+
+    if (typeof data.payment_status !== 'undefined') {
+      if (data.payment_status !== lastPaymentValue) {
+        status_history.push({
+          action: row.action,
+          kind: 'PAYMENT',
+          payment_status: data.payment_status,
+          username,
+          created_at,
+        });
+        lastPaymentValue = data.payment_status;
+      }
+    }
+  }
 
   return {
     ...result.rows[0],

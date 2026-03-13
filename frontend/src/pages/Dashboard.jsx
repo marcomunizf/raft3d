@@ -1,13 +1,39 @@
 import * as T from 'react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import Modal from '../components/Modal.jsx';
+import SalesPage from './SalesPage.jsx';
+import CustomersPage from './CustomersPage.jsx';
+import InventoryPage from './InventoryPage.jsx';
 import AdminTypeSidebar from '../components/dashboard/AdminTypeSidebar.jsx';
 import { fetchDashboardSummary, fetchSalesSeries } from '../domains/dashboard/dashboard.service.js';
+import { getDashboardSlaVariant, DASHBOARD_SLA_LABEL } from '../domains/dashboard/dashboard.ui.js';
 import { createSale, fetchSaleDetails, fetchSales, updateSale, updateSaleStatus } from '../domains/sales/sales.service.js';
+import { createEmptySaleForm } from '../domains/sales/sales.forms.js';
+import { SALE_STATUSES, PAYMENT_STATUSES, STATUS_LABELS, PAYMENT_STATUS_LABELS, PAYMENT_METHOD_LABELS } from '../domains/sales/sales.constants.js';
 import { createCustomer, fetchCustomers, fetchCustomerSales, updateCustomer } from '../domains/customers/customers.service.js';
+import { createEmptyCustomerForm } from '../domains/customers/customers.forms.js';
 import { createInventoryItem, fetchInventory, updateInventoryItem } from '../domains/inventory/inventory.service.js';
+import { createEmptyItemForm } from '../domains/inventory/inventory.forms.js';
 import { createUser, deactivateUser, deleteUser, fetchUsers, updateUser, updateUserPassword } from '../domains/users/users.service.js';
+import { createEmptyUserForm, createEmptyPasswordForm } from '../domains/users/users.forms.js';
+import { PERMISSION_LABELS } from '../domains/users/users.constants.js';
+import { formatDate, formatCurrency } from '../domains/shared/formatters.js';
 import { getTokenUserId } from '../domains/auth/auth.utils.js';
+const za = createEmptyUserForm();
+const Ua = createEmptyPasswordForm();
+const _c = createEmptySaleForm();
+const kc = createEmptyCustomerForm();
+const Rc = createEmptyItemForm();
+const Kg = getDashboardSlaVariant;
+const Jg = DASHBOARD_SLA_LABEL;
+const Ec = SALE_STATUSES;
+const Cc = PAYMENT_STATUSES;
+const hn = STATUS_LABELS;
+const Mn = PAYMENT_STATUS_LABELS;
+const Nc = PAYMENT_METHOD_LABELS;
+const Ba = PERMISSION_LABELS;
+const vt = formatDate;
+const gt = formatCurrency;
 const l = {
   jsx,
   jsxs,
@@ -35,6 +61,34 @@ const Vg = deleteUser;
 const qg = deactivateUser;
 const _p = updateUserPassword;
 const kp = getTokenUserId;
+const SUMMARY_PERMISSION_BY_TYPE = {
+  RESINA: "ver_resumo_resina",
+  FDM: "ver_resumo_fdm"
+};
+const LEGACY_SUMMARY_PERMISSION = "ver_resumo";
+const ALL_SUMMARY_PERMISSIONS = [LEGACY_SUMMARY_PERMISSION, ...Object.values(SUMMARY_PERMISSION_BY_TYPE)];
+const PRIMARY_PRODUCTION_PERMISSIONS = ['producao-resina', 'producao-fdm', 'producao'];
+const isSummaryPermission = p => ALL_SUMMARY_PERMISSIONS.includes(p);
+const isPrimaryProductionPermission = p => PRIMARY_PRODUCTION_PERMISSIONS.includes(p);
+const hasSummaryForType = (permissions = [], type) => permissions.includes(LEGACY_SUMMARY_PERMISSION) || permissions.includes(SUMMARY_PERMISSION_BY_TYPE[type]);
+const hasProjetistaPermission = (permissions = []) => permissions.includes('projetista');
+const setProjetistaPermission = (permissions = [], enabled) => {
+  const withoutProjetista = permissions.filter(permission => permission !== 'projetista');
+  if (enabled) withoutProjetista.push('projetista');
+  return withoutProjetista;
+};
+const setPrimaryProductionPermission = (permissions = [], nextPermission) => {
+  const withoutPrimary = permissions.filter(permission => !isPrimaryProductionPermission(permission));
+  return [...withoutPrimary, nextPermission];
+};
+const setSummaryForType = (permissions = [], type, enabled) => {
+  const otherType = type === "RESINA" ? "FDM" : "RESINA";
+  const nextForOther = hasSummaryForType(permissions, otherType);
+  const cleaned = permissions.filter(p => !isSummaryPermission(p));
+  if (enabled) cleaned.push(SUMMARY_PERMISSION_BY_TYPE[type]);
+  if (nextForOther) cleaned.push(SUMMARY_PERMISSION_BY_TYPE[otherType]);
+  return cleaned;
+};
 function Yg({
   onLogout: e
 }) {
@@ -71,7 +125,8 @@ function Yg({
     [ke, ue] = T.useState(_c),
     [Ye, Ve] = T.useState(kc),
     [Xe, _t] = T.useState(Rc),
-    qt = T.useRef(null);
+    qt = T.useRef(null),
+    [pg, setPg] = T.useState(null);
   T.useEffect(() => {
     const u = g => {
       we.current && !we.current.contains(g.target) && W(!1);
@@ -148,11 +203,12 @@ function Yg({
       var u, g, L, te, Wi, Qi;
       C("");
       try {
+        const permissions = F.role === "ADMIN" ? [] : F.permissions || [];
         await Bg({
           usuario: (F.usuario || "").trim(),
           senha: F.senha,
           role: F.role,
-          permissions: F.permissions || []
+          permissions
         }), M(await Pr()), n("users"), b(za);
       } catch (bn) {
         const Ki = (te = (L = (g = (u = bn == null ? void 0 : bn.response) == null ? void 0 : u.data) == null ? void 0 : g.details) == null ? void 0 : L[0]) == null ? void 0 : te.message,
@@ -1564,14 +1620,13 @@ function Yg({
                   children: u.role
                 })
               }), l.jsx("td", {
-                children: (u.permissions || []).map(g => Ba[g] || g).join(", ") || "—"
+                children: l.jsx("div", { style: { maxWidth: "360px", whiteSpace: "normal", wordBreak: "break-word", lineHeight: 1.4 }, children: (u.permissions || []).map(g => Ba[g] || g).join(", ") || "—" })
               }), l.jsx("td", {
                 children: l.jsx("span", {
                   className: `pill pill--${u.is_active ? "sla-green" : "sla-red"}`,
                   children: u.is_active ? "Ativo" : "Inativo"
                 })
-              }), l.jsxs("td", {
-                children: [u.is_active && u.role !== "ADMIN" && l.jsx("button", {
+              }), l.jsxs("td", { style: { whiteSpace: "nowrap" }, children: [u.is_active && u.role !== "ADMIN" && l.jsx("button", {
                   className: "btn btn-ghost",
                   type: "button",
                   onClick: g => {
@@ -1634,7 +1689,7 @@ function Yg({
                 gap: "20px",
                 flexWrap: "wrap"
               },
-              children: Pc.map(u => l.jsxs("label", {
+              children: PRIMARY_PRODUCTION_PERMISSIONS.map(u => l.jsxs("label", {
                 style: {
                   display: "flex",
                   alignItems: "center",
@@ -1646,10 +1701,10 @@ function Yg({
                   type: "radio",
                   name: "edit-permission",
                   value: u,
-                  checked: ((U == null ? void 0 : U.permissions) || [])[0] === u,
+                  checked: PRIMARY_PRODUCTION_PERMISSIONS.some(g => g === u && (((U == null ? void 0 : U.permissions) || []).includes(g))),
                   onChange: () => oe(g => ({
                     ...g,
-                    permissions: [u]
+                    permissions: setPrimaryProductionPermission(g.permissions || [], u)
                   })),
                   style: {
                     accentColor: "var(--raft-magenta)",
@@ -1658,6 +1713,64 @@ function Yg({
                   }
                 }), Ba[u]]
               }, u))
+            }), l.jsxs("label", {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                marginTop: "12px",
+                cursor: "pointer",
+                fontWeight: 500
+              },
+              children: [l.jsx("input", {
+                type: "checkbox",
+                checked: hasProjetistaPermission((U == null ? void 0 : U.permissions) || []),
+                onChange: ev => oe(g => ({
+                  ...g,
+                  permissions: setProjetistaPermission(g.permissions || [], ev.target.checked)
+                })),
+                style: {
+                  accentColor: "var(--raft-magenta)",
+                  width: "16px",
+                  height: "16px"
+                }
+              }), "Projetista"]
+            }), l.jsx("p", {
+              style: {
+                marginTop: "12px",
+                marginBottom: "8px",
+                fontWeight: 600
+              },
+              children: "Ver resumo financeiro"
+            }), l.jsxs("div", {
+              style: {
+                display: "flex",
+                gap: "16px",
+                flexWrap: "wrap"
+              },
+              children: [l.jsxs("label", {
+                style: { display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", fontWeight: 500 },
+                children: [l.jsx("input", {
+                  type: "checkbox",
+                  checked: hasSummaryForType((U == null ? void 0 : U.permissions) || [], "RESINA"),
+                  onChange: ev => oe(g => ({
+                    ...g,
+                    permissions: setSummaryForType(g.permissions || [], "RESINA", ev.target.checked)
+                  })),
+                  style: { accentColor: "var(--raft-magenta)", width: "16px", height: "16px" }
+                }), "Resina"]
+              }), l.jsxs("label", {
+                style: { display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", fontWeight: 500 },
+                children: [l.jsx("input", {
+                  type: "checkbox",
+                  checked: hasSummaryForType((U == null ? void 0 : U.permissions) || [], "FDM"),
+                  onChange: ev => oe(g => ({
+                    ...g,
+                    permissions: setSummaryForType(g.permissions || [], "FDM", ev.target.checked)
+                  })),
+                  style: { accentColor: "var(--raft-magenta)", width: "16px", height: "16px" }
+                }), "FDM"]
+              })]
             })]
           }), k && l.jsx("div", {
             className: "form-error",
@@ -1741,7 +1854,7 @@ function Yg({
                 gap: "20px",
                 flexWrap: "wrap"
               },
-              children: Pc.map(u => l.jsxs("label", {
+              children: PRIMARY_PRODUCTION_PERMISSIONS.map(u => l.jsxs("label", {
                 style: {
                   display: "flex",
                   alignItems: "center",
@@ -1753,10 +1866,10 @@ function Yg({
                   type: "radio",
                   name: "permission",
                   value: u,
-                  checked: (F.permissions || [])[0] === u,
+                  checked: PRIMARY_PRODUCTION_PERMISSIONS.some(g => g === u && (F.permissions || []).includes(g)),
                   onChange: () => b(g => ({
                     ...g,
-                    permissions: [u]
+                    permissions: setPrimaryProductionPermission(g.permissions || [], u)
                   })),
                   style: {
                     accentColor: "var(--raft-magenta)",
@@ -1765,6 +1878,64 @@ function Yg({
                   }
                 }), Ba[u]]
               }, u))
+            }), l.jsxs("label", {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                marginTop: "12px",
+                cursor: "pointer",
+                fontWeight: 500
+              },
+              children: [l.jsx("input", {
+                type: "checkbox",
+                checked: hasProjetistaPermission(F.permissions || []),
+                onChange: ev => b(g => ({
+                  ...g,
+                  permissions: setProjetistaPermission(g.permissions || [], ev.target.checked)
+                })),
+                style: {
+                  accentColor: "var(--raft-magenta)",
+                  width: "16px",
+                  height: "16px"
+                }
+              }), "Projetista"]
+            }), l.jsx("p", {
+              style: {
+                marginTop: "12px",
+                marginBottom: "8px",
+                fontWeight: 600
+              },
+              children: "Ver resumo financeiro"
+            }), l.jsxs("div", {
+              style: {
+                display: "flex",
+                gap: "16px",
+                flexWrap: "wrap"
+              },
+              children: [l.jsxs("label", {
+                style: { display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", fontWeight: 500 },
+                children: [l.jsx("input", {
+                  type: "checkbox",
+                  checked: hasSummaryForType(F.permissions || [], "RESINA"),
+                  onChange: ev => b(g => ({
+                    ...g,
+                    permissions: setSummaryForType(g.permissions || [], "RESINA", ev.target.checked)
+                  })),
+                  style: { accentColor: "var(--raft-magenta)", width: "16px", height: "16px" }
+                }), "Resina"]
+              }), l.jsxs("label", {
+                style: { display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", fontWeight: 500 },
+                children: [l.jsx("input", {
+                  type: "checkbox",
+                  checked: hasSummaryForType(F.permissions || [], "FDM"),
+                  onChange: ev => b(g => ({
+                    ...g,
+                    permissions: setSummaryForType(g.permissions || [], "FDM", ev.target.checked)
+                  })),
+                  style: { accentColor: "var(--raft-magenta)", width: "16px", height: "16px" }
+                }), "FDM"]
+              })]
             })]
           }), k && l.jsx("div", {
             className: "form-error",
@@ -1823,6 +1994,9 @@ function Yg({
       "change-password": "Alterar Senha"
     },
     j = V === "RESINA" ? "var(--raft-green)" : "var(--raft-magenta)";
+  if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: V });
+  if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null) });
+  if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: V });
   return l.jsxs("div", {
     className: "dashboard-layout",
     children: [l.jsx(AdminTypeSidebar, {
@@ -2018,7 +2192,7 @@ function Yg({
           children: [l.jsxs("button", {
             className: "action-btn",
             type: "button",
-            onClick: () => De("sales"),
+            onClick: () => setPg("sales"),
             children: [l.jsx("span", {
               className: "action-icon",
               children: "🧾"
@@ -2028,7 +2202,7 @@ function Yg({
           }), l.jsxs("button", {
             className: "action-btn",
             type: "button",
-            onClick: () => De("customers"),
+            onClick: () => setPg("customers"),
             children: [l.jsx("span", {
               className: "action-icon",
               children: "👤"
@@ -2038,7 +2212,7 @@ function Yg({
           }), l.jsxs("button", {
             className: "action-btn",
             type: "button",
-            onClick: () => De("inventory"),
+            onClick: () => setPg("inventory"),
             children: [l.jsx("span", {
               className: "action-icon",
               children: "📦"
@@ -2255,4 +2429,5 @@ function Gg({
   });
 }
 export default Yg;
+
 

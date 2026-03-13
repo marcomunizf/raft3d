@@ -45,6 +45,12 @@ async function getById(req, res, next) {
   try {
     const { id } = validate(idSchema, req.params);
     const result = await customersService.getById(id);
+    if (!result) {
+      const error = new Error('Customer not found');
+      error.statusCode = 404;
+      error.code = 'NOT_FOUND';
+      return next(error);
+    }
     res.status(200).json(result);
   } catch (err) {
     next(err);
@@ -59,6 +65,12 @@ async function create(req, res, next) {
     await audit({ userId, entity: 'customers', entityId: result.id, action: 'CREATE', data: { name: result.name, type: result.type } });
     res.status(201).json(result);
   } catch (err) {
+    if (err.code === '23505' && err.constraint === 'customers_document_unique') {
+      const friendly = new Error('CPF/CNPJ ja cadastrado para outro cliente.');
+      friendly.statusCode = 409;
+      friendly.code = 'CONFLICT';
+      return next(friendly);
+    }
     next(err);
   }
 }
@@ -72,6 +84,12 @@ async function update(req, res, next) {
     await audit({ userId, entity: 'customers', entityId: id, action: 'UPDATE', data: payload });
     res.status(200).json(result);
   } catch (err) {
+    if (err.code === '23505' && err.constraint === 'customers_document_unique') {
+      const friendly = new Error('CPF/CNPJ ja cadastrado para outro cliente.');
+      friendly.statusCode = 409;
+      friendly.code = 'CONFLICT';
+      return next(friendly);
+    }
     next(err);
   }
 }

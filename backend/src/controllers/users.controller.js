@@ -8,7 +8,7 @@ const idSchema = Joi.object({
   id: Joi.string().guid({ version: ['uuidv4'] }).required(),
 });
 
-const validPermissions = ['producao-resina', 'producao-fdm', 'producao'];
+const validPermissions = ['producao-resina', 'producao-fdm', 'producao', 'projetista', 'ver_resumo', 'ver_resumo_resina', 'ver_resumo_fdm'];
 
 const createSchema = Joi.object({
   usuario: Joi.string().trim().min(1).optional(),

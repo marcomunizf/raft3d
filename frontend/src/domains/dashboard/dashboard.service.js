@@ -9,3 +9,8 @@ export async function fetchSalesSeries(type, period = 'day') {
   const response = await api.get('/dashboard/sales-series', { params: { period, type } });
   return response.data;
 }
+
+export async function fetchMonthlyHistory(type) {
+  const response = await api.get('/dashboard/monthly-history', { params: { type } });
+  return response.data;
+}

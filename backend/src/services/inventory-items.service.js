@@ -20,6 +20,10 @@ async function deactivate(id) {
   return inventoryItemsRepository.deactivate(id);
 }
 
+async function getLog(id) {
+  return inventoryItemsRepository.getLog(id);
+}
+
 module.exports = {
-  inventoryItemsService: { list, getById, create, update, deactivate },
+  inventoryItemsService: { list, getById, create, update, deactivate, getLog },
 };

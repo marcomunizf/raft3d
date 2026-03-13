@@ -14,7 +14,10 @@ async function getSummary(filters) {
   const whereType = conditions.length ? ' AND ' + conditions.join(' AND ') : '';
 
   const summaryResult = await db.query(
-    "SELECT COALESCE(SUM(total), 0) AS total_sales_month, COUNT(*) AS sales_count_month, COALESCE(AVG(total), 0) AS average_ticket FROM sales WHERE date_trunc('month', sale_date::timestamp) = date_trunc('month', CURRENT_DATE::timestamp)" + whereType,
+    "SELECT COALESCE(SUM(total), 0) AS total_sales_month, COUNT(*) AS sales_count_month, COALESCE(AVG(total), 0) AS average_ticket," +
+    " COALESCE(SUM(CASE WHEN status IN ('APPROVED','IN_PRODUCTION','DONE','DELIVERED') THEN total ELSE 0 END), 0) AS active_sales_month," +
+    " COALESCE(SUM(CASE WHEN payment_status = 'PAID' THEN total ELSE 0 END), 0) AS paid_sales_month" +
+    " FROM sales WHERE date_trunc('month', sale_date::timestamp) = date_trunc('month', CURRENT_DATE::timestamp)" + whereType,
     values
   );
 
@@ -32,15 +35,23 @@ async function getSummary(filters) {
     values
   );
 
+  const receivedResult = await db.query(
+    "SELECT COALESCE(SUM(p.amount), 0) AS received_month FROM payments p JOIN sales s ON s.id = p.sale_id WHERE date_trunc('month', p.paid_at::timestamp) = date_trunc('month', CURRENT_DATE::timestamp)" + whereType.replace(/type = /g, 's.type = '),
+    values
+  );
+
   const summary = summaryResult.rows[0];
 
   return {
     total_sales_month: Number(summary.total_sales_month),
     sales_count_month: Number(summary.sales_count_month),
     average_ticket: Number(summary.average_ticket),
+    active_sales_month: Number(summary.active_sales_month),
+    paid_sales_month: Number(summary.paid_sales_month),
     payments_pending: Number(pendingResult.rows[0].payments_pending),
     low_stock_count: Number(lowStockResult.rows[0].low_stock_count),
     in_production_count: Number(inProductionResult.rows[0].in_production_count),
+    received_month: Number(receivedResult.rows[0].received_month),
   };
 }
 
@@ -118,4 +129,36 @@ async function getKanban(filters) {
   return result.rows;
 }
 
-module.exports = { dashboardRepository: { getSummary, getSalesSeries, getKanban } };
+async function getMonthlyHistory(filters) {
+  const conditions = ["sale_date >= date_trunc('month', CURRENT_DATE) - INTERVAL '11 months'"];
+  const values = [];
+  let index = 1;
+
+  if (filters && filters.type) {
+    conditions.push('type = $' + index);
+    values.push(filters.type);
+    index += 1;
+  }
+
+  const where = 'WHERE ' + conditions.join(' AND ');
+
+  const result = await db.query(
+    `SELECT
+      TO_CHAR(date_trunc('month', sale_date::timestamp), 'YYYY-MM') AS month,
+      COALESCE(SUM(CASE WHEN status IN ('APPROVED','IN_PRODUCTION','DONE','DELIVERED') THEN total ELSE 0 END), 0) AS active_sales,
+      COALESCE(SUM(CASE WHEN payment_status = 'PAID' THEN total ELSE 0 END), 0) AS paid_sales
+    FROM sales
+    ${where}
+    GROUP BY date_trunc('month', sale_date::timestamp)
+    ORDER BY 1 DESC`,
+    values
+  );
+
+  return result.rows.map(r => ({
+    month: r.month,
+    active_sales: Number(r.active_sales),
+    paid_sales: Number(r.paid_sales),
+  }));
+}
+
+module.exports = { dashboardRepository: { getSummary, getSalesSeries, getKanban, getMonthlyHistory } };

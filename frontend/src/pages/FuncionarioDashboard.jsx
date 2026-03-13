@@ -1,6 +1,10 @@
 import * as T from 'react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import Modal from '../components/Modal.jsx';
+import SalesPage from './SalesPage.jsx';
+import CustomersPage from './CustomersPage.jsx';
+import InventoryPage from './InventoryPage.jsx';
+import DrawingsPage from './DrawingsPage.jsx';
 import FuncionarioTypeSidebar from '../components/funcionario/FuncionarioTypeSidebar.jsx';
 import CustomerSearch from '../domains/customers/CustomerSearch.jsx';
 import { getTokenUserId } from '../domains/auth/auth.utils.js';
@@ -17,6 +21,7 @@ import { getSlaVariant, todayIsoDate } from '../domains/shared/dates.js';
 import { formatCurrency, formatDate, formatDateTime } from '../domains/shared/formatters.js';
 import { createEmptyPasswordForm } from '../domains/users/users.forms.js';
 import { updateUserPassword } from '../domains/users/users.service.js';
+import { fetchDashboardSummary, fetchMonthlyHistory } from '../domains/dashboard/dashboard.service.js';
 const l = {
   jsx,
   jsxs,
@@ -40,6 +45,8 @@ const Cp = updateInventoryItem;
 const Fg = updateSale;
 const kp = getTokenUserId;
 const _p = updateUserPassword;
+const fds = fetchDashboardSummary;
+const fmh = fetchMonthlyHistory;
 const Tc = getSlaVariant;
 const rv = CustomerSearch;
 const Dc = SALE_STATUSES;
@@ -65,6 +72,11 @@ const Fn = formatDate;
 const mn = formatCurrency;
 const Is = formatDateTime;
 const Yf = Modal;
+const SUMMARY_PERMISSION_BY_TYPE = {
+  RESINA: "ver_resumo_resina",
+  FDM: "ver_resumo_fdm"
+};
+const LEGACY_SUMMARY_PERMISSION = "ver_resumo";
 function sv({
   permissions: e = [],
   username: t = "",
@@ -107,7 +119,43 @@ function sv({
       payment_method: ""
     }),
     [G, X] = T.useState(null),
-    [On, _e] = T.useState("");
+    [On, _e] = T.useState(""),
+    [showDeleteConfirm, setShowDeleteConfirm] = T.useState(false),
+    [pg, setPg] = T.useState(null),
+    [activeSection, setActiveSection] = T.useState('production'),
+    [drawingCreateSignal, setDrawingCreateSignal] = T.useState(0),
+    [monthlySummary, setMonthlySummary] = T.useState(null),
+    [showHistory, setShowHistory] = T.useState(false),
+    [monthlyHistory, setMonthlyHistory] = T.useState([]),
+    [historyLoading, setHistoryLoading] = T.useState(false);
+  const canViewResumoForType = type => !!type && (e.includes(LEGACY_SUMMARY_PERMISSION) || e.includes(SUMMARY_PERMISSION_BY_TYPE[type]));
+  const hasVerResumo = canViewResumoForType(s);
+  const canOpenDrawings = e.includes('projetista') || e.includes('producao');
+  const isDrawingSection = activeSection === 'drawing';
+  T.useEffect(() => {
+    if (hasVerResumo && s) {
+      fds(s).then(d => setMonthlySummary(d)).catch(() => {});
+    } else {
+      setMonthlySummary(null);
+    }
+  }, [hasVerResumo, s]);
+  T.useEffect(() => {
+    if (canOpenDrawings) return;
+    if (activeSection === 'drawing') setActiveSection('production');
+  }, [canOpenDrawings, activeSection]);
+  async function openHistory() {
+    if (!hasVerResumo || !s) return;
+    setShowHistory(true);
+    setHistoryLoading(true);
+    try {
+      const data = await fmh(s);
+      setMonthlyHistory(data);
+    } catch {
+      setMonthlyHistory([]);
+    } finally {
+      setHistoryLoading(false);
+    }
+  }
   T.useEffect(() => {
     const d = j => {
       c.current && !c.current.contains(j.target) && i(!1);
@@ -161,7 +209,7 @@ function sv({
       }
     },
     Ye = () => {
-      p(null), _(null), ie(null), X(null), gr(null), J(null), Ot([]), U(null), _e(""), C(""), $("");
+      p(null), _(null), ie(null), X(null), gr(null), J(null), Ot([]), U(null), _e(""), setShowDeleteConfirm(false), C(""), $("");
     },
     Ve = async () => {
       if (!y) {
@@ -253,7 +301,7 @@ function sv({
       if (z) {
         C("");
         try {
-          await zg(z.id, On), await ht(s), y === "all-sales" && (await mt(s)), y === "customer-detail" && q != null && q.id && Ot(await Vo(q.id)), await Ve();
+          await zg(z.id, On), await ht(s), y === "all-sales" && (await mt(s)), y === "customer-detail" && q != null && q.id && Ot(await Vo(q.id)), _e(""), setShowDeleteConfirm(false), await Ve();
         } catch (u) {
           C(((j = (d = u == null ? void 0 : u.response) == null ? void 0 : d.data) == null ? void 0 : j.message) || "Senha invalida ou erro ao excluir pedido.");
         }
@@ -354,11 +402,15 @@ function sv({
       if (z) {
         C("");
         try {
-          await $o(z.id, {
-            status: Fe.status,
-            payment_status: Fe.payment_status,
-            payment_method: Fe.payment_method || null
-          }), await ht(s), await qt(z.id, y);
+          const payload = {};
+          if (Fe.status !== z.status) payload.status = Fe.status;
+          if (Fe.payment_status !== z.payment_status) payload.payment_status = Fe.payment_status;
+          if ((Fe.payment_method || null) !== (z.payment_method || null)) payload.payment_method = Fe.payment_method || null;
+          if (Object.keys(payload).length === 0) {
+            await qt(z.id, y);
+            return;
+          }
+          await $o(z.id, payload), await ht(s), await qt(z.id, y);
         } catch (u) {
           C(((j = (d = u == null ? void 0 : u.response) == null ? void 0 : d.data) == null ? void 0 : j.message) || "Erro ao atualizar pedido.");
         }
@@ -1405,12 +1457,6 @@ function sv({
           }), l.jsxs("p", {
             className: "muted",
             children: ["Observacoes: ", z.notes || "-"]
-          }), l.jsxs("p", {
-            className: "muted",
-            children: ["Registrado por ", z.created_by_name || "usuario", " em ", Is(z.created_logged_at || z.created_at)]
-          }), Array.isArray(z.edit_history) && z.edit_history.length > 0 && l.jsxs("p", {
-            className: "muted",
-            children: ["Ultima alteracao por ", z.edit_history[z.edit_history.length - 1].username, " em ", Is(z.edit_history[z.edit_history.length - 1].created_at)]
           }), l.jsx("div", {
             className: "modal-actions",
             style: {
@@ -1422,19 +1468,6 @@ function sv({
               onClick: Ln,
               children: "Alterar pedido"
             })
-          })]
-        }), l.jsxs("div", {
-          className: "detail-header",
-          children: [l.jsx("p", {
-            children: l.jsx("strong", {
-              children: "Historico de status"
-            })
-          }), Array.isArray(z.status_history) && z.status_history.length > 0 ? z.status_history.map((d, j) => l.jsxs("p", {
-            className: "muted",
-            children: [d.action === "CREATE" ? "Criado" : "Alterado", " por ", d.username, " em ", Is(d.created_at), " para ", d.action === "CREATE" ? "Orcamento" : Tr[d.status] || d.status]
-          }, `${d.created_at}-${j}`)) : l.jsx("p", {
-            className: "muted",
-            children: "Sem historico registrado."
           })]
         }), l.jsxs("form", {
           className: "form-grid",
@@ -1502,104 +1535,31 @@ function sv({
               children: "Voltar"
             })]
           })]
+        }), l.jsx("div", {
+          className: "modal-actions",
+          style: {
+            marginTop: "8px"
+          },
+          children: l.jsx("button", {
+            className: "btn btn-ghost",
+            type: "button",
+            onClick: () => {
+              C(""), _e(""), setShowDeleteConfirm(true);
+            },
+            children: "Excluir pedido"
+          })
         }), l.jsxs("div", {
           className: "detail-header",
           children: [l.jsx("p", {
             children: l.jsx("strong", {
-              children: "Excluir pedido"
+              children: "Historico de status"
             })
-          }), l.jsx("p", {
+          }), Array.isArray(z.status_history) && z.status_history.length > 0 ? z.status_history.map((d, j) => l.jsxs("p", {
             className: "muted",
-            children: "Digite sua senha de entrada para confirmar a exclusao."
-          }), l.jsx("div", {
-            className: "form-grid",
-            style: {
-              marginTop: "8px"
-            },
-            children: l.jsxs("label", {
-              children: ["Senha", l.jsx("input", {
-                type: "password",
-                value: On,
-                onChange: d => _e(d.target.value),
-                placeholder: "Sua senha"
-              })]
-            })
-          }), l.jsx("div", {
-            className: "modal-actions",
-            style: {
-              marginTop: "10px"
-            },
-            children: l.jsx("button", {
-              className: "btn btn-primary",
-              type: "button",
-              onClick: Jl,
-              disabled: !On.trim(),
-              children: "Excluir pedido"
-            })
-          })]
-        }), l.jsx("h4", {
-          children: "Itens do pedido"
-        }), !z.items || z.items.length === 0 ? l.jsx("p", {
-          className: "muted",
-          children: "Nenhum item registrado."
-        }) : l.jsxs("table", {
-          className: "data-table",
-          children: [l.jsx("thead", {
-            children: l.jsxs("tr", {
-              children: [l.jsx("th", {
-                children: "Descricao"
-              }), l.jsx("th", {
-                children: "Qtd"
-              }), l.jsx("th", {
-                children: "Unitario"
-              }), l.jsx("th", {
-                children: "Total"
-              })]
-            })
-          }), l.jsx("tbody", {
-            children: z.items.map(d => l.jsxs("tr", {
-              children: [l.jsx("td", {
-                children: d.description
-              }), l.jsx("td", {
-                children: Number(d.qty)
-              }), l.jsx("td", {
-                children: mn(d.unit_price)
-              }), l.jsx("td", {
-                children: mn(d.line_total)
-              })]
-            }, d.id))
-          })]
-        }), l.jsx("h4", {
-          children: "Pagamentos registrados"
-        }), !z.payments || z.payments.length === 0 ? l.jsx("p", {
-          className: "muted",
-          children: "Sem pagamentos registrados."
-        }) : l.jsxs("table", {
-          className: "data-table",
-          children: [l.jsx("thead", {
-            children: l.jsxs("tr", {
-              children: [l.jsx("th", {
-                children: "Data"
-              }), l.jsx("th", {
-                children: "Metodo"
-              }), l.jsx("th", {
-                children: "Valor"
-              }), l.jsx("th", {
-                children: "Notas"
-              })]
-            })
-          }), l.jsx("tbody", {
-            children: z.payments.map(d => l.jsxs("tr", {
-              children: [l.jsx("td", {
-                children: Is(d.paid_at)
-              }), l.jsx("td", {
-                children: $a[d.method] || d.method
-              }), l.jsx("td", {
-                children: mn(d.amount)
-              }), l.jsx("td", {
-                children: d.notes || "-"
-              })]
-            }, d.id))
+            children: d.kind === "PAYMENT" ? ["Pagamento alterado para ", Ms[d.payment_status] || d.payment_status, " por ", d.username, " em ", Is(d.created_at)] : ["Alterado para ", Tr[d.status] || d.status, " por ", d.username, " em ", Is(d.created_at)]
+          }, `${d.created_at}-status-${j}`)) : l.jsx("p", {
+            className: "muted",
+            children: "Sem historico registrado."
           })]
         })]
       }) : l.jsx("p", {
@@ -1626,6 +1586,9 @@ function sv({
       FDM: "FDM"
     },
     oa = s === "RESINA" ? "var(--raft-green)" : s === "FDM" ? "var(--raft-magenta)" : "var(--text-muted)";
+  if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: s, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
+  if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null) });
+  if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: s, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
   return l.jsxs("div", {
     className: "funcionario-dashboard",
     children: [l.jsxs("header", {
@@ -1636,7 +1599,7 @@ function sv({
           className: "eyebrow",
           children: ["RAFT 3D - ", t || "usuario"]
         }), l.jsxs("h1", {
-          children: ["Producao", l.jsxs("span", {
+          children: [isDrawingSection ? "Desenho" : "Producao", !isDrawingSection && l.jsxs("span", {
             style: {
               fontSize: "15px",
               fontWeight: 700,
@@ -1659,6 +1622,18 @@ function sv({
             children: [l.jsx("span", {
               className: "sla-dot sla-dot--red"
             }), " ", vr, " urgente", vr > 1 ? "s" : ""]
+          }), hasVerResumo && monthlySummary && l.jsxs("span", {
+            className: "func-stat",
+            children: ["Pedido no mes: ", l.jsx("strong", { children: mn(monthlySummary.active_sales_month) })]
+          }), hasVerResumo && monthlySummary && l.jsxs("span", {
+            className: "func-stat",
+            children: ["Recebido no mes: ", l.jsx("strong", { children: mn(monthlySummary.paid_sales_month) })]
+          }), hasVerResumo && l.jsx("button", {
+            type: "button",
+            className: "btn btn-ghost",
+            style: { fontSize: "12px", padding: "2px 8px" },
+            onClick: openHistory,
+            children: "+ Ver meses anteriores"
           })]
         })]
       }), l.jsxs("div", {
@@ -1666,23 +1641,37 @@ function sv({
         children: [l.jsx("button", {
           className: "btn btn-outline",
           type: "button",
-          onClick: () => ue("new-sale"),
-          children: "+ Vendas"
+          onClick: () => {
+            if (isDrawingSection) {
+              setDrawingCreateSignal(d => d + 1);
+              return;
+            }
+            ue("new-sale");
+          },
+          children: isDrawingSection ? "+ Orçamento" : "+ Vendas"
         }), l.jsx("button", {
           className: "btn btn-outline",
           type: "button",
-          onClick: () => ue("customers"),
+          onClick: () => setPg("customers"),
           children: "Clientes"
         }), l.jsx("button", {
           className: "btn btn-outline",
           type: "button",
-          onClick: () => ue("inventory"),
+          onClick: () => setPg("inventory"),
           children: "Estoque"
         }), l.jsx("button", {
           className: "btn btn-outline",
           type: "button",
-          onClick: () => ue("all-sales"),
+          onClick: () => setPg("sales"),
           children: "Todos os pedidos"
+        }), canOpenDrawings && l.jsx("button", {
+          className: "btn btn-outline",
+          type: "button",
+          onClick: () => {
+            setPg(null);
+            setActiveSection('drawing');
+          },
+          children: "Desenho"
         }), l.jsxs("div", {
           className: "user-menu",
           ref: c,
@@ -1715,10 +1704,20 @@ function sv({
         availableTypes: r,
         activeType: s,
         onSelectType: a,
-        typeLabel: aa
+        typeLabel: aa,
+        showDrawing: canOpenDrawings,
+        activeSection,
+        onSelectSection: d => {
+          setActiveSection(d === 'drawing' ? 'drawing' : 'production');
+          setPg(null);
+        }
       }), l.jsx("div", {
         className: "func-content",
-        children: l.jsx("div", {
+        children: isDrawingSection ? l.jsx(DrawingsPage, {
+          embedded: true,
+          permissions: e,
+          createSignal: drawingCreateSignal
+        }) : l.jsx("div", {
           className: "kanban-board",
           children: tv.map(d => {
             const j = ra(d);
@@ -1755,6 +1754,12 @@ function sv({
                         className: `sla-badge sla-badge--${g}`,
                         children: ev[g]
                       })]
+                    }), u.payment_status === "PAID" && l.jsx("span", {
+                      className: "pill pill--pay pill--pay-paid",
+                      style: {
+                        width: "fit-content"
+                      },
+                      children: "Pago"
                     }), u.file_name && l.jsx("div", {
                       className: "kanban-card-file",
                       children: u.file_name
@@ -1783,6 +1788,86 @@ function sv({
           })
         })
       })]
+    }), showHistory && l.jsx(Yf, {
+      title: "Historico mensal",
+      onClose: () => setShowHistory(false),
+      children: l.jsx("div", {
+        className: "modal-section",
+        children: historyLoading ? l.jsx("p", { className: "muted", children: "Carregando..." }) :
+          monthlyHistory.length === 0 ? l.jsx("p", { className: "muted", children: "Nenhum dado encontrado." }) :
+          l.jsx("table", {
+            className: "data-table",
+            children: l.jsxs(T.Fragment, {
+              children: [
+                l.jsx("thead", {
+                  children: l.jsxs("tr", {
+                    children: [
+                      l.jsx("th", { children: "Mes" }),
+                      l.jsx("th", { children: "Pedido no mes" }),
+                      l.jsx("th", { children: "Recebido no mes" }),
+                    ]
+                  })
+                }),
+                l.jsx("tbody", {
+                  children: monthlyHistory.map(row => l.jsxs("tr", {
+                    children: [
+                      l.jsx("td", { children: row.month }),
+                      l.jsx("td", { children: mn(row.active_sales) }),
+                      l.jsx("td", { children: mn(row.paid_sales) }),
+                    ]
+                  }, row.month))
+                })
+              ]
+            })
+          })
+      })
+    }), showDeleteConfirm && l.jsx(Yf, {
+      title: "Excluir pedido",
+      onClose: () => {
+        setShowDeleteConfirm(false), _e("");
+      },
+      children: l.jsxs("div", {
+        className: "modal-section",
+        children: [l.jsx("p", {
+          className: "muted",
+          children: "Tem certeza?"
+        }), l.jsxs("div", {
+          className: "form-grid",
+          children: [l.jsxs("label", {
+            style: {
+              gridColumn: "1 / -1"
+            },
+            children: ["Digite sua senha", l.jsx("input", {
+              type: "password",
+              value: On,
+              onChange: d => _e(d.target.value),
+              placeholder: "Sua senha"
+            })]
+          }), k && l.jsx("div", {
+            className: "form-error",
+            style: {
+              gridColumn: "1 / -1"
+            },
+            children: k
+          })]
+        }), l.jsxs("div", {
+          className: "modal-actions",
+          children: [l.jsx("button", {
+            className: "btn btn-primary",
+            type: "button",
+            onClick: Jl,
+            disabled: !On.trim(),
+            children: "Sim"
+          }), l.jsx("button", {
+            className: "btn btn-ghost",
+            type: "button",
+            onClick: () => {
+              setShowDeleteConfirm(false), _e("");
+            },
+            children: "Cancelar"
+          })]
+        })]
+      })
     }), m && l.jsx(Yf, {
       title: la[m] || "",
       onClose: Ye,

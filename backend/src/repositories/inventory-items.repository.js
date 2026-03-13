@@ -103,6 +103,19 @@ async function deactivate(id) {
   return result.rows[0] || null;
 }
 
+async function getLog(id) {
+  const result = await db.query(
+    `SELECT a.id, a.action, a.data, a.created_at,
+       COALESCE(u.email, u.name) AS username
+     FROM audit_logs a
+     LEFT JOIN users u ON u.id = a.user_id
+     WHERE a.entity = 'inventory_items' AND a.entity_id = $1
+     ORDER BY a.created_at DESC`,
+    [id]
+  );
+  return result.rows;
+}
+
 module.exports = {
-  inventoryItemsRepository: { list, findById, create, update, deactivate },
+  inventoryItemsRepository: { list, findById, create, update, deactivate, getLog },
 };

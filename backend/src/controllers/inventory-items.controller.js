@@ -63,6 +63,12 @@ async function getById(req, res, next) {
   try {
     const { id } = validate(idSchema, req.params);
     const result = await inventoryItemsService.getById(id);
+    if (!result) {
+      const error = new Error('Item not found');
+      error.statusCode = 404;
+      error.code = 'NOT_FOUND';
+      return next(error);
+    }
     res.status(200).json(result);
   } catch (err) {
     next(err);
@@ -115,6 +121,16 @@ async function deactivate(req, res, next) {
   }
 }
 
+async function getLog(req, res, next) {
+  try {
+    const { id } = validate(idSchema, req.params);
+    const result = await inventoryItemsService.getLog(id);
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
-  inventoryItemsController: { list, getById, create, update, deactivate },
+  inventoryItemsController: { list, getById, create, update, deactivate, getLog },
 };

@@ -12,4 +12,8 @@ async function getKanban(filters) {
   return dashboardRepository.getKanban(filters || {});
 }
 
-module.exports = { dashboardService: { getSummary, getSalesSeries, getKanban } };
+async function getMonthlyHistory(filters) {
+  return dashboardRepository.getMonthlyHistory(filters || {});
+}
+
+module.exports = { dashboardService: { getSummary, getSalesSeries, getKanban, getMonthlyHistory } };

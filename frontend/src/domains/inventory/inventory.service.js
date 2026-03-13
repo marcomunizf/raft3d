@@ -12,3 +12,8 @@ export async function createInventoryItem(payload) {
 export async function updateInventoryItem(itemId, payload) {
   await api.put(`/inventory/items/${itemId}`, payload);
 }
+
+export async function fetchInventoryItemLog(itemId) {
+  const response = await api.get(`/inventory/items/${itemId}/log`);
+  return response.data;
+}

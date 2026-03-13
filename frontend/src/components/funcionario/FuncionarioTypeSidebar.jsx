@@ -1,19 +1,43 @@
-export default function FuncionarioTypeSidebar({ availableTypes, activeType, onSelectType, typeLabel }) {
-  if (!availableTypes || availableTypes.length <= 1) return null;
+export default function FuncionarioTypeSidebar({
+  availableTypes,
+  activeType,
+  onSelectType,
+  typeLabel,
+  showDrawing = false,
+  activeSection = 'production',
+  onSelectSection = () => {},
+}) {
+  const hasManyTypes = Array.isArray(availableTypes) && availableTypes.length > 1;
+  if (!hasManyTypes && !showDrawing) return null;
 
   return (
     <aside className="type-sidebar">
-      <span className="type-sidebar-label">Tipo</span>
-      {availableTypes.map((type) => (
+      <span className="type-sidebar-label">Menu</span>
+      {hasManyTypes &&
+        availableTypes.map((type) => (
+          <button
+            key={type}
+            type="button"
+            className={`type-sidebar-btn type-sidebar-btn--${type === 'RESINA' ? 'resina' : 'fdm'}${
+              activeSection === 'production' && activeType === type ? ' type-sidebar-btn--active' : ''
+            }`}
+            onClick={() => {
+              onSelectSection('production');
+              onSelectType(type);
+            }}
+          >
+            {typeLabel[type]}
+          </button>
+        ))}
+      {showDrawing && (
         <button
-          key={type}
           type="button"
-          className={`type-sidebar-btn type-sidebar-btn--${type === 'RESINA' ? 'resina' : 'fdm'}${activeType === type ? ' type-sidebar-btn--active' : ''}`}
-          onClick={() => onSelectType(type)}
+          className={`type-sidebar-btn type-sidebar-btn--drawing${activeSection === 'drawing' ? ' type-sidebar-btn--active' : ''}`}
+          onClick={() => onSelectSection('drawing')}
         >
-          {typeLabel[type]}
+          Desenho
         </button>
-      ))}
+      )}
     </aside>
   );
 }

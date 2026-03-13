@@ -7,7 +7,7 @@ const updateSchema = Joi.object({
   default_sale_status: Joi.string()
     .valid('BUDGET', 'APPROVED', 'IN_PRODUCTION', 'DONE', 'DELIVERED', 'CANCELLED')
     .optional(),
-  payment_methods: Joi.array().items(Joi.string().valid('PIX', 'CARD', 'CASH')).optional(),
+  payment_methods: Joi.array().items(Joi.string().valid('PIX', 'CARD', 'CASH', 'TRANSFER', 'BOLETO')).optional(),
 });
 
 async function get(req, res, next) {

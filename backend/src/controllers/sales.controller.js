@@ -123,6 +123,12 @@ async function getById(req, res, next) {
   try {
     const { id } = validate(idSchema, req.params);
     const result = await salesService.getById(id);
+    if (!result) {
+      const error = new Error('Sale not found');
+      error.statusCode = 404;
+      error.code = 'NOT_FOUND';
+      return next(error);
+    }
     res.status(200).json(result);
   } catch (err) {
     next(err);

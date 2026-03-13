@@ -14,6 +14,7 @@ const { inventoryItemsRouter } = require('./routes/inventory-items.routes');
 const { inventoryMovementsRouter } = require('./routes/inventory-movements.routes');
 const { settingsRouter } = require('./routes/settings.routes');
 const { usersRouter } = require('./routes/users.routes');
+const { drawingsRouter } = require('./routes/drawings.routes');
 const { requireAuth } = require('./middlewares/auth.middleware');
 const { errorHandler } = require('./middlewares/error-handler.middleware');
 
@@ -49,6 +50,7 @@ app.use('/api/inventory/items', inventoryItemsRouter);
 app.use('/api/inventory/movements', inventoryMovementsRouter);
 app.use('/api/settings', settingsRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/drawings', drawingsRouter);
 app.use(errorHandler);
 
 module.exports = { app };

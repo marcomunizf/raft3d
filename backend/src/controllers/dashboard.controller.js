@@ -22,8 +22,17 @@ function getAllowedTypes(user) {
   return types;
 }
 
-function resolveTypeFilter(req, queryType) {
-  const allowed = getAllowedTypes(req.user);
+function getAllowedSummaryTypes(user) {
+  if (user?.role === 'ADMIN') return ['RESINA', 'FDM'];
+  const permissions = user?.permissions || [];
+  if (permissions.includes('ver_resumo')) return ['RESINA', 'FDM'];
+  const types = [];
+  if (permissions.includes('ver_resumo_resina')) types.push('RESINA');
+  if (permissions.includes('ver_resumo_fdm')) types.push('FDM');
+  return types;
+}
+
+function resolveTypeFilterFromAllowed(allowed, queryType) {
   if (!allowed.length) {
     const error = new Error('Forbidden: insufficient permissions');
     error.statusCode = 403;
@@ -45,10 +54,18 @@ function resolveTypeFilter(req, queryType) {
   return queryType;
 }
 
+function resolveTypeFilter(req, queryType) {
+  return resolveTypeFilterFromAllowed(getAllowedTypes(req.user), queryType);
+}
+
+function resolveSummaryTypeFilter(req, queryType) {
+  return resolveTypeFilterFromAllowed(getAllowedSummaryTypes(req.user), queryType);
+}
+
 async function getSummary(req, res, next) {
   try {
     const filters = validate(typeSchema, req.query);
-    const type = resolveTypeFilter(req, filters.type);
+    const type = resolveSummaryTypeFilter(req, filters.type);
     const result = await dashboardService.getSummary({ type });
     res.status(200).json(result);
   } catch (err) {
@@ -78,4 +95,15 @@ async function getKanban(req, res, next) {
   }
 }
 
-module.exports = { dashboardController: { getSummary, getSalesSeries, getKanban } };
+async function getMonthlyHistory(req, res, next) {
+  try {
+    const filters = validate(typeSchema, req.query);
+    const type = resolveSummaryTypeFilter(req, filters.type);
+    const result = await dashboardService.getMonthlyHistory({ type });
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { dashboardController: { getSummary, getSalesSeries, getKanban, getMonthlyHistory } };
