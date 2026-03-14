@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(PGPASSWORD=123 psql -U postgres -h 127.0.0.1 -p 5432 -c \"SELECT datname FROM pg_database WHERE datname = ''resinaraft''\")"
+    ]
+  }
+}

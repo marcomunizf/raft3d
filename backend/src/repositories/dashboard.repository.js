@@ -16,7 +16,7 @@ async function getSummary(filters) {
   const summaryResult = await db.query(
     "SELECT COALESCE(SUM(total), 0) AS total_sales_month, COUNT(*) AS sales_count_month, COALESCE(AVG(total), 0) AS average_ticket," +
     " COALESCE(SUM(CASE WHEN status IN ('APPROVED','IN_PRODUCTION','DONE','DELIVERED') THEN total ELSE 0 END), 0) AS active_sales_month," +
-    " COALESCE(AVG(CASE WHEN weight_grams IS NOT NULL AND weight_grams > 0 THEN weight_grams END), 0) AS average_weight_month," +
+    " COALESCE(AVG(CASE WHEN weight_grams IS NOT NULL AND weight_grams > 0 AND total IS NOT NULL THEN total / weight_grams END), 0) AS avg_value_per_weight_month," +
     " COALESCE(SUM(CASE WHEN payment_status = 'PAID' THEN total ELSE 0 END), 0) AS paid_sales_month" +
     " FROM sales WHERE date_trunc('month', sale_date::timestamp) = date_trunc('month', CURRENT_DATE::timestamp)" + whereType,
     values
@@ -47,7 +47,7 @@ async function getSummary(filters) {
     total_sales_month: Number(summary.total_sales_month),
     sales_count_month: Number(summary.sales_count_month),
     average_ticket: Number(summary.average_ticket),
-    average_weight_month: Number(summary.average_weight_month),
+    avg_value_per_weight_month: Number(summary.avg_value_per_weight_month),
     active_sales_month: Number(summary.active_sales_month),
     paid_sales_month: Number(summary.paid_sales_month),
     payments_pending: Number(pendingResult.rows[0].payments_pending),

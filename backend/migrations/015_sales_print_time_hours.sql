@@ -1,0 +1,2 @@
+ALTER TABLE sales
+  ADD COLUMN IF NOT EXISTS print_time_hours NUMERIC(10,2);

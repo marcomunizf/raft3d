@@ -1,6 +1,16 @@
 const { salesRepository } = require('../repositories/sales.repository');
 const { authService } = require('./auth.service');
 
+function ensureSaleIsMutable(sale) {
+  if (!sale) return;
+  if (sale.status === 'DELIVERED' && sale.payment_status === 'PAID') {
+    const error = new Error('Pedido entregue e pago nao pode mais ser alterado.');
+    error.statusCode = 400;
+    error.code = 'BUSINESS_RULE';
+    throw error;
+  }
+}
+
 async function list(filters) {
   return salesRepository.list(filters || {});
 }
@@ -21,10 +31,26 @@ async function getById(id) {
 }
 
 async function update(id, data) {
+  const sale = await salesRepository.findById(id);
+  if (!sale) {
+    const error = new Error('Sale not found');
+    error.statusCode = 404;
+    error.code = 'NOT_FOUND';
+    throw error;
+  }
+  ensureSaleIsMutable(sale);
   return salesRepository.update(id, data || {});
 }
 
 async function updateStatus(id, data) {
+  const sale = await salesRepository.findById(id);
+  if (!sale) {
+    const error = new Error('Sale not found');
+    error.statusCode = 404;
+    error.code = 'NOT_FOUND';
+    throw error;
+  }
+  ensureSaleIsMutable(sale);
   return salesRepository.updateStatus(id, data.status, data.payment_status, data.payment_method);
 }
 
@@ -44,6 +70,8 @@ async function cancel(id, userId, role, permissions, senha) {
     error.code = 'NOT_FOUND';
     throw error;
   }
+
+  ensureSaleIsMutable(sale);
 
   if (!canHandleSaleType(role, permissions, sale.type || 'RESINA')) {
     const error = new Error('Forbidden: insufficient permissions');
@@ -73,6 +101,15 @@ async function addPayment(id, data, userId) {
     error.statusCode = 401;
     throw error;
   }
+
+  const sale = await salesRepository.findById(id);
+  if (!sale) {
+    const error = new Error('Sale not found');
+    error.statusCode = 404;
+    error.code = 'NOT_FOUND';
+    throw error;
+  }
+  ensureSaleIsMutable(sale);
 
   return salesRepository.addPayment(id, { ...data, created_by_user_id: userId });
 }

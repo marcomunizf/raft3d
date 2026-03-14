@@ -1,5 +1,5 @@
 import { api, setAuthToken } from '../../services/api.js';
-import { parseJwt } from './auth.utils.js';
+import { isJwtExpired, parseJwt } from './auth.utils.js';
 
 export async function loginWithCredentials({ usuario, senha }) {
   const response = await api.post('/auth/login', { usuario, senha });
@@ -26,7 +26,11 @@ export function restoreAuthSession() {
   if (!token) return null;
 
   const payload = parseJwt(token);
-  if (!payload) return null;
+  if (!payload || isJwtExpired(payload)) {
+    localStorage.removeItem('rr_token');
+    setAuthToken(null);
+    return null;
+  }
 
   setAuthToken(token);
   return { token, payload };

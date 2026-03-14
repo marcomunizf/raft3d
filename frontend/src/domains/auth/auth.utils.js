@@ -6,6 +6,12 @@ export function parseJwt(token) {
   }
 }
 
+export function isJwtExpired(payload) {
+  if (!payload?.exp) return false;
+  const nowInSeconds = Math.floor(Date.now() / 1000);
+  return payload.exp <= nowInSeconds;
+}
+
 export function getStoredAuthPayload() {
   const token = localStorage.getItem('rr_token');
   if (!token) return null;

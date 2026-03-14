@@ -7,6 +7,7 @@ import InventoryPage from './InventoryPage.jsx';
 import MaterialsPage from './MaterialsPage.jsx';
 import AdminTypeSidebar from '../components/dashboard/AdminTypeSidebar.jsx';
 import { fetchDashboardSummary, fetchSalesSeries, fetchWeightPriceByMaterial } from '../domains/dashboard/dashboard.service.js';
+import { fetchDrawings } from '../domains/drawings/drawings.service.js';
 import { getDashboardSlaVariant, DASHBOARD_SLA_LABEL } from '../domains/dashboard/dashboard.ui.js';
 import { createSale, fetchSaleDetails, fetchSales, updateSale, updateSaleStatus } from '../domains/sales/sales.service.js';
 import { createEmptySaleForm } from '../domains/sales/sales.forms.js';
@@ -63,6 +64,36 @@ const Vg = deleteUser;
 const qg = deactivateUser;
 const _p = updateUserPassword;
 const kp = getTokenUserId;
+const Dp = fetchDrawings;
+const SALES_KANBAN_STAGES = [{
+  key: "BUDGET",
+  label: "Orcamento"
+}, {
+  key: "APPROVED",
+  label: "A Produzir"
+}, {
+  key: "IN_PRODUCTION",
+  label: "Produzindo"
+}, {
+  key: "DONE",
+  label: "Pronto"
+}, {
+  key: "DELIVERED",
+  label: "Entregue"
+}];
+const DRAWINGS_KANBAN_STAGES = [{
+  key: "ORCAMENTO",
+  label: "Orcamento"
+}, {
+  key: "DESENHANDO",
+  label: "Desenhando"
+}, {
+  key: "PRONTO",
+  label: "Pronto"
+}, {
+  key: "ENVIAR_PARA_PRODUCAO",
+  label: "Enviar para Producao"
+}];
 const SUMMARY_PERMISSION_BY_TYPE = {
   RESINA: "ver_resumo_resina",
   FDM: "ver_resumo_fdm"
@@ -129,14 +160,19 @@ function Yg({
     [Ye, Ve] = T.useState(kc),
     [Xe, _t] = T.useState(Rc),
     qt = T.useRef(null),
-    [pg, setPg] = T.useState(null);
+    [pg, setPg] = T.useState(null),
+    [xg, setXg] = T.useState(null),
+    [yg, setYg] = T.useState(null),
+    [Ag, setAg] = T.useState(null),
+    [Lg, setLg] = T.useState([]),
+    [kg, setKg] = T.useState("production");
   T.useEffect(() => {
     const u = g => {
       we.current && !we.current.contains(g.target) && W(!1);
     };
     return document.addEventListener("mousedown", u), () => document.removeEventListener("mousedown", u);
   }, []), T.useEffect(() => {
-    wc(V).then(u => s(u)).catch(() => {}), Sc(V, "day").then(u => o(u)).catch(() => {});
+    wc(V).then(u => s(u)).catch(() => {}), Sc(V, "day").then(u => o(u)).catch(() => {}), Br().catch(() => {});
   }, [V]), T.useEffect(() => {
     if (!t) return;
     C(""), $(""), O(!0);
@@ -180,8 +216,60 @@ function Yg({
     }[t];
     g ? g().catch(() => {}).finally(() => O(!1)) : O(!1);
   }, [t]);
+  const Br = async () => {
+      try {
+        const [u, g, L] = await Promise.all([zn({
+          type: "RESINA"
+        }), zn({
+          type: "FDM"
+        }), Dp()]);
+        const te = tv => {
+            if (!tv) return !1;
+            const Ue = new Date();
+            Ue.setHours(0, 0, 0, 0);
+            const Oe = String(tv).trim();
+            const Le = Oe.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            const Re = Le ? new Date(Number(Le[1]), Number(Le[2]) - 1, Number(Le[3])) : new Date(Oe);
+            Re.setHours(0, 0, 0, 0);
+            return Re < Ue;
+          },
+          Wi = (tv, Ue, Oe, Le) => Oe.map(Re => {
+            const Be = tv.filter(Ae => Ae[Ue] === Re.key);
+            const bn = Be.filter(Ae => te(Ae.due_date || Ae.end_date)).length;
+            const Rp = Be.map(Ae => ({
+              ...Ae,
+              __kind: Le
+            }));
+            return {
+              key: Re.key,
+              label: Re.label,
+              total: Be.length,
+              overdue: bn,
+              items: Rp
+            };
+          });
+        setXg({
+          resina: Wi(u || [], "status", SALES_KANBAN_STAGES, "sale"),
+          fdm: Wi(g || [], "status", SALES_KANBAN_STAGES, "sale"),
+          desenho: Wi(L || [], "status", DRAWINGS_KANBAN_STAGES, "drawing")
+        }), setLg(Array.isArray(L) ? L : []);
+      } catch {
+        setXg(null), setLg([]);
+      }
+    };
   const Ln = () => {
-      wc(V).then(u => s(u)).catch(() => {}), Sc(V, "day").then(u => o(u)).catch(() => {});
+      wc(V).then(u => s(u)).catch(() => {}), Sc(V, "day").then(u => o(u)).catch(() => {}), Br().catch(() => {});
+    },
+    Fr = (u, g) => {
+      const L = xg == null ? void 0 : xg[u];
+      if (!L) return;
+      const te = L.find(Wi => Wi.key === g);
+      if (!te) return;
+      setYg({
+        scope: u,
+        label: te.label,
+        items: te.items || []
+      }), n("kanban-stage-list");
     },
     Wl = async () => {
       var u, g;
@@ -385,6 +473,95 @@ function Yg({
         className: "muted",
         children: "Carregando..."
       });
+      if (t === "kanban-stage-list") {
+        const u = ((yg == null ? void 0 : yg.items) || []).slice().sort((g, L) => {
+          const te = g.due_date || g.end_date || "";
+          const Wi = L.due_date || L.end_date || "";
+          if (!te && !Wi) return 0;
+          if (!te) return 1;
+          if (!Wi) return -1;
+          const Qi = String(te).trim(),
+            Ki = String(Wi).trim(),
+            Rp = Qi.match(/^(\d{4})-(\d{2})-(\d{2})$/),
+            bn = Ki.match(/^(\d{4})-(\d{2})-(\d{2})$/),
+            xt = Rp ? new Date(Number(Rp[1]), Number(Rp[2]) - 1, Number(Rp[3])) : new Date(Qi),
+            At = bn ? new Date(Number(bn[1]), Number(bn[2]) - 1, Number(bn[3])) : new Date(Ki);
+          return xt - At;
+        });
+        if (u.length === 0) return l.jsx("p", {
+          className: "muted",
+          children: "Nenhum card neste status."
+        });
+        return l.jsx("div", {
+          className: "modal-section",
+          children: l.jsx("div", {
+            className: "kanban-stage-list",
+            children: u.map(g => {
+              const L = (() => {
+                const te = g.due_date || g.end_date;
+                if (!te) return !1;
+                const Wi = new Date();
+                Wi.setHours(0, 0, 0, 0);
+                const Qi = String(te).trim(),
+                  Ki = Qi.match(/^(\d{4})-(\d{2})-(\d{2})$/),
+                  Rp = Ki ? new Date(Number(Ki[1]), Number(Ki[2]) - 1, Number(Ki[3])) : new Date(Qi);
+                Rp.setHours(0, 0, 0, 0);
+                return Rp < Wi;
+              })();
+              return l.jsxs("button", {
+              type: "button",
+              className: `kanban-stage-card${L ? " kanban-stage-card--overdue" : ""}`,
+              onClick: () => {
+                if (g.__kind === "sale") {
+                  oa(g.id);
+                  return;
+                }
+                setAg(g), n("kanban-drawing-detail");
+              },
+              children: [l.jsxs("p", {
+                className: "kanban-stage-card-title",
+                children: [g.customer_name_snapshot || g.title || "Sem nome", " ", g.type ? `(${g.type === "FDM" ? "FDM" : "Resina"})` : ""]
+              }), l.jsxs("p", {
+                className: `muted${L ? " kanban-matrix-overdue" : ""}`,
+                children: ["Entrega: ", vt(g.due_date || g.end_date)]
+              }), l.jsxs("p", {
+                className: "muted",
+                children: [g.__kind === "sale" ? "Total: " : "Valor: ", gt(g.total || g.drawing_value || 0)]
+              })]
+            }, `${g.__kind}-${g.id}`);
+            })
+          })
+        });
+      }
+      if (t === "kanban-drawing-detail") return l.jsx("div", {
+        className: "modal-section",
+        children: !Ag ? l.jsx("p", {
+          className: "muted",
+          children: "Desenho nao encontrado."
+        }) : l.jsxs("div", {
+          className: "detail-header",
+          children: [l.jsx("p", {
+            children: l.jsx("strong", {
+              children: Ag.customer_name_snapshot || Ag.title || "Desenho"
+            })
+          }), l.jsxs("p", {
+            className: "muted",
+            children: ["Status: ", Ag.status]
+          }), l.jsxs("p", {
+            className: "muted",
+            children: ["Tipo: ", Ag.type === "FDM" ? "FDM" : "Resina"]
+          }), l.jsxs("p", {
+            className: "muted",
+            children: ["Entrega: ", vt(Ag.end_date)]
+          }), l.jsxs("p", {
+            className: "muted",
+            children: ["Valor desenho: ", gt(Ag.drawing_value || 0)]
+          }), l.jsxs("p", {
+            className: "muted",
+            children: ["Valor impressao: ", gt(Ag.print_value || 0)]
+          })]
+        })
+      });
       if (t === "sales") {
         const u = g => {
           Ce(g), O(!0), zn(g ? {
@@ -493,12 +670,14 @@ function Yg({
           })]
         });
       }
-      if (t === "kpi-average-weight") return l.jsx("div", {
-        className: "modal-section",
-        children: bn.length === 0 ? l.jsx("p", {
-          className: "muted",
-          children: "Sem dados com valor e peso/volume para o periodo."
-        }) : l.jsxs("table", {
+      if (t === "kpi-average-weight") {
+        const u = bn.filter(g => Number(g.avg_value_per_weight_3m || 0) > 0 || Number(g.avg_value_per_weight_1y || 0) > 0);
+        return l.jsx("div", {
+          className: "modal-section",
+          children: u.length === 0 ? l.jsx("p", {
+            className: "muted",
+            children: "Sem dados com valor e peso/volume para o periodo."
+          }) : l.jsxs("table", {
           className: "data-table",
           children: [l.jsx("thead", {
             children: l.jsxs("tr", {
@@ -511,18 +690,19 @@ function Yg({
               })]
             })
           }), l.jsx("tbody", {
-            children: bn.map(u => l.jsxs("tr", {
+            children: u.map(g => l.jsxs("tr", {
               children: [l.jsx("td", {
-                children: u.material_type || "-"
+                children: g.material_type || "-"
               }), l.jsx("td", {
-                children: `${gt(u.avg_value_per_weight_3m)} / ${V === "FDM" ? "g" : "ml"}`
+                children: `${gt(g.avg_value_per_weight_3m)} / ${V === "FDM" ? "g" : "ml"}`
               }), l.jsx("td", {
-                children: `${gt(u.avg_value_per_weight_1y)} / ${V === "FDM" ? "g" : "ml"}`
+                children: `${gt(g.avg_value_per_weight_1y)} / ${V === "FDM" ? "g" : "ml"}`
               })]
-            }, `${u.material_type}-${u.type}`))
+            }, `${g.material_type}-${g.type}`))
           })]
         })
-      });
+        });
+      }
       return t === "edit-sale" ? l.jsxs("div", {
         className: "modal-section",
         children: [l.jsxs("div", {
@@ -947,6 +1127,27 @@ function Yg({
               children: ["Metodo: ", Nc[X.payment_method] || X.payment_method || "-"]
             }), l.jsxs("p", {
               className: "muted",
+              children: ["Processo: ", X.type === "FDM" ? "FDM" : "Resina"]
+            }), l.jsxs("p", {
+              className: "muted",
+              children: ["Material: ", X.material_type || "-", X.material_color ? ` / ${X.material_color}` : ""]
+            }), l.jsxs("p", {
+              className: "muted",
+              children: [X.type === "FDM" ? "Peso (g): " : "Volume (ml): ", X.weight_grams != null ? X.weight_grams : "-"]
+            }), l.jsxs("p", {
+              className: "muted",
+              children: ["Tempo de impressao (h): ", X.print_time_hours != null ? X.print_time_hours : "-"]
+            }), l.jsxs("p", {
+              className: "muted",
+              children: ["Criado por: ", X.created_by_name || "-"]
+            }), l.jsxs("p", {
+              className: "muted",
+              children: ["Criado em: ", Is(X.created_logged_at)]
+            }), (X.edit_history || []).length > 0 && l.jsxs("p", {
+              className: "muted",
+              children: ["Ultima edicao: ", Is(X.edit_history[X.edit_history.length - 1].created_at), " por ", X.edit_history[X.edit_history.length - 1].username || "-"]
+            }), l.jsxs("p", {
+              className: "muted",
               children: ["Observacoes: ", X.notes || "-"]
             })]
           }), l.jsx("div", {
@@ -957,70 +1158,6 @@ function Yg({
               onClick: () => n("edit-customer"),
               children: "Voltar"
             })
-          }), l.jsx("h4", {
-            children: "Itens do pedido"
-          }), !X.items || X.items.length === 0 ? l.jsx("p", {
-            className: "muted",
-            children: "Nenhum item registrado."
-          }) : l.jsxs("table", {
-            className: "data-table",
-            children: [l.jsx("thead", {
-              children: l.jsxs("tr", {
-                children: [l.jsx("th", {
-                  children: "Descricao"
-                }), l.jsx("th", {
-                  children: "Qtd"
-                }), l.jsx("th", {
-                  children: "Unitario"
-                }), l.jsx("th", {
-                  children: "Total"
-                })]
-              })
-            }), l.jsx("tbody", {
-              children: X.items.map(u => l.jsxs("tr", {
-                children: [l.jsx("td", {
-                  children: u.description
-                }), l.jsx("td", {
-                  children: Number(u.qty)
-                }), l.jsx("td", {
-                  children: gt(u.unit_price)
-                }), l.jsx("td", {
-                  children: gt(u.line_total)
-                })]
-              }, u.id))
-            })]
-          }), l.jsx("h4", {
-            children: "Pagamentos registrados"
-          }), !X.payments || X.payments.length === 0 ? l.jsx("p", {
-            className: "muted",
-            children: "Sem pagamentos registrados."
-          }) : l.jsxs("table", {
-            className: "data-table",
-            children: [l.jsx("thead", {
-              children: l.jsxs("tr", {
-                children: [l.jsx("th", {
-                  children: "Data"
-                }), l.jsx("th", {
-                  children: "Metodo"
-                }), l.jsx("th", {
-                  children: "Valor"
-                }), l.jsx("th", {
-                  children: "Notas"
-                })]
-              })
-            }), l.jsx("tbody", {
-              children: X.payments.map(u => l.jsxs("tr", {
-                children: [l.jsx("td", {
-                  children: Wg(u.paid_at)
-                }), l.jsx("td", {
-                  children: Nc[u.method] || u.method
-                }), l.jsx("td", {
-                  children: gt(u.amount)
-                }), l.jsx("td", {
-                  children: u.notes || "-"
-                })]
-              }, u.id))
-            })]
           })]
         }) : l.jsx("p", {
           className: "muted",
@@ -2019,29 +2156,97 @@ function Yg({
       "edit-customer": (Ot == null ? void 0 : Ot.name) || "Editar cliente",
       "edit-sale": "Alterar status da venda",
       "customer-sale-detail": "Detalhes do pedido",
+      "kanban-stage-list": (yg == null ? void 0 : yg.label) ? `Cards em ${yg.label}` : "Cards do status",
+      "kanban-drawing-detail": "Detalhes do desenho",
       "alert-low-stock": "Itens com estoque baixo",
       "alert-in-production": "Pedidos em producao",
       "alert-pending-payments": "Pagamentos pendentes",
-      "kpi-average-weight": "Peso medio por tipo de material",
+      "kpi-average-weight": "Relacao media por tipo de material",
       users: "Usuarios",
       "new-user": "Novo usuario",
       "edit-user": "Editar usuario",
       "change-password": "Alterar Senha"
     },
-    j = V === "RESINA" ? "var(--raft-green)" : "var(--raft-magenta)";
-  if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: V, processType: V });
-  if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null), processType: V });
-  if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: V, processType: V, onOpenMaterials: () => setPg('materials') });
-  if (pg === 'materials') return T.createElement(MaterialsPage, { onBack: () => setPg('inventory'), defaultType: V, processType: V });
+    isDrawingSection = kg === "drawing",
+    j = isDrawingSection ? "var(--accent)" : V === "RESINA" ? "var(--raft-green)" : "var(--raft-magenta)",
+    Qg = (() => {
+      const u = new Date();
+      u.setHours(0, 0, 0, 0);
+      const g = Array.isArray(Lg) ? Lg : [],
+        L = g.filter(te => te.status !== "ENVIAR_PARA_PRODUCAO"),
+        te = L.filter(Wi => {
+          if (!Wi.end_date) return !1;
+          const Qi = String(Wi.end_date).trim(),
+            Ki = Qi.match(/^(\d{4})-(\d{2})-(\d{2})$/),
+            Rp = Ki ? new Date(Number(Ki[1]), Number(Ki[2]) - 1, Number(Ki[3])) : new Date(Qi);
+          Rp.setHours(0, 0, 0, 0);
+          return Rp < u;
+        }),
+        Wi = g.reduce((Qi, Ki) => Qi + Number(Ki.drawing_value || 0), 0),
+        Qi = g.reduce((Ki, Rp) => Ki + Number(Rp.print_value || 0), 0),
+        Ki = g.filter(Rp => Rp.status === "ORCAMENTO").length,
+        Rp = g.filter(Rp => Rp.status === "PRONTO").length,
+        bn = g.filter(Rp => Rp.status === "ENVIAR_PARA_PRODUCAO").length;
+      return {
+        total: g.length,
+        emAndamento: L.length,
+        atrasados: te.length,
+        drawingValue: Wi,
+        printValue: Qi,
+        orcamentos: Ki,
+        prontos: Rp,
+        enviados: bn
+      };
+    })(),
+    Wg = (() => {
+      const u = new Date();
+      u.setHours(0, 0, 0, 0);
+      const g = Array.isArray(Lg) ? Lg : [],
+        L = {};
+      g.forEach(te => {
+        var Ki;
+        const Wi = ((Ki = te.designer_name) == null ? void 0 : Ki.trim()) || "Sem desenhista";
+        if (!L[Wi]) L[Wi] = {
+          name: Wi,
+          total: 0,
+          orcamentos: 0,
+          prontos: 0,
+          atrasados: 0,
+          drawingValue: 0,
+          printValue: 0
+        };
+        const Qi = L[Wi];
+        Qi.total += 1;
+        if (te.status === "ORCAMENTO") Qi.orcamentos += 1;
+        if (te.status === "PRONTO") Qi.prontos += 1;
+        if (te.end_date && te.status !== "ENVIAR_PARA_PRODUCAO") {
+          const Ki = String(te.end_date).trim(),
+            Rp = Ki.match(/^(\d{4})-(\d{2})-(\d{2})$/),
+            bn = Rp ? new Date(Number(Rp[1]), Number(Rp[2]) - 1, Number(Rp[3])) : new Date(Ki);
+          bn.setHours(0, 0, 0, 0), bn < u && (Qi.atrasados += 1);
+        }
+        Qi.drawingValue += Number(te.drawing_value || 0), Qi.printValue += Number(te.print_value || 0);
+      });
+      return Object.values(L).sort((te, Wi) => Wi.total - te.total || te.name.localeCompare(Wi.name));
+    })();
+  if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: V, processType: isDrawingSection ? "DRAWING" : V });
+  if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null), processType: isDrawingSection ? "DRAWING" : V });
+  if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: V, processType: isDrawingSection ? "DRAWING" : V, onOpenMaterials: () => setPg('materials') });
+  if (pg === 'materials') return T.createElement(MaterialsPage, { onBack: () => setPg('inventory'), defaultType: V, processType: isDrawingSection ? "DRAWING" : V });
   return l.jsxs("div", {
     className: "dashboard-layout",
     children: [l.jsx(AdminTypeSidebar, {
       activeType: V,
-      onSelectType: Ee
+      onSelectType: Ee,
+      showDrawing: !0,
+      activeSection: kg,
+      onSelectSection: u => {
+        setKg(u === "drawing" ? "drawing" : "production"), setPg(null);
+      }
     }), l.jsx("div", {
       className: "dashboard-content",
       children: l.jsxs("div", {
-        className: `dashboard process-theme ${V === "FDM" ? "process-theme--fdm" : "process-theme--resina"}`,
+        className: `dashboard process-theme ${isDrawingSection ? "process-theme--drawing" : V === "FDM" ? "process-theme--fdm" : "process-theme--resina"}`,
         children: [l.jsxs("header", {
           className: "dashboard-header",
           style: {
@@ -2052,7 +2257,7 @@ function Yg({
               className: "eyebrow",
               children: "Painel admin"
             }), l.jsxs("h1", {
-              children: ["Dashboard", l.jsxs("span", {
+              children: [isDrawingSection ? "Desenho" : "Dashboard", !isDrawingSection && l.jsxs("span", {
                 style: {
                   fontSize: "16px",
                   fontWeight: 700,
@@ -2065,15 +2270,15 @@ function Yg({
               })]
             }), l.jsx("span", {
               className: "muted",
-              children: "Resumo do mes atual"
+              children: isDrawingSection ? "KPIs gerais e por desenhista" : "Resumo do mes atual"
             })]
           }), l.jsxs("div", {
             className: "func-header-actions",
             children: [l.jsx("button", {
             className: "btn btn-outline",
             type: "button",
-            onClick: () => De("new-sale"),
-            children: "+ Vendas"
+            onClick: () => isDrawingSection ? Fr("desenho", "ORCAMENTO") : De("new-sale"),
+            children: isDrawingSection ? "+ Orcamento" : "+ Vendas"
           }), l.jsx("button", {
             className: "btn btn-outline",
             type: "button",
@@ -2122,7 +2327,130 @@ function Yg({
               })]
             })]
           })]
-        }), l.jsxs("section", {
+        }), isDrawingSection ? l.jsxs(l.Fragment, {
+          children: [l.jsxs("section", {
+            className: "kpi-grid",
+            children: [l.jsxs("div", {
+              className: "kpi-card",
+              children: [l.jsx("p", {
+                className: "kpi-label",
+                children: "Total de desenhos"
+              }), l.jsx("h2", {
+                className: "kpi-value",
+                children: Qg.total
+              }), l.jsx("span", {
+                className: "muted",
+                children: "geral"
+              })]
+            }), l.jsxs("div", {
+              className: "kpi-card",
+              children: [l.jsx("p", {
+                className: "kpi-label",
+                children: "Em andamento"
+              }), l.jsx("h2", {
+                className: "kpi-value",
+                children: Qg.emAndamento
+              }), l.jsx("span", {
+                className: "muted",
+                children: "sem envio para producao"
+              })]
+            }), l.jsxs("div", {
+              className: "kpi-card kpi-card--warn",
+              children: [l.jsx("p", {
+                className: "kpi-label",
+                children: "Atrasados"
+              }), l.jsx("h2", {
+                className: "kpi-value",
+                children: Qg.atrasados
+              }), l.jsx("span", {
+                className: "muted",
+                children: "fora do prazo"
+              })]
+            }), l.jsxs("div", {
+              className: "kpi-card",
+              children: [l.jsx("p", {
+                className: "kpi-label",
+                children: "Valor desenho"
+              }), l.jsx("h2", {
+                className: "kpi-value",
+                children: gt(Qg.drawingValue)
+              }), l.jsx("span", {
+                className: "muted",
+                children: `${Qg.orcamentos} orcamentos`
+              })]
+            }), l.jsxs("div", {
+              className: "kpi-card",
+              children: [l.jsx("p", {
+                className: "kpi-label",
+                children: "Valor impressao"
+              }), l.jsx("h2", {
+                className: "kpi-value",
+                children: gt(Qg.printValue)
+              }), l.jsx("span", {
+                className: "muted",
+                children: `${Qg.prontos} prontos | ${Qg.enviados} enviados`
+              })]
+            })]
+          }), l.jsxs("section", {
+            className: "dashboard-grid",
+            children: [l.jsxs("div", {
+              className: "chart-panel",
+              children: [l.jsx("div", {
+                className: "panel-header",
+                children: l.jsx("h3", {
+                  children: "KPIs por desenhista"
+                })
+              }), Wg.length === 0 ? l.jsx("p", {
+                className: "muted",
+                children: "Sem dados de desenhos."
+              }) : l.jsx("div", {
+                className: "drawing-designer-grid",
+                children: Wg.map(u => l.jsxs("div", {
+                  className: "drawing-designer-card",
+                  children: [l.jsx("p", {
+                    className: "drawing-designer-title",
+                    children: u.name
+                  }), l.jsxs("p", {
+                    className: "muted",
+                    children: ["Total: ", u.total, " | Orc: ", u.orcamentos, " | Prontos: ", u.prontos]
+                  }), l.jsxs("p", {
+                    className: "muted",
+                    children: ["Atrasados: ", u.atrasados]
+                  }), l.jsxs("p", {
+                    className: "muted",
+                    children: ["Desenho: ", gt(u.drawingValue), " | Impressao: ", gt(u.printValue)]
+                  })]
+                }, `designer-${u.name}`))
+              })]
+            }), l.jsxs("div", {
+              className: "quick-panel",
+              children: [l.jsx("div", {
+                className: "panel-header",
+                children: l.jsx("h3", {
+                  children: "Status de desenho"
+                })
+              }), !xg ? l.jsx("p", {
+                className: "muted",
+                children: "Carregando..."
+              }) : l.jsx("div", {
+                className: "kanban-matrix",
+                children: xg.desenho.map((u, g) => l.jsxs("button", {
+                  type: "button",
+                  className: `kanban-matrix-item kanban-matrix-item--clickable${u.overdue > 0 ? " kanban-matrix-item--alert" : ""}`,
+                  onClick: () => Fr("desenho", u.key),
+                  children: [l.jsxs("p", {
+                    className: "kanban-matrix-title",
+                    children: [u.label, ": ", u.total]
+                  }), l.jsxs("p", {
+                    className: `muted${u.overdue > 0 ? " kanban-matrix-overdue" : ""}`,
+                    children: ["Fora do prazo: ", u.overdue, " de ", u.total]
+                  })]
+                }, `draw-status-${g}`))
+              })]
+            })]
+          })]
+        }) : l.jsxs(l.Fragment, {
+          children: [l.jsxs("section", {
           className: "kpi-grid",
           children: [l.jsxs("div", {
             className: "kpi-card",
@@ -2173,10 +2501,10 @@ function Yg({
             },
             children: [l.jsx("p", {
               className: "kpi-label",
-              children: "Peso medio"
+              children: "Relacao media"
             }), l.jsxs("h2", {
               className: "kpi-value",
-              children: [r ? Number(r.average_weight_month || 0).toFixed(2) : "-", " ", r ? V === "FDM" ? "g" : "ml" : ""]
+              children: [r ? gt(r.avg_value_per_weight_month || 0) : "-", " / ", r ? V === "FDM" ? "g" : "ml" : ""]
             }), l.jsx("span", {
               className: "muted",
               children: "no mes"
@@ -2197,24 +2525,84 @@ function Yg({
         }), l.jsxs("section", {
           className: "dashboard-grid",
           children: [l.jsxs("div", {
-            className: "chart-panel",
+            className: "chart-panel kanban-vision-panel",
             children: [l.jsxs("div", {
               className: "panel-header",
               children: [l.jsx("h3", {
-                children: "Vendas recentes"
-              }), l.jsx("span", {
-                className: "muted",
-                children: "Ultimos 7 dias"
+                children: "Visao do Kanban"
               })]
-            }), l.jsx("div", {
-              className: "chart-bars",
-              children: Zl.map((u, g) => l.jsx("div", {
-                className: "chart-bar",
-                style: {
-                  height: `${Math.max(u, 4)}%`,
-                  background: j
-                }
-              }, g))
+            }), !xg ? l.jsx("p", {
+              className: "muted",
+              children: "Carregando visao do kanban..."
+            }) : l.jsxs("div", {
+              className: "kanban-matrix-wrap",
+              children: [l.jsxs("div", {
+                className: "kanban-matrix kanban-matrix--resina",
+                children: [l.jsxs("div", {
+                  className: "kanban-matrix-head",
+                  children: [l.jsx("h4", {
+                    children: "Resina"
+                  }), l.jsx("span", {
+                    className: "kanban-matrix-badge",
+                    children: xg.resina.reduce((u, g) => u + g.total, 0)
+                  })]
+                }), xg.resina.map((u, g) => l.jsxs("button", {
+                  type: "button",
+                  className: `kanban-matrix-item kanban-matrix-item--clickable${u.overdue > 0 ? " kanban-matrix-item--alert" : ""}`,
+                  onClick: () => Fr("resina", u.key),
+                  children: [l.jsxs("p", {
+                    className: "kanban-matrix-title",
+                    children: [u.label, ": ", u.total]
+                  }), l.jsxs("p", {
+                    className: `muted${u.overdue > 0 ? " kanban-matrix-overdue" : ""}`,
+                    children: ["Fora do prazo: ", u.overdue, " de ", u.total]
+                  })]
+                }, `resina-${g}`))]
+              }), l.jsxs("div", {
+                className: "kanban-matrix kanban-matrix--fdm",
+                children: [l.jsxs("div", {
+                  className: "kanban-matrix-head",
+                  children: [l.jsx("h4", {
+                    children: "FDM"
+                  }), l.jsx("span", {
+                    className: "kanban-matrix-badge",
+                    children: xg.fdm.reduce((u, g) => u + g.total, 0)
+                  })]
+                }), xg.fdm.map((u, g) => l.jsxs("button", {
+                  type: "button",
+                  className: `kanban-matrix-item kanban-matrix-item--clickable${u.overdue > 0 ? " kanban-matrix-item--alert" : ""}`,
+                  onClick: () => Fr("fdm", u.key),
+                  children: [l.jsxs("p", {
+                    className: "kanban-matrix-title",
+                    children: [u.label, ": ", u.total]
+                  }), l.jsxs("p", {
+                    className: `muted${u.overdue > 0 ? " kanban-matrix-overdue" : ""}`,
+                    children: ["Fora do prazo: ", u.overdue, " de ", u.total]
+                  })]
+                }, `fdm-${g}`))]
+              }), l.jsxs("div", {
+                className: "kanban-matrix kanban-matrix--drawing",
+                children: [l.jsxs("div", {
+                  className: "kanban-matrix-head",
+                  children: [l.jsx("h4", {
+                    children: "Desenho"
+                  }), l.jsx("span", {
+                    className: "kanban-matrix-badge",
+                    children: xg.desenho.reduce((u, g) => u + g.total, 0)
+                  })]
+                }), xg.desenho.map((u, g) => l.jsxs("button", {
+                  type: "button",
+                  className: `kanban-matrix-item kanban-matrix-item--clickable${u.overdue > 0 ? " kanban-matrix-item--alert" : ""}`,
+                  onClick: () => Fr("desenho", u.key),
+                  children: [l.jsxs("p", {
+                    className: "kanban-matrix-title",
+                    children: [u.label, ": ", u.total]
+                  }), l.jsxs("p", {
+                    className: `muted${u.overdue > 0 ? " kanban-matrix-overdue" : ""}`,
+                    children: ["Fora do prazo: ", u.overdue, " de ", u.total]
+                  })]
+                }, `desenho-${g}`))]
+              })]
             })]
           }), l.jsxs("div", {
             className: "quick-panel",
@@ -2270,6 +2658,7 @@ function Yg({
               })]
             })]
           })]
+        })]
         }), t && l.jsx(Yf, {
           title: d[t] || "",
           onClose: kt,

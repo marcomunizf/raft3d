@@ -7,13 +7,13 @@ export default function FuncionarioTypeSidebar({
   activeSection = 'production',
   onSelectSection = () => {},
 }) {
-  const hasManyTypes = Array.isArray(availableTypes) && availableTypes.length > 1;
-  if (!hasManyTypes && !showDrawing) return null;
+  const hasProductionTypes = Array.isArray(availableTypes) && availableTypes.length > 0;
+  if (!hasProductionTypes && !showDrawing) return null;
 
   return (
     <aside className="type-sidebar">
       <span className="type-sidebar-label">Menu</span>
-      {hasManyTypes &&
+      {hasProductionTypes &&
         availableTypes.map((type) => (
           <button
             key={type}

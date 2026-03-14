@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(psql -U postgres -c \"\\\\l\")",
+      "Bash(psql -U postgres -c \"\\\\l\" --no-password)",
+      "Bash(PGPASSWORD=postgres psql -U postgres -h localhost -p 5432 -c \"\\\\l\")",
+      "Bash(PGPASSWORD=\"\" psql -U postgres -h localhost -p 5432 -c \"\\\\l\")",
+      "Bash(PGPASSWORD=admin psql -U postgres -h localhost -p 5432 -c \"\\\\l\")"
+    ]
+  }
+}

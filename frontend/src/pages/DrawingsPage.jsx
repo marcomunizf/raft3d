@@ -177,8 +177,8 @@ export default function DrawingsPage({
       setShowCreate(false);
       resetForm();
       await loadDrawings();
-    } catch {
-      setError('Erro ao criar orcamento de desenho.');
+    } catch (err) {
+      setError(err?.response?.data?.message || 'Erro ao criar orcamento de desenho.');
     }
   };
 

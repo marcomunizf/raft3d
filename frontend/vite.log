@@ -4,67 +4,58 @@
 
 Re-optimizing dependencies because vite config has changed
 
-  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m896[22m[2m[0m ms[22m
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m822[22m[2m[0m ms[22m
 
   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://172.23.224.1:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.100.68:[1m5173[22m/[39m
-[2m23:20:54[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx[22m
-[2m23:20:54[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx[22m
-[2m23:21:02[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m23:21:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m23:21:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
-[2m23:22:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx, /src/pages/MaterialsPage.jsx[22m
-[2m23:22:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx[22m
-[2m23:22:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx, /src/pages/MaterialsPage.jsx[22m
-[2m23:22:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MaterialsPage.jsx[22m
-[2m23:22:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx[22m
-[2m23:28:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MaterialsPage.jsx[22m
-[2m23:31:49[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx, /src/pages/MaterialsPage.jsx[22m
-[2m23:32:12[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MaterialsPage.jsx[22m
-[2m23:38:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MaterialsPage.jsx[22m
-[2m23:40:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx, /src/pages/MaterialsPage.jsx[22m
-[2m23:46:20[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx[22m
-[2m23:46:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
-[2m23:46:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m23:47:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m23:47:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m23:47:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m23:49:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
-[2m23:50:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m23:53:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m23:53:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m23:54:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m23:57:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/CustomersPage.jsx, /src/pages/DrawingsPage.jsx, /src/pages/InventoryPage.jsx, /src/pages/SalesPage.jsx[22m
-[2m23:57:21[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx[22m
-[2m23:57:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx[22m
-[2m23:57:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:06:22[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx[22m
-[2m00:06:37[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:07:52[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:09:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:17:34[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:18:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:23:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:23:24[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:23:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:24:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:38:49[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m00:38:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
-[2m00:39:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CustomersPage.jsx[22m
-[2m00:39:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx[22m
-[2m00:39:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MaterialsPage.jsx[22m
-[2m00:40:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
-[2m00:40:08[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
-[2m00:40:15[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
-[2m00:41:24[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m00:43:50[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m00:44:01[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
-[2m00:44:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CustomersPage.jsx[22m
-[2m00:44:19[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx[22m
-[2m00:44:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MaterialsPage.jsx[22m
-[2m00:44:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
-[2m00:49:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m00:52:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m00:52:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m00:55:48[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DrawingsPage.jsx[22m
+[2m09:44:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx[22m
+[2m09:44:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m09:44:56[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/domains/customers/CustomerSearch.jsx, /src/pages/CustomersPage.jsx, /src/pages/InventoryPage.jsx, /src/pages/MaterialsPage.jsx, /src/pages/SalesPage.jsx, /src/pages/DrawingsPage.jsx[22m
+[2m09:45:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m10:06:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx[22m
+[2m10:06:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
+[2m10:07:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m10:07:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m10:15:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:33:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:33:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:33:24[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:33:42[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:34:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:34:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m10:34:33[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:41:08[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DrawingsPage.jsx[22m
+[2m10:48:12[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/funcionario/FuncionarioTypeSidebar.jsx[22m
+[2m10:50:13[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m10:54:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:54:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:54:26[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:55:12[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:55:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:55:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:55:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m11:39:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/dashboard/AdminTypeSidebar.jsx[22m
+[2m11:39:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:39:24[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:39:50[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:40:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:40:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:41:03[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:41:21[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m11:55:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:55:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m14:30:37[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m14:40:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m14:40:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m14:43:25[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m14:43:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m14:46:26[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m15:04:56[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m15:05:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m15:13:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
+[2m15:13:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
+[2m15:13:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
+[2m15:14:03[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
+[2m15:14:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
+[2m15:56:36[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m

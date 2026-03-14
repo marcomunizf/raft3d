@@ -4,6 +4,7 @@ import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import FuncionarioDashboard from './pages/FuncionarioDashboard.jsx';
 import { loginWithCredentials, logoutSession, restoreAuthSession } from './domains/auth/auth.service.js';
+import { AUTH_INVALID_EVENT } from './services/api.js';
 
 export default function App() {
   const [view, setView] = useState('landing');
@@ -22,6 +23,19 @@ export default function App() {
       setUserPermissions(payload.permissions || []);
       setView('dashboard');
     }
+  }, []);
+
+  useEffect(() => {
+    const handleInvalidSession = () => {
+      setUserRole(null);
+      setUserName('');
+      setUserPermissions([]);
+      setLoginError('Sessao expirada ou invalida. Faca login novamente.');
+      setView('login');
+    };
+
+    window.addEventListener(AUTH_INVALID_EVENT, handleInvalidSession);
+    return () => window.removeEventListener(AUTH_INVALID_EVENT, handleInvalidSession);
   }, []);
 
   const handleLoginSubmit = async ({ usuario, senha }) => {

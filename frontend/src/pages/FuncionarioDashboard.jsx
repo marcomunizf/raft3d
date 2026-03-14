@@ -262,6 +262,7 @@ function sv({
           material_type: g.material_type || "",
           material_color: g.material_color || "",
           weight_grams: g.weight_grams != null ? String(g.weight_grams) : "",
+          print_time_hours: g.print_time_hours != null ? String(g.print_time_hours) : "",
           status: g.status || "BUDGET",
           payment_status: g.payment_status || "PENDING",
           payment_method: g.payment_method || "",
@@ -284,6 +285,7 @@ function sv({
         material_type: z.material_type || "",
         material_color: z.material_color || "",
         weight_grams: z.weight_grams != null ? String(z.weight_grams) : "",
+        print_time_hours: z.print_time_hours != null ? String(z.print_time_hours) : "",
         status: z.status || "BUDGET",
         payment_status: z.payment_status || "PENDING",
         payment_method: z.payment_method || "",
@@ -342,6 +344,7 @@ function sv({
           material_type: he.material_type || null,
           material_color: he.material_color || null,
           weight_grams: he.weight_grams !== "" ? Number(he.weight_grams) : null,
+          print_time_hours: he.print_time_hours !== "" ? Number(he.print_time_hours) : null,
           due_date: he.due_date || null,
           payment_method: he.payment_method || null,
           customer_name_snapshot: he.customer_name_snapshot || "Venda generica"
@@ -453,6 +456,7 @@ function sv({
             material_type: G.material_type || null,
             material_color: G.material_color || null,
             weight_grams: G.weight_grams !== "" ? Number(G.weight_grams) : null,
+            print_time_hours: G.print_time_hours !== "" ? Number(G.print_time_hours) : null,
             status: G.status || z.status,
             payment_status: G.payment_status || z.payment_status,
             payment_method: Object.prototype.hasOwnProperty.call(G, "payment_method") ? (G.payment_method || null) : (z.payment_method || null),
@@ -628,7 +632,8 @@ function sv({
               type: d.target.value,
               material_type: "",
               material_color: "",
-              weight_grams: ""
+              weight_grams: "",
+              print_time_hours: ""
             })),
             children: r.map(d => l.jsx("option", {
               value: d,
@@ -678,6 +683,17 @@ function sv({
             onChange: d => W(j => ({
               ...j,
               weight_grams: d.target.value
+            }))
+          })]
+        }), l.jsxs("label", {
+          children: ["Tempo de impressao (horas)", l.jsx("input", {
+            type: "number",
+            min: "0",
+            step: "0.01",
+            value: he.print_time_hours || "",
+            onChange: d => W(j => ({
+              ...j,
+              print_time_hours: d.target.value
             }))
           })]
         }), l.jsxs("label", {
@@ -1481,7 +1497,8 @@ function sv({
               type: d.target.value,
               material_type: "",
               material_color: "",
-              weight_grams: ""
+              weight_grams: "",
+              print_time_hours: ""
             })),
             children: r.map(d => l.jsx("option", {
               value: d,
@@ -1531,6 +1548,17 @@ function sv({
             onChange: d => X(j => ({
               ...j,
               weight_grams: d.target.value
+            }))
+          })]
+        }), l.jsxs("label", {
+          children: ["Tempo de impressao (horas)", l.jsx("input", {
+            type: "number",
+            min: "0",
+            step: "0.01",
+            value: (G == null ? void 0 : G.print_time_hours) || "",
+            onChange: d => X(j => ({
+              ...j,
+              print_time_hours: d.target.value
             }))
           })]
         }), l.jsxs("label", {
@@ -1843,14 +1871,6 @@ function sv({
           type: "button",
           onClick: () => setPg("sales"),
           children: "Todos os pedidos"
-        }), canOpenDrawings && l.jsx("button", {
-          className: "btn btn-outline",
-          type: "button",
-          onClick: () => {
-            setPg(null);
-            setActiveSection('drawing');
-          },
-          children: "Desenho"
         }), l.jsxs("div", {
           className: "user-menu",
           ref: c,
