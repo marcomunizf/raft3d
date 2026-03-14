@@ -106,4 +106,23 @@ async function getMonthlyHistory(req, res, next) {
   }
 }
 
-module.exports = { dashboardController: { getSummary, getSalesSeries, getKanban, getMonthlyHistory } };
+async function getWeightPriceByMaterial(req, res, next) {
+  try {
+    const filters = validate(typeSchema, req.query);
+    const type = resolveSummaryTypeFilter(req, filters.type);
+    const result = await dashboardService.getWeightPriceByMaterial({ type });
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = {
+  dashboardController: {
+    getSummary,
+    getSalesSeries,
+    getKanban,
+    getMonthlyHistory,
+    getWeightPriceByMaterial,
+  },
+};

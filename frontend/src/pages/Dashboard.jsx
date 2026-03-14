@@ -1,11 +1,12 @@
-import * as T from 'react';
+﻿import * as T from 'react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import Modal from '../components/Modal.jsx';
 import SalesPage from './SalesPage.jsx';
 import CustomersPage from './CustomersPage.jsx';
 import InventoryPage from './InventoryPage.jsx';
+import MaterialsPage from './MaterialsPage.jsx';
 import AdminTypeSidebar from '../components/dashboard/AdminTypeSidebar.jsx';
-import { fetchDashboardSummary, fetchSalesSeries } from '../domains/dashboard/dashboard.service.js';
+import { fetchDashboardSummary, fetchSalesSeries, fetchWeightPriceByMaterial } from '../domains/dashboard/dashboard.service.js';
 import { getDashboardSlaVariant, DASHBOARD_SLA_LABEL } from '../domains/dashboard/dashboard.ui.js';
 import { createSale, fetchSaleDetails, fetchSales, updateSale, updateSaleStatus } from '../domains/sales/sales.service.js';
 import { createEmptySaleForm } from '../domains/sales/sales.forms.js';
@@ -42,6 +43,7 @@ const l = {
 const Yf = Modal;
 const wc = fetchDashboardSummary;
 const Sc = fetchSalesSeries;
+const Pc = fetchWeightPriceByMaterial;
 const zn = fetchSales;
 const jp = fetchSaleDetails;
 const wp = createSale;
@@ -119,6 +121,7 @@ function Yg({
     [Ot, z] = T.useState(null),
     [ie, Fe] = T.useState(null),
     [fn, G] = T.useState([]),
+    [bn, Kn] = T.useState([]),
     [X, On] = T.useState(null),
     [_e, ht] = T.useState(null),
     [mt, pn] = T.useState(null),
@@ -170,6 +173,7 @@ function Yg({
       }).then(L => {
         _(L.filter(te => ["PENDING", "PARTIAL"].includes(te.payment_status) && !["DELIVERED", "CANCELLED"].includes(te.status)));
       }),
+      "kpi-average-weight": () => Pc(V).then(L => Kn(L)),
       users: () => Pr().then(L => M(L)),
       "new-user": () => (b(za), Promise.resolve()),
       "change-password": () => (q(Ua), Promise.resolve())
@@ -471,7 +475,7 @@ function Yg({
                     children: L ? l.jsx("span", {
                       className: `pill pill--${L}`,
                       children: Jg[L]
-                    }) : "—"
+                    }) : "-"
                   }), l.jsx("td", {
                     children: l.jsx("span", {
                       className: "pill pill--status",
@@ -489,13 +493,43 @@ function Yg({
           })]
         });
       }
+      if (t === "kpi-average-weight") return l.jsx("div", {
+        className: "modal-section",
+        children: bn.length === 0 ? l.jsx("p", {
+          className: "muted",
+          children: "Sem dados com valor e peso/volume para o periodo."
+        }) : l.jsxs("table", {
+          className: "data-table",
+          children: [l.jsx("thead", {
+            children: l.jsxs("tr", {
+              children: [l.jsx("th", {
+                children: "Tipo de material"
+              }), l.jsx("th", {
+                children: "Ultimos 3 meses"
+              }), l.jsx("th", {
+                children: "Ultimo ano"
+              })]
+            })
+          }), l.jsx("tbody", {
+            children: bn.map(u => l.jsxs("tr", {
+              children: [l.jsx("td", {
+                children: u.material_type || "-"
+              }), l.jsx("td", {
+                children: `${gt(u.avg_value_per_weight_3m)} / ${V === "FDM" ? "g" : "ml"}`
+              }), l.jsx("td", {
+                children: `${gt(u.avg_value_per_weight_1y)} / ${V === "FDM" ? "g" : "ml"}`
+              })]
+            }, `${u.material_type}-${u.type}`))
+          })]
+        })
+      });
       return t === "edit-sale" ? l.jsxs("div", {
         className: "modal-section",
         children: [l.jsxs("div", {
           className: "detail-header",
           children: [l.jsxs("p", {
             className: "muted",
-            children: [_e == null ? void 0 : _e.customer_name_snapshot, " — ", gt(_e == null ? void 0 : _e.total)]
+            children: [_e == null ? void 0 : _e.customer_name_snapshot, " - ", gt(_e == null ? void 0 : _e.total)]
           }), l.jsxs("p", {
             className: "muted",
             children: ["Venda: ", vt(_e == null ? void 0 : _e.sale_date), " | Entrega: ", vt(_e == null ? void 0 : _e.due_date)]
@@ -731,11 +765,11 @@ function Yg({
                   children: u.type
                 })
               }), l.jsx("td", {
-                children: u.document || "—"
+                children: u.document || "-"
               }), l.jsx("td", {
                 children: u.phone
               }), l.jsx("td", {
-                children: u.email || "—"
+                children: u.email || "-"
               })]
             }, u.id))
           })]
@@ -866,7 +900,7 @@ function Yg({
                   children: [l.jsx("td", {
                     children: vt(u.sale_date)
                   }), l.jsx("td", {
-                    children: u.file_name || "—"
+                    children: u.file_name || "-"
                   }), l.jsx("td", {
                     children: gt(u.total)
                   }), l.jsx("td", {
@@ -1130,7 +1164,7 @@ function Yg({
                     children: u.name
                   })
                 }), l.jsx("td", {
-                  children: u.brand || "—"
+                  children: u.brand || "-"
                 }), l.jsx("td", {
                   children: u.category === "RAW_MATERIAL" ? "Mat. prima" : "Consumivel"
                 }), l.jsxs("td", {
@@ -1396,7 +1430,7 @@ function Yg({
                   children: u.name
                 })
               }), l.jsx("td", {
-                children: u.brand || "—"
+                children: u.brand || "-"
               }), l.jsx("td", {
                 children: Number(u.current_qty)
               }), l.jsx("td", {
@@ -1620,7 +1654,7 @@ function Yg({
                   children: u.role
                 })
               }), l.jsx("td", {
-                children: l.jsx("div", { style: { maxWidth: "360px", whiteSpace: "normal", wordBreak: "break-word", lineHeight: 1.4 }, children: (u.permissions || []).map(g => Ba[g] || g).join(", ") || "—" })
+                children: l.jsx("div", { style: { maxWidth: "360px", whiteSpace: "normal", wordBreak: "break-word", lineHeight: 1.4 }, children: (u.permissions || []).map(g => Ba[g] || g).join(", ") || "-" })
               }), l.jsx("td", {
                 children: l.jsx("span", {
                   className: `pill pill--${u.is_active ? "sla-green" : "sla-red"}`,
@@ -1988,15 +2022,17 @@ function Yg({
       "alert-low-stock": "Itens com estoque baixo",
       "alert-in-production": "Pedidos em producao",
       "alert-pending-payments": "Pagamentos pendentes",
+      "kpi-average-weight": "Peso medio por tipo de material",
       users: "Usuarios",
       "new-user": "Novo usuario",
       "edit-user": "Editar usuario",
       "change-password": "Alterar Senha"
     },
     j = V === "RESINA" ? "var(--raft-green)" : "var(--raft-magenta)";
-  if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: V });
-  if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null) });
-  if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: V });
+  if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: V, processType: V });
+  if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null), processType: V });
+  if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: V, processType: V, onOpenMaterials: () => setPg('materials') });
+  if (pg === 'materials') return T.createElement(MaterialsPage, { onBack: () => setPg('inventory'), defaultType: V, processType: V });
   return l.jsxs("div", {
     className: "dashboard-layout",
     children: [l.jsx(AdminTypeSidebar, {
@@ -2005,9 +2041,12 @@ function Yg({
     }), l.jsx("div", {
       className: "dashboard-content",
       children: l.jsxs("div", {
-        className: "dashboard",
+        className: `dashboard process-theme ${V === "FDM" ? "process-theme--fdm" : "process-theme--resina"}`,
         children: [l.jsxs("header", {
           className: "dashboard-header",
+          style: {
+            alignItems: "flex-start"
+          },
           children: [l.jsxs("div", {
             children: [l.jsx("p", {
               className: "eyebrow",
@@ -2022,12 +2061,34 @@ function Yg({
                   verticalAlign: "middle",
                   marginLeft: "10px"
                 },
-                children: ["— ", V === "RESINA" ? "Resina" : "FDM"]
+                children: [" - ", V === "RESINA" ? "Resina" : "FDM"]
               })]
             }), l.jsx("span", {
               className: "muted",
               children: "Resumo do mes atual"
             })]
+          }), l.jsxs("div", {
+            className: "func-header-actions",
+            children: [l.jsx("button", {
+            className: "btn btn-outline",
+            type: "button",
+            onClick: () => De("new-sale"),
+            children: "+ Vendas"
+          }), l.jsx("button", {
+            className: "btn btn-outline",
+            type: "button",
+            onClick: () => setPg("customers"),
+            children: "Clientes"
+          }), l.jsx("button", {
+            className: "btn btn-outline",
+            type: "button",
+            onClick: () => setPg("inventory"),
+            children: "Estoque"
+          }), l.jsx("button", {
+            className: "btn btn-outline",
+            type: "button",
+            onClick: () => setPg("sales"),
+            children: "Todos os pedidos"
           }), l.jsxs("div", {
             className: "user-menu",
             ref: we,
@@ -2035,7 +2096,7 @@ function Yg({
               className: "btn btn-ghost user-menu-trigger",
               type: "button",
               onClick: () => W(u => !u),
-              children: "⚙"
+              children: "\u2699\uFE0F"
             }), he && l.jsxs("div", {
               className: "user-menu-dropdown",
               children: [l.jsx("button", {
@@ -2058,6 +2119,7 @@ function Yg({
                 onClick: e,
                 children: "Sair"
               })]
+              })]
             })]
           })]
         }), l.jsxs("section", {
@@ -2069,7 +2131,7 @@ function Yg({
               children: "Total vendido"
             }), l.jsx("h2", {
               className: "kpi-value",
-              children: r ? gt(r.total_sales_month) : "—"
+              children: r ? gt(r.total_sales_month) : "-"
             }), l.jsx("span", {
               className: "muted",
               children: "no mes"
@@ -2081,7 +2143,7 @@ function Yg({
               children: "Qtd de vendas"
             }), l.jsx("h2", {
               className: "kpi-value",
-              children: r ? r.sales_count_month : "—"
+              children: r ? r.sales_count_month : "-"
             }), l.jsx("span", {
               className: "muted",
               children: "pedidos"
@@ -2093,10 +2155,31 @@ function Yg({
               children: "Ticket medio"
             }), l.jsx("h2", {
               className: "kpi-value",
-              children: r ? gt(r.average_ticket) : "—"
+              children: r ? gt(r.average_ticket) : "-"
             }), l.jsx("span", {
               className: "muted",
               children: "por venda"
+            })]
+          }), l.jsxs("div", {
+            className: "kpi-card",
+            role: "button",
+            tabIndex: 0,
+            onClick: () => De("kpi-average-weight"),
+            onKeyDown: u => {
+              (u.key === "Enter" || u.key === " ") && (u.preventDefault(), De("kpi-average-weight"));
+            },
+            style: {
+              cursor: "pointer"
+            },
+            children: [l.jsx("p", {
+              className: "kpi-label",
+              children: "Peso medio"
+            }), l.jsxs("h2", {
+              className: "kpi-value",
+              children: [r ? Number(r.average_weight_month || 0).toFixed(2) : "-", " ", r ? V === "FDM" ? "g" : "ml" : ""]
+            }), l.jsx("span", {
+              className: "muted",
+              children: "no mes"
             })]
           }), l.jsxs("div", {
             className: "kpi-card kpi-card--warn",
@@ -2105,7 +2188,7 @@ function Yg({
               children: "Pag. pendentes"
             }), l.jsx("h2", {
               className: "kpi-value",
-              children: r ? r.payments_pending : "—"
+              children: r ? r.payments_pending : "-"
             }), l.jsx("span", {
               className: "muted",
               children: "em aberto"
@@ -2147,10 +2230,10 @@ function Yg({
                 onClick: () => De("alert-low-stock"),
                 children: [l.jsx("span", {
                   className: "alert-icon",
-                  children: "📦"
+                  children: "\uD83D\uDCE6"
                 }), l.jsxs("div", {
                   children: [l.jsx("strong", {
-                    children: r ? r.low_stock_count : "—"
+                    children: r ? r.low_stock_count : "-"
                   }), l.jsx("span", {
                     className: "muted",
                     children: " estoque baixo"
@@ -2161,10 +2244,10 @@ function Yg({
                 onClick: () => De("alert-in-production"),
                 children: [l.jsx("span", {
                   className: "alert-icon",
-                  children: "⚙️"
+                  children: "\u2699\uFE0F"
                 }), l.jsxs("div", {
                   children: [l.jsx("strong", {
-                    children: r ? r.in_production_count : "—"
+                    children: r ? r.in_production_count : "-"
                   }), l.jsx("span", {
                     className: "muted",
                     children: " em producao"
@@ -2175,59 +2258,16 @@ function Yg({
                 onClick: () => De("alert-pending-payments"),
                 children: [l.jsx("span", {
                   className: "alert-icon",
-                  children: "💰"
+                  children: "\uD83D\uDCB0"
                 }), l.jsxs("div", {
                   children: [l.jsx("strong", {
-                    children: r ? r.payments_pending : "—"
+                    children: r ? r.payments_pending : "-"
                   }), l.jsx("span", {
                     className: "muted",
                     children: " pag. pendentes"
                   })]
                 })]
               })]
-            })]
-          })]
-        }), l.jsxs("section", {
-          className: "action-grid",
-          children: [l.jsxs("button", {
-            className: "action-btn",
-            type: "button",
-            onClick: () => setPg("sales"),
-            children: [l.jsx("span", {
-              className: "action-icon",
-              children: "🧾"
-            }), l.jsx("span", {
-              children: "Vendas"
-            })]
-          }), l.jsxs("button", {
-            className: "action-btn",
-            type: "button",
-            onClick: () => setPg("customers"),
-            children: [l.jsx("span", {
-              className: "action-icon",
-              children: "👤"
-            }), l.jsx("span", {
-              children: "Clientes"
-            })]
-          }), l.jsxs("button", {
-            className: "action-btn",
-            type: "button",
-            onClick: () => setPg("inventory"),
-            children: [l.jsx("span", {
-              className: "action-icon",
-              children: "📦"
-            }), l.jsx("span", {
-              children: "Estoque"
-            })]
-          }), l.jsxs("button", {
-            className: "action-btn action-btn--primary",
-            type: "button",
-            onClick: () => De("new-sale"),
-            children: [l.jsx("span", {
-              className: "action-icon",
-              children: "➕"
-            }), l.jsx("span", {
-              children: "Nova venda"
             })]
           })]
         }), t && l.jsx(Yf, {
@@ -2255,22 +2295,25 @@ function mn(e) {
   }).format(e || 0);
 }
 function Fn(e) {
-  return e ? new Date(e).toLocaleDateString("pt-BR") : "-";
+  if (!e) return "-";
+  const t = String(e).trim(), n = t.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return (n ? new Date(Number(n[1]), Number(n[2]) - 1, Number(n[3])) : new Date(t)).toLocaleDateString("pt-BR");
 }
 function Is(e) {
   return e ? new Date(e).toLocaleString("pt-BR") : "-";
 }
 function qo() {
-  return new Date().toISOString().split("T")[0];
+  const e = new Date(), t = e.getFullYear(), n = String(e.getMonth() + 1).padStart(2, "0"), r = String(e.getDate()).padStart(2, "0");
+  return `${t}-${n}-${r}`;
 }
 function Tc(e, t) {
   if (!e || t === "DELIVERED" || t === "CANCELLED") return "sla-green";
   const n = new Date();
   n.setHours(0, 0, 0, 0);
-  const r = new Date(e);
+  const s = String(e).trim(), a = s.match(/^(\d{4})-(\d{2})-(\d{2})$/), r = a ? new Date(Number(a[1]), Number(a[2]) - 1, Number(a[3])) : new Date(s);
   r.setHours(0, 0, 0, 0);
-  const s = Math.floor((r - n) / 864e5);
-  return s <= 1 ? "sla-red" : s <= 2 ? "sla-yellow" : "sla-green";
+  const o = Math.floor((r - n) / 864e5);
+  return o <= 1 ? "sla-red" : o <= 2 ? "sla-yellow" : "sla-green";
 }
 const ev = {
     "sla-red": "Urgente",
@@ -2429,5 +2472,6 @@ function Gg({
   });
 }
 export default Yg;
+
 
 

@@ -13,6 +13,7 @@ import {
 import { getDashboardSlaVariant, DASHBOARD_SLA_LABEL } from '../domains/dashboard/dashboard.ui.js';
 import { formatDate, formatCurrency } from '../domains/shared/formatters.js';
 import { createEmptySaleForm } from '../domains/sales/sales.forms.js';
+import { fetchMaterials } from '../domains/inventory/materials.service.js';
 
 const EMPTY_FILTERS = {
   start_date: '',
@@ -34,7 +35,7 @@ function buildServerParams(f) {
   return params;
 }
 
-export default function SalesPage({ onBack, defaultType = '', availableTypes = ['RESINA', 'FDM'] }) {
+export default function SalesPage({ onBack, defaultType = '', availableTypes = ['RESINA', 'FDM'], processType = '' }) {
   const singleType = availableTypes.length === 1 ? availableTypes[0] : null;
   const initialType = singleType || defaultType;
 
@@ -51,10 +52,21 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
     type: initialType || 'RESINA',
   });
   const [modalError, setModalError] = useState('');
+  const [materials, setMaterials] = useState([]);
 
   useEffect(() => {
     loadSales(buildServerParams({ ...EMPTY_FILTERS, type: initialType }));
+    loadMaterials();
   }, []);
+
+  async function loadMaterials() {
+    try {
+      const data = await fetchMaterials();
+      setMaterials(data);
+    } catch {
+      setMaterials([]);
+    }
+  }
 
   async function loadSales(params) {
     setLoading(true);
@@ -139,6 +151,11 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
         subtotal,
         discount_total: Number(newForm.discount_total) || 0,
         total,
+        material_type: newForm.material_type || null,
+        material_color: newForm.material_color || null,
+        weight_grams: newForm.weight_grams !== ''
+          ? Number(newForm.weight_grams)
+          : null,
         due_date: newForm.due_date || null,
         customer_name_snapshot: newForm.customer_name_snapshot || 'Venda generica',
       });
@@ -150,8 +167,10 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
     }
   }
 
+  const resolvedProcessType = processType === 'DRAWING' ? 'DRAWING' : (processType || initialType || 'RESINA') === 'FDM' ? 'FDM' : 'RESINA';
+
   return (
-    <div className="sales-page">
+    <div className={`sales-page process-theme ${resolvedProcessType === 'DRAWING' ? 'process-theme--drawing' : resolvedProcessType === 'FDM' ? 'process-theme--fdm' : 'process-theme--resina'}`}>
       <div className="sales-page-header">
         <button className="btn btn-ghost" type="button" onClick={onBack}>
           ← Voltar
@@ -241,7 +260,7 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
           </label>
           {availableTypes.length > 1 && (
             <label className="filter-field">
-              <span>Tipo</span>
+              <span>Processo</span>
               <select
                 value={filters.type}
                 onChange={e => handleSelectFilter('type', e.target.value)}
@@ -458,7 +477,7 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
                 />
               </label>
               <label>
-                Valor total (R$)
+                Valor (R$)
                 <input
                   type="number"
                   min="0"
@@ -476,10 +495,18 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
                 />
               </label>
               <label>
-                Tipo
+                Processo
                 <select
                   value={newForm.type}
-                  onChange={e => setNewForm(prev => ({ ...prev, type: e.target.value }))}
+                  onChange={e =>
+                    setNewForm(prev => ({
+                      ...prev,
+                      type: e.target.value,
+                      material_type: '',
+                      material_color: '',
+                      weight_grams: '',
+                    }))
+                  }
                   disabled={availableTypes.length === 1}
                 >
                   {availableTypes.map(t => (
@@ -488,6 +515,52 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
                     </option>
                   ))}
                 </select>
+              </label>
+              <label>
+                Tipo
+                <input
+                  type="text"
+                  list={`sale-material-type-${newForm.type}`}
+                  value={newForm.material_type || ''}
+                  onChange={e => setNewForm(prev => ({ ...prev, material_type: e.target.value }))}
+                />
+                <datalist id={`sale-material-type-${newForm.type}`}>
+                  {unique(
+                    materials
+                      .filter(m => m.process === newForm.type)
+                      .map(m => m.type),
+                  ).map(value => (
+                    <option key={value} value={value} />
+                  ))}
+                </datalist>
+              </label>
+              <label>
+                Cor
+                <input
+                  type="text"
+                  list={`sale-material-color-${newForm.type}`}
+                  value={newForm.material_color || ''}
+                  onChange={e => setNewForm(prev => ({ ...prev, material_color: e.target.value }))}
+                />
+                <datalist id={`sale-material-color-${newForm.type}`}>
+                  {unique(
+                    materials
+                      .filter(m => m.process === newForm.type)
+                      .map(m => m.color),
+                  ).map(value => (
+                    <option key={value} value={value} />
+                  ))}
+                </datalist>
+              </label>
+              <label>
+                {newForm.type === 'FDM' ? 'Peso (em gramas)' : 'Peso (em ml)'}
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={newForm.weight_grams || ''}
+                  onChange={e => setNewForm(prev => ({ ...prev, weight_grams: e.target.value }))}
+                />
               </label>
               <label>
                 Status do pedido
@@ -545,4 +618,8 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
       )}
     </div>
   );
+}
+
+function unique(values) {
+  return Array.from(new Set(values.filter(Boolean))).sort((a, b) => a.localeCompare(b));
 }

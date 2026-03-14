@@ -46,6 +46,7 @@ async function list(filters) {
   const result = await db.query(
     `SELECT s.id, s.sale_date, s.due_date, s.customer_name_snapshot, s.status, s.payment_status, s.total,
        s.type, s.payment_method,
+       s.material_type, s.material_color, s.weight_grams,
        (SELECT description FROM sale_items WHERE sale_id = s.id ORDER BY id LIMIT 1) AS file_name
      FROM sales s ` + where + ` ORDER BY s.sale_date DESC`,
     values
@@ -218,11 +219,14 @@ async function create(data) {
     await client.query('BEGIN');
 
     const saleResult = await client.query(
-      'INSERT INTO sales (customer_id, customer_name_snapshot, type, status, sale_date, due_date, subtotal, discount_total, total, payment_status, payment_method, notes, created_by_user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *',
+      'INSERT INTO sales (customer_id, customer_name_snapshot, type, material_type, material_color, weight_grams, status, sale_date, due_date, subtotal, discount_total, total, payment_status, payment_method, notes, created_by_user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *',
       [
         data.customer_id || null,
         data.customer_name_snapshot || 'Venda generica',
         data.type || 'RESINA',
+        data.material_type || null,
+        data.material_color || null,
+        typeof data.weight_grams === 'number' ? data.weight_grams : null,
         data.status,
         data.sale_date,
         data.due_date || null,
@@ -274,6 +278,9 @@ async function update(id, data) {
       customer_id: data.customer_id,
       customer_name_snapshot: data.customer_name_snapshot,
       type: data.type,
+      material_type: data.material_type,
+      material_color: data.material_color,
+      weight_grams: data.weight_grams,
       status: data.status,
       sale_date: data.sale_date,
       due_date: data.due_date,

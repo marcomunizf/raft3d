@@ -13,7 +13,7 @@ const idSchema = Joi.object({
 });
 
 const createSchema = Joi.object({
-  title: Joi.string().trim().min(1).required(),
+  title: Joi.string().trim().min(1).allow('', null).optional(),
   description: Joi.string().allow('', null).optional(),
   customer_id: Joi.string().guid({ version: ['uuidv4'] }).allow(null).optional(),
   customer_name_snapshot: Joi.string().allow('', null).optional(),

@@ -14,6 +14,9 @@ export function createEmptySaleForm(defaultType = 'RESINA') {
     discount_total: '0',
     total: '',
     type: defaultType,
+    material_type: '',
+    material_color: '',
+    weight_grams: '',
     items: [],
   };
 }

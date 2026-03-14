@@ -14,3 +14,8 @@ export async function fetchMonthlyHistory(type) {
   const response = await api.get('/dashboard/monthly-history', { params: { type } });
   return response.data;
 }
+
+export async function fetchWeightPriceByMaterial(type) {
+  const response = await api.get('/dashboard/weight-price-by-material', { params: { type } });
+  return response.data;
+}

@@ -1,0 +1,4 @@
+ALTER TABLE sales
+  ADD COLUMN IF NOT EXISTS material_type TEXT,
+  ADD COLUMN IF NOT EXISTS material_color TEXT,
+  ADD COLUMN IF NOT EXISTS weight_grams NUMERIC(12,3);

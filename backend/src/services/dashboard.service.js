@@ -16,4 +16,16 @@ async function getMonthlyHistory(filters) {
   return dashboardRepository.getMonthlyHistory(filters || {});
 }
 
-module.exports = { dashboardService: { getSummary, getSalesSeries, getKanban, getMonthlyHistory } };
+async function getWeightPriceByMaterial(filters) {
+  return dashboardRepository.getWeightPriceByMaterial(filters || {});
+}
+
+module.exports = {
+  dashboardService: {
+    getSummary,
+    getSalesSeries,
+    getKanban,
+    getMonthlyHistory,
+    getWeightPriceByMaterial,
+  },
+};

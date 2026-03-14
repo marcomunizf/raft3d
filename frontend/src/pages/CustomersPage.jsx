@@ -7,7 +7,7 @@ import { formatDate, formatCurrency, formatDateTime } from '../domains/shared/fo
 
 const EMPTY_FORM = createEmptyCustomerForm();
 
-export default function CustomersPage({ onBack }) {
+export default function CustomersPage({ onBack, processType = 'RESINA' }) {
   const [customers, setCustomers] = useState([]);
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -85,8 +85,10 @@ export default function CustomersPage({ onBack }) {
     }
   }
 
+  const resolvedProcessType = processType === 'DRAWING' ? 'DRAWING' : processType === 'FDM' ? 'FDM' : 'RESINA';
+
   return (
-    <div className="sales-page">
+    <div className={`sales-page process-theme ${resolvedProcessType === 'DRAWING' ? 'process-theme--drawing' : resolvedProcessType === 'FDM' ? 'process-theme--fdm' : 'process-theme--resina'}`}>
       <div className="sales-page-header">
         <button className="btn btn-ghost" type="button" onClick={onBack}>
           ← Voltar

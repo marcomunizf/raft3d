@@ -74,6 +74,10 @@ async function create(data, userId, role, permissions = []) {
 
   await ensureCanManage(role, permissions);
   const normalized = await normalizeCustomerData(data);
+  const titleCandidate = typeof normalized.title === 'string' ? normalized.title.trim() : '';
+  const customerCandidate = typeof normalized.customer_name_snapshot === 'string' ? normalized.customer_name_snapshot.trim() : '';
+  normalized.title = titleCandidate || customerCandidate || 'Desenho';
+  normalized.start_date = new Date().toISOString().slice(0, 10);
   await ensureValidDesigner(normalized.designer_id);
 
   return drawingsRepository.create({ ...normalized, created_by_user_id: userId });

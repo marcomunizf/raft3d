@@ -458,6 +458,53 @@ textarea {
   color: #5d5142;
 }
 
+/* Process theme (Admin dashboard and embedded pages) */
+.process-theme {
+  --process-color: var(--raft-green);
+  --process-color-dark: var(--raft-green-dark);
+  --process-color-soft: rgba(123, 194, 28, 0.12);
+}
+
+.process-theme--fdm {
+  --process-color: var(--raft-magenta);
+  --process-color-dark: var(--raft-magenta-dark);
+  --process-color-soft: rgba(156, 37, 104, 0.12);
+}
+
+.process-theme--drawing {
+  --process-color: var(--accent);
+  --process-color-dark: var(--accent-strong);
+  --process-color-soft: rgba(204, 91, 43, 0.12);
+}
+
+.process-theme .btn-primary {
+  background: var(--process-color);
+  border-color: var(--process-color);
+}
+
+.process-theme .btn-primary:hover {
+  background: var(--process-color-dark);
+  border-color: var(--process-color-dark);
+}
+
+.process-theme .btn-outline {
+  border-color: var(--process-color);
+  color: var(--process-color);
+}
+
+.process-theme .btn-outline:hover {
+  background: var(--process-color-soft);
+}
+
+.process-theme .btn-ghost {
+  border-color: var(--process-color);
+  color: var(--process-color);
+}
+
+.process-theme .btn-ghost:hover {
+  background: var(--process-color-soft);
+}
+
 .login {
   min-height: 100vh;
   display: grid;
@@ -963,6 +1010,10 @@ textarea {
   border-left: 4px solid var(--accent);
 }
 
+.process-theme .kpi-card--warn {
+  border-left-color: var(--process-color);
+}
+
 .alert-list {
   list-style: none;
   display: grid;
@@ -1394,6 +1445,18 @@ textarea {
   color: #2c2417;
 }
 
+.process-theme .eyebrow,
+.process-theme .sales-page-header h2,
+.process-theme .filter-field span,
+.process-theme .modal-section h4 {
+  color: var(--process-color);
+}
+
+.process-theme .user-menu-trigger {
+  border-color: var(--process-color);
+  color: var(--process-color);
+}
+
 .sales-filters {
   padding: 16px 28px;
   background: #fff;
@@ -1435,6 +1498,16 @@ textarea {
   font-size: 14px;
   background: #faf8f3;
   color: #2c2417;
+}
+
+.process-theme .filter-field input:focus,
+.process-theme .filter-field select:focus,
+.process-theme input:focus,
+.process-theme select:focus,
+.process-theme textarea:focus {
+  outline: none;
+  border-color: var(--process-color);
+  box-shadow: 0 0 0 2px var(--process-color-soft);
 }
 
 .filter-actions {

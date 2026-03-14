@@ -64,13 +64,11 @@ export default function DrawingsPage({
     print_value: '',
   });
   const [form, setForm] = T.useState({
-    title: '',
     description: '',
     customer_id: null,
     customer_name_snapshot: '',
     type: 'RESINA',
     designer_id: '',
-    start_date: '',
     end_date: '',
     drawing_value: '',
     print_value: '',
@@ -150,13 +148,11 @@ export default function DrawingsPage({
 
   const resetForm = () => {
     setForm({
-      title: '',
       description: '',
       customer_id: null,
       customer_name_snapshot: '',
       type: 'RESINA',
       designer_id: '',
-      start_date: '',
       end_date: '',
       drawing_value: '',
       print_value: '',
@@ -166,20 +162,13 @@ export default function DrawingsPage({
   const handleCreate = async () => {
     setError('');
 
-    if (!form.title.trim()) {
-      setError('O titulo e obrigatorio.');
-      return;
-    }
-
     try {
       await createDrawing({
-        title: form.title,
         description: form.description && form.description.trim() ? form.description.trim() : undefined,
         customer_id: form.customer_id || null,
         customer_name_snapshot: form.customer_name_snapshot || null,
         type: form.type,
         designer_id: form.designer_id || null,
-        start_date: form.start_date || null,
         end_date: form.end_date || null,
         drawing_value: parseMoneyValue(form.drawing_value),
         print_value: parseMoneyValue(form.print_value),
@@ -348,16 +337,6 @@ export default function DrawingsPage({
           }}
         >
           <label style={{ gridColumn: '1 / -1' }}>
-            Titulo
-            <input
-              type="text"
-              value={form.title}
-              onChange={(event) => setForm((prev) => ({ ...prev, title: event.target.value }))}
-              required
-            />
-          </label>
-
-          <label style={{ gridColumn: '1 / -1' }}>
             Cliente
             <CustomerSearch
               value={form.customer_name_snapshot || ''}
@@ -393,15 +372,6 @@ export default function DrawingsPage({
                 </option>
               ))}
             </select>
-          </label>
-
-          <label>
-            Inicio do desenho
-            <input
-              type="date"
-              value={form.start_date}
-              onChange={(event) => setForm((prev) => ({ ...prev, start_date: event.target.value }))}
-            />
           </label>
 
           <label>

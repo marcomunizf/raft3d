@@ -4,6 +4,7 @@ import Modal from '../components/Modal.jsx';
 import SalesPage from './SalesPage.jsx';
 import CustomersPage from './CustomersPage.jsx';
 import InventoryPage from './InventoryPage.jsx';
+import MaterialsPage from './MaterialsPage.jsx';
 import DrawingsPage from './DrawingsPage.jsx';
 import FuncionarioTypeSidebar from '../components/funcionario/FuncionarioTypeSidebar.jsx';
 import CustomerSearch from '../domains/customers/CustomerSearch.jsx';
@@ -13,6 +14,7 @@ import { createCustomer, fetchCustomers, fetchCustomerSales, updateCustomer } fr
 import { createEmptyItemForm } from '../domains/inventory/inventory.forms.js';
 import { MEASURE_OPTIONS, normalizeMeasure } from '../domains/inventory/inventory.constants.js';
 import { createInventoryItem, fetchInventory, updateInventoryItem } from '../domains/inventory/inventory.service.js';
+import { fetchMaterials } from '../domains/inventory/materials.service.js';
 import { getAvailableTypes } from '../domains/permissions/permissions.js';
 import { KANBAN_COLUMNS, PAYMENT_METHOD_LABELS, PAYMENT_METHODS, PAYMENT_STATUSES, PAYMENT_STATUS_LABELS, SALE_STATUSES, STATUS_BY_COLUMN, STATUS_LABELS } from '../domains/sales/sales.constants.js';
 import { createEmptySaleForm } from '../domains/sales/sales.forms.js';
@@ -42,6 +44,7 @@ const Np = updateCustomer;
 const Ep = createInventoryItem;
 const Zg = normalizeMeasure;
 const Cp = updateInventoryItem;
+const Fm = fetchMaterials;
 const Fg = updateSale;
 const kp = getTokenUserId;
 const _p = updateUserPassword;
@@ -127,7 +130,8 @@ function sv({
     [monthlySummary, setMonthlySummary] = T.useState(null),
     [showHistory, setShowHistory] = T.useState(false),
     [monthlyHistory, setMonthlyHistory] = T.useState([]),
-    [historyLoading, setHistoryLoading] = T.useState(false);
+    [historyLoading, setHistoryLoading] = T.useState(false),
+    [saleMaterials, setSaleMaterials] = T.useState([]);
   const canViewResumoForType = type => !!type && (e.includes(LEGACY_SUMMARY_PERMISSION) || e.includes(SUMMARY_PERMISSION_BY_TYPE[type]));
   const hasVerResumo = canViewResumoForType(s);
   const canOpenDrawings = e.includes('projetista') || e.includes('producao');
@@ -161,6 +165,9 @@ function sv({
       c.current && !c.current.contains(j.target) && i(!1);
     };
     return document.addEventListener("mousedown", d), () => document.removeEventListener("mousedown", d);
+  }, []);
+  T.useEffect(() => {
+    Fm().then(d => setSaleMaterials(d)).catch(() => setSaleMaterials([]));
   }, []);
   const ht = async d => {
       try {
@@ -249,8 +256,15 @@ function sv({
           payment_status: g.payment_status,
           payment_method: g.payment_method || ""
         }), X({
+          customer_id: g.customer_id || null,
           customer_name_snapshot: g.customer_name_snapshot || "",
           type: g.type || s || "RESINA",
+          material_type: g.material_type || "",
+          material_color: g.material_color || "",
+          weight_grams: g.weight_grams != null ? String(g.weight_grams) : "",
+          status: g.status || "BUDGET",
+          payment_status: g.payment_status || "PENDING",
+          payment_method: g.payment_method || "",
           sale_date: g.sale_date ? String(g.sale_date).slice(0, 10) : qo(),
           due_date: g.due_date ? String(g.due_date).slice(0, 10) : "",
           total: String(g.total || ""),
@@ -264,8 +278,15 @@ function sv({
     },
     Ln = () => {
       z && (X({
+        customer_id: z.customer_id || null,
         customer_name_snapshot: z.customer_name_snapshot || "",
         type: z.type || s || "RESINA",
+        material_type: z.material_type || "",
+        material_color: z.material_color || "",
+        weight_grams: z.weight_grams != null ? String(z.weight_grams) : "",
+        status: z.status || "BUDGET",
+        payment_status: z.payment_status || "PENDING",
+        payment_method: z.payment_method || "",
         sale_date: z.sale_date ? String(z.sale_date).slice(0, 10) : qo(),
         due_date: z.due_date ? String(z.due_date).slice(0, 10) : "",
         total: String(z.total || ""),
@@ -296,8 +317,9 @@ function sv({
         Ee(null);
       }
     },
-    Jl = async () => {
+    Jl = async u => {
       var d, j;
+      u && typeof u.preventDefault == "function" && u.preventDefault();
       if (z) {
         C("");
         try {
@@ -317,6 +339,9 @@ function sv({
           subtotal: u,
           discount_total: 0,
           total: u,
+          material_type: he.material_type || null,
+          material_color: he.material_color || null,
+          weight_grams: he.weight_grams !== "" ? Number(he.weight_grams) : null,
           due_date: he.due_date || null,
           payment_method: he.payment_method || null,
           customer_name_snapshot: he.customer_name_snapshot || "Venda generica"
@@ -425,6 +450,12 @@ function sv({
           await Fg(z.id, {
             customer_name_snapshot: G.customer_name_snapshot || z.customer_name_snapshot,
             type: G.type || z.type,
+            material_type: G.material_type || null,
+            material_color: G.material_color || null,
+            weight_grams: G.weight_grams !== "" ? Number(G.weight_grams) : null,
+            status: G.status || z.status,
+            payment_status: G.payment_status || z.payment_status,
+            payment_method: Object.prototype.hasOwnProperty.call(G, "payment_method") ? (G.payment_method || null) : (z.payment_method || null),
             sale_date: G.sale_date || z.sale_date,
             due_date: G.due_date || null,
             subtotal: u,
@@ -578,7 +609,7 @@ function sv({
             }))
           })]
         }), l.jsxs("label", {
-          children: ["Valor total", l.jsx("input", {
+          children: ["Valor", l.jsx("input", {
             type: "number",
             min: "0",
             step: "0.01",
@@ -590,16 +621,64 @@ function sv({
             required: !0
           })]
         }), l.jsxs("label", {
-          children: ["Tipo", l.jsx("select", {
+          children: ["Processo", l.jsx("select", {
             value: he.type,
             onChange: d => W(j => ({
               ...j,
-              type: d.target.value
+              type: d.target.value,
+              material_type: "",
+              material_color: "",
+              weight_grams: ""
             })),
             children: r.map(d => l.jsx("option", {
               value: d,
               children: d === "RESINA" ? "Resina" : "FDM"
             }, d))
+          })]
+        }), l.jsxs("label", {
+          children: ["Tipo", l.jsxs(l.Fragment, {
+            children: [l.jsx("input", {
+              type: "text",
+              list: `func-sale-type-${he.type}`,
+              value: he.material_type || "",
+              onChange: d => W(j => ({
+                ...j,
+                material_type: d.target.value
+              }))
+            }), l.jsx("datalist", {
+              id: `func-sale-type-${he.type}`,
+              children: mr(saleMaterials.filter(d => d.process === he.type).map(d => d.type)).map(d => l.jsx("option", {
+                value: d
+              }, d))
+            })]
+          })]
+        }), l.jsxs("label", {
+          children: ["Cor", l.jsxs(l.Fragment, {
+            children: [l.jsx("input", {
+              type: "text",
+              list: `func-sale-color-${he.type}`,
+              value: he.material_color || "",
+              onChange: d => W(j => ({
+                ...j,
+                material_color: d.target.value
+              }))
+            }), l.jsx("datalist", {
+              id: `func-sale-color-${he.type}`,
+              children: mr(saleMaterials.filter(d => d.process === he.type).map(d => d.color)).map(d => l.jsx("option", {
+                value: d
+              }, d))
+            })]
+          })]
+        }), l.jsxs("label", {
+          children: [he.type === "FDM" ? "Peso (em gramas)" : "Peso (em ml)", l.jsx("input", {
+            type: "number",
+            min: "0",
+            step: "0.01",
+            value: he.weight_grams || "",
+            onChange: d => W(j => ({
+              ...j,
+              weight_grams: d.target.value
+            }))
           })]
         }), l.jsxs("label", {
           children: ["Status do pedido", l.jsx("select", {
@@ -1349,26 +1428,19 @@ function sv({
           style: {
             gridColumn: "1 / -1"
           },
-          children: ["Cliente", l.jsx("input", {
-            type: "text",
+          children: ["Cliente", l.jsx(rv, {
             value: (G == null ? void 0 : G.customer_name_snapshot) || "",
+            onSelect: (d, j) => X(u => ({
+              ...u,
+              customer_id: d,
+              customer_name_snapshot: j
+            })),
+            placeholder: "Buscar por nome ou CPF/CNPJ",
             onChange: d => X(j => ({
               ...j,
               customer_name_snapshot: d.target.value
             })),
             required: !0
-          })]
-        }), l.jsxs("label", {
-          children: ["Tipo", l.jsx("select", {
-            value: (G == null ? void 0 : G.type) || s,
-            onChange: d => X(j => ({
-              ...j,
-              type: d.target.value
-            })),
-            children: r.map(d => l.jsx("option", {
-              value: d,
-              children: d === "RESINA" ? "Resina" : "FDM"
-            }, d))
           })]
         }), l.jsxs("label", {
           children: ["Data da venda", l.jsx("input", {
@@ -1390,7 +1462,7 @@ function sv({
             }))
           })]
         }), l.jsxs("label", {
-          children: ["Valor total", l.jsx("input", {
+          children: ["Valor", l.jsx("input", {
             type: "number",
             min: "0",
             step: "0.01",
@@ -1400,6 +1472,105 @@ function sv({
               total: d.target.value
             })),
             required: !0
+          })]
+        }), l.jsxs("label", {
+          children: ["Processo", l.jsx("select", {
+            value: (G == null ? void 0 : G.type) || s,
+            onChange: d => X(j => ({
+              ...j,
+              type: d.target.value,
+              material_type: "",
+              material_color: "",
+              weight_grams: ""
+            })),
+            children: r.map(d => l.jsx("option", {
+              value: d,
+              children: d === "RESINA" ? "Resina" : "FDM"
+            }, d))
+          })]
+        }), l.jsxs("label", {
+          children: ["Tipo", l.jsxs(l.Fragment, {
+            children: [l.jsx("input", {
+              type: "text",
+              list: `func-edit-sale-type-${(G == null ? void 0 : G.type) || s}`,
+              value: (G == null ? void 0 : G.material_type) || "",
+              onChange: d => X(j => ({
+                ...j,
+                material_type: d.target.value
+              }))
+            }), l.jsx("datalist", {
+              id: `func-edit-sale-type-${(G == null ? void 0 : G.type) || s}`,
+              children: mr(saleMaterials.filter(d => d.process === ((G == null ? void 0 : G.type) || s)).map(d => d.type)).map(d => l.jsx("option", {
+                value: d
+              }, d))
+            })]
+          })]
+        }), l.jsxs("label", {
+          children: ["Cor", l.jsxs(l.Fragment, {
+            children: [l.jsx("input", {
+              type: "text",
+              list: `func-edit-sale-color-${(G == null ? void 0 : G.type) || s}`,
+              value: (G == null ? void 0 : G.material_color) || "",
+              onChange: d => X(j => ({
+                ...j,
+                material_color: d.target.value
+              }))
+            }), l.jsx("datalist", {
+              id: `func-edit-sale-color-${(G == null ? void 0 : G.type) || s}`,
+              children: mr(saleMaterials.filter(d => d.process === ((G == null ? void 0 : G.type) || s)).map(d => d.color)).map(d => l.jsx("option", {
+                value: d
+              }, d))
+            })]
+          })]
+        }), l.jsxs("label", {
+          children: [((G == null ? void 0 : G.type) || s) === "FDM" ? "Peso (em gramas)" : "Volume (em ml)", l.jsx("input", {
+            type: "number",
+            min: "0",
+            step: "0.01",
+            value: (G == null ? void 0 : G.weight_grams) || "",
+            onChange: d => X(j => ({
+              ...j,
+              weight_grams: d.target.value
+            }))
+          })]
+        }), l.jsxs("label", {
+          children: ["Status do pedido", l.jsx("select", {
+            value: (G == null ? void 0 : G.status) || "BUDGET",
+            onChange: d => X(j => ({
+              ...j,
+              status: d.target.value
+            })),
+            children: Dc.map(d => l.jsx("option", {
+              value: d,
+              children: Tr[d] || d
+            }, d))
+          })]
+        }), l.jsxs("label", {
+          children: ["Status do pagamento", l.jsx("select", {
+            value: (G == null ? void 0 : G.payment_status) || "PENDING",
+            onChange: d => X(j => ({
+              ...j,
+              payment_status: d.target.value
+            })),
+            children: Ac.map(d => l.jsx("option", {
+              value: d,
+              children: Ms[d] || d
+            }, d))
+          })]
+        }), l.jsxs("label", {
+          children: ["Forma de pagamento", l.jsxs("select", {
+            value: (G == null ? void 0 : G.payment_method) || "",
+            onChange: d => X(j => ({
+              ...j,
+              payment_method: d.target.value
+            })),
+            children: [l.jsx("option", {
+              value: "",
+              children: "Nao informado"
+            }), Oc.map(d => l.jsx("option", {
+              value: d,
+              children: $a[d] || d
+            }, d))]
           })]
         }), l.jsxs("label", {
           style: {
@@ -1454,6 +1625,12 @@ function sv({
           }), l.jsxs("p", {
             className: "muted",
             children: ["Tipo: ", z.type === "FDM" ? "FDM" : "Resina"]
+          }), l.jsxs("p", {
+            className: "muted",
+            children: ["Cor: ", z.material_color || "-"]
+          }), l.jsxs("p", {
+            className: "muted",
+            children: [z.type === "FDM" ? "Peso (g): " : "Volume (ml): ", z.weight_grams != null ? z.weight_grams : "-"]
           }), l.jsxs("p", {
             className: "muted",
             children: ["Observacoes: ", z.notes || "-"]
@@ -1586,11 +1763,13 @@ function sv({
       FDM: "FDM"
     },
     oa = s === "RESINA" ? "var(--raft-green)" : s === "FDM" ? "var(--raft-magenta)" : "var(--text-muted)";
-  if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: s, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
-  if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null) });
-  if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: s, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
+  const processTheme = isDrawingSection ? 'DRAWING' : s;
+  if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
+  if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null), processType: processTheme });
+  if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'], onOpenMaterials: () => setPg('materials') });
+  if (pg === 'materials') return T.createElement(MaterialsPage, { onBack: () => setPg('inventory'), defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
   return l.jsxs("div", {
-    className: "funcionario-dashboard",
+    className: `funcionario-dashboard process-theme ${isDrawingSection ? "process-theme--drawing" : s === "FDM" ? "process-theme--fdm" : "process-theme--resina"}`,
     children: [l.jsxs("header", {
       className: "func-header",
       children: [l.jsxs("div", {
@@ -1821,14 +2000,20 @@ function sv({
             })
           })
       })
+    }), m && l.jsx(Yf, {
+      title: la[m] || "",
+      onClose: Ye,
+      children: xr()
     }), showDeleteConfirm && l.jsx(Yf, {
       title: "Excluir pedido",
       onClose: () => {
         setShowDeleteConfirm(false), _e("");
       },
-      children: l.jsxs("div", {
+      children: l.jsx("form", {
         className: "modal-section",
-        children: [l.jsx("p", {
+        onSubmit: Jl,
+        children: l.jsxs(T.Fragment, {
+          children: [l.jsx("p", {
           className: "muted",
           children: "Tem certeza?"
         }), l.jsxs("div", {
@@ -1854,8 +2039,7 @@ function sv({
           className: "modal-actions",
           children: [l.jsx("button", {
             className: "btn btn-primary",
-            type: "button",
-            onClick: Jl,
+            type: "submit",
             disabled: !On.trim(),
             children: "Sim"
           }), l.jsx("button", {
@@ -1867,12 +2051,14 @@ function sv({
             children: "Cancelar"
           })]
         })]
+        })
       })
-    }), m && l.jsx(Yf, {
-      title: la[m] || "",
-      onClose: Ye,
-      children: xr()
     })]
   });
 }
+
+function mr(values) {
+  return Array.from(new Set((values || []).filter(Boolean))).sort((a, b) => String(a).localeCompare(String(b)));
+}
+
 export default sv;

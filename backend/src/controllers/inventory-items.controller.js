@@ -1,4 +1,5 @@
 const { inventoryItemsService } = require('../services/inventory-items.service');
+const { materialsService } = require('../services/materials.service');
 const { audit } = require('../utils/audit');
 const { Joi, validate } = require('../utils/validation');
 
@@ -8,26 +9,27 @@ const idSchema = Joi.object({
 
 const listSchema = Joi.object({
   category: Joi.string().valid('RAW_MATERIAL', 'CONSUMABLE').optional(),
-  type: Joi.string().valid('RESINA', 'FDM').optional(),
+  type: Joi.string().valid('RESINA', 'FDM').optional(), // legacy alias for process
+  process: Joi.string().valid('RESINA', 'FDM').optional(),
   is_active: Joi.boolean().truthy('true').falsy('false').optional(),
 });
 
 const createSchema = Joi.object({
-  name: Joi.string().required(),
-  brand: Joi.string().optional().allow('', null),
-  category: Joi.string().valid('RAW_MATERIAL', 'CONSUMABLE').required(),
-  type: Joi.string().valid('RESINA', 'FDM').optional(),
-  unit: Joi.string().required(),
+  material_id: Joi.string().guid({ version: ['uuidv4'] }).required(),
+  category: Joi.string().valid('RAW_MATERIAL', 'CONSUMABLE').optional(),
+  unit: Joi.string().optional(),
   min_qty: Joi.number().min(0).required(),
   current_qty: Joi.number().min(0).required(),
   is_active: Joi.boolean().optional(),
 });
 
 const updateSchema = Joi.object({
-  name: Joi.string().optional(),
+  material_id: Joi.string().guid({ version: ['uuidv4'] }).optional(),
+  name: Joi.string().optional().allow('', null),
   brand: Joi.string().optional().allow('', null),
   category: Joi.string().valid('RAW_MATERIAL', 'CONSUMABLE').optional(),
   type: Joi.string().valid('RESINA', 'FDM').optional(),
+  process: Joi.string().valid('RESINA', 'FDM').optional(),
   unit: Joi.string().optional(),
   min_qty: Joi.number().min(0).optional(),
   current_qty: Joi.number().min(0).optional(),
@@ -52,7 +54,11 @@ function ensureInventoryTypePermission(req, itemType) {
 async function list(req, res, next) {
   try {
     const filters = validate(listSchema, req.query);
-    const result = await inventoryItemsService.list(filters);
+    const normalizedFilters = {
+      ...filters,
+      process: filters.process || filters.type,
+    };
+    const result = await inventoryItemsService.list(normalizedFilters);
     res.status(200).json(result);
   } catch (err) {
     next(err);
@@ -79,9 +85,28 @@ async function create(req, res, next) {
   try {
     const userId = req.user.sub;
     const payload = validate(createSchema, req.body);
-    ensureInventoryTypePermission(req, payload.type || 'RESINA');
-    const result = await inventoryItemsService.create(payload);
-    await audit({ userId, entity: 'inventory_items', entityId: result.id, action: 'CREATE', data: { name: result.name, category: result.category, type: result.type } });
+    const material = await materialsService.getById(payload.material_id);
+    if (!material || !material.is_active) {
+      const error = new Error('Material not found');
+      error.statusCode = 404;
+      error.code = 'NOT_FOUND';
+      throw error;
+    }
+
+    ensureInventoryTypePermission(req, material.process);
+    const result = await inventoryItemsService.create({
+      ...payload,
+      material,
+      process: material.process,
+      type: material.process,
+    });
+    await audit({
+      userId,
+      entity: 'inventory_items',
+      entityId: result.id,
+      action: 'CREATE',
+      data: { material_id: result.material_id, process: result.process, category: result.category },
+    });
     res.status(201).json(result);
   } catch (err) {
     next(err);
@@ -100,8 +125,27 @@ async function update(req, res, next) {
       error.code = 'NOT_FOUND';
       throw error;
     }
-    ensureInventoryTypePermission(req, payload.type || currentItem.type || 'RESINA');
-    const result = await inventoryItemsService.update(id, payload);
+    const requestedMaterialId = payload.material_id || currentItem.material_id;
+    let material = null;
+
+    if (requestedMaterialId) {
+      material = await materialsService.getById(requestedMaterialId);
+      if (!material || !material.is_active) {
+        const error = new Error('Material not found');
+        error.statusCode = 404;
+        error.code = 'NOT_FOUND';
+        throw error;
+      }
+    }
+
+    const process = material?.process || payload.process || payload.type || currentItem.process || currentItem.type || 'RESINA';
+    ensureInventoryTypePermission(req, process);
+    const result = await inventoryItemsService.update(id, {
+      ...payload,
+      material,
+      process,
+      type: process,
+    });
     await audit({ userId, entity: 'inventory_items', entityId: id, action: 'UPDATE', data: payload });
     res.status(200).json(result);
   } catch (err) {

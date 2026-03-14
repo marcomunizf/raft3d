@@ -1,0 +1,201 @@
+[2m00:23:17[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\src\pages\Dashboard.jsx: Unexpected token, expected "," (2275:4)
+
+[0m [90m 2273 |[31m         })]
+ [90m 2274 |[31m       })
+[31m[1m>[22m[31m[90m 2275 |[31m     })]
+ [90m      |[31m     [31m[1m^[22m[31m
+ [90m 2276 |[31m   })[33m;[31m
+ [90m 2277 |[31m }
+ [90m 2278 |[31m [36mfunction[31m [33mXg[31m(e [33m=[31m []) {[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/specflow/frontend/src/pages/Dashboard.jsx[39m:2275:4
+[33m  2273|          })]
+  2274|        })
+  2275|      })]
+     |      ^
+  2276|    });
+  2277|  }[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at JSXParserMixin.unexpected (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:6619:16)
+      at JSXParserMixin.expect (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:6899:12)
+      at JSXParserMixin.parseExprList (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12141:14)
+      at JSXParserMixin.parseArrayLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12057:26)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11335:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12493:17)
+      at JSXParserMixin.parseObjectProperty (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11950:83)
+      at JSXParserMixin.parseObjPropValue (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11978:100)
+      at JSXParserMixin.parsePropertyDefinition (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11915:17)
+      at JSXParserMixin.parseObjectLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11832:21)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11339:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12493:17)
+      at JSXParserMixin.parseExprListItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12175:18)
+      at JSXParserMixin.parseCallExpressionArguments (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11252:22)
+      at JSXParserMixin.parseCoverCallAndAsyncArrowHead (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11186:29)
+      at JSXParserMixin.parseSubscript (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11120:19)
+      at JSXParserMixin.parseSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11094:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11085:17)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+[2m00:23:24[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\src\pages\Dashboard.jsx: Unexpected token, expected "," (2275:4)
+
+[0m [90m 2273 |[31m         })]
+ [90m 2274 |[31m       })
+[31m[1m>[22m[31m[90m 2275 |[31m     })]
+ [90m      |[31m     [31m[1m^[22m[31m
+ [90m 2276 |[31m   })[33m;[31m
+ [90m 2277 |[31m }
+ [90m 2278 |[31m [36mfunction[31m [33mXg[31m(e [33m=[31m []) {[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/specflow/frontend/src/pages/Dashboard.jsx[39m:2275:4
+[33m  2273|          })]
+  2274|        })
+  2275|      })]
+     |      ^
+  2276|    });
+  2277|  }[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at JSXParserMixin.unexpected (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:6619:16)
+      at JSXParserMixin.expect (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:6899:12)
+      at JSXParserMixin.parseExprList (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12141:14)
+      at JSXParserMixin.parseArrayLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12057:26)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11335:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12493:17)
+      at JSXParserMixin.parseObjectProperty (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11950:83)
+      at JSXParserMixin.parseObjPropValue (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11978:100)
+      at JSXParserMixin.parsePropertyDefinition (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11915:17)
+      at JSXParserMixin.parseObjectLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11832:21)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11339:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12493:17)
+      at JSXParserMixin.parseExprListItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12175:18)
+      at JSXParserMixin.parseCallExpressionArguments (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11252:22)
+      at JSXParserMixin.parseCoverCallAndAsyncArrowHead (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11186:29)
+      at JSXParserMixin.parseSubscript (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11120:19)
+      at JSXParserMixin.parseSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11094:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11085:17)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+[2m00:23:41[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\src\pages\Dashboard.jsx: Unexpected token, expected "," (2278:4)
+
+[0m [90m 2276 |[31m         })]
+ [90m 2277 |[31m       })
+[31m[1m>[22m[31m[90m 2278 |[31m     })]
+ [90m      |[31m     [31m[1m^[22m[31m
+ [90m 2279 |[31m   })[33m;[31m
+ [90m 2280 |[31m }
+ [90m 2281 |[31m [36mfunction[31m [33mXg[31m(e [33m=[31m []) {[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/specflow/frontend/src/pages/Dashboard.jsx[39m:2278:4
+[33m  2276|          })]
+  2277|        })
+  2278|      })]
+     |      ^
+  2279|    });
+  2280|  }[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at JSXParserMixin.unexpected (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:6619:16)
+      at JSXParserMixin.expect (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:6899:12)
+      at JSXParserMixin.parseExprList (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12141:14)
+      at JSXParserMixin.parseArrayLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12057:26)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11335:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12493:17)
+      at JSXParserMixin.parseObjectProperty (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11950:83)
+      at JSXParserMixin.parseObjPropValue (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11978:100)
+      at JSXParserMixin.parsePropertyDefinition (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11915:17)
+      at JSXParserMixin.parseObjectLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11832:21)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11339:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11081:23)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12493:17)
+      at JSXParserMixin.parseExprListItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12175:18)
+      at JSXParserMixin.parseCallExpressionArguments (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11252:22)
+      at JSXParserMixin.parseCoverCallAndAsyncArrowHead (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11186:29)
+      at JSXParserMixin.parseSubscript (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11120:19)
+      at JSXParserMixin.parseSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11094:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11085:17)
+      at JSXParserMixin.parseUpdate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10899:61)
+      at JSXParserMixin.parseExprOps (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10831:21)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:10800:39
+      at JSXParserMixin.allowInAnd (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\specflow\frontend\node_modules\@babel\parser\lib\index.js:12426:12)

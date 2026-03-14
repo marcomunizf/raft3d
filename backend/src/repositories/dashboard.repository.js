@@ -16,6 +16,7 @@ async function getSummary(filters) {
   const summaryResult = await db.query(
     "SELECT COALESCE(SUM(total), 0) AS total_sales_month, COUNT(*) AS sales_count_month, COALESCE(AVG(total), 0) AS average_ticket," +
     " COALESCE(SUM(CASE WHEN status IN ('APPROVED','IN_PRODUCTION','DONE','DELIVERED') THEN total ELSE 0 END), 0) AS active_sales_month," +
+    " COALESCE(AVG(CASE WHEN weight_grams IS NOT NULL AND weight_grams > 0 THEN weight_grams END), 0) AS average_weight_month," +
     " COALESCE(SUM(CASE WHEN payment_status = 'PAID' THEN total ELSE 0 END), 0) AS paid_sales_month" +
     " FROM sales WHERE date_trunc('month', sale_date::timestamp) = date_trunc('month', CURRENT_DATE::timestamp)" + whereType,
     values
@@ -46,6 +47,7 @@ async function getSummary(filters) {
     total_sales_month: Number(summary.total_sales_month),
     sales_count_month: Number(summary.sales_count_month),
     average_ticket: Number(summary.average_ticket),
+    average_weight_month: Number(summary.average_weight_month),
     active_sales_month: Number(summary.active_sales_month),
     paid_sales_month: Number(summary.paid_sales_month),
     payments_pending: Number(pendingResult.rows[0].payments_pending),
@@ -161,4 +163,66 @@ async function getMonthlyHistory(filters) {
   }));
 }
 
-module.exports = { dashboardRepository: { getSummary, getSalesSeries, getKanban, getMonthlyHistory } };
+async function getWeightPriceByMaterial(filters) {
+  const values = [];
+  const processCondition = filters && filters.type ? 'AND process = $1' : '';
+  const salesTypeCondition = filters && filters.type ? 'AND type = $1' : '';
+
+  if (filters && filters.type) values.push(filters.type);
+
+  const result = await db.query(
+    `WITH material_types AS (
+      SELECT DISTINCT
+        process AS type,
+        type AS material_type,
+        LOWER(TRIM(type)) AS material_type_key
+      FROM materials
+      WHERE is_active = true
+      ${processCondition}
+    ),
+    aggregated_sales AS (
+      SELECT
+        type,
+        LOWER(TRIM(material_type)) AS material_type_key,
+        AVG(total / NULLIF(weight_grams, 0)) FILTER (WHERE sale_date >= (CURRENT_DATE - INTERVAL '3 months')) AS avg_value_per_weight_3m,
+        AVG(total / NULLIF(weight_grams, 0)) FILTER (WHERE sale_date >= (CURRENT_DATE - INTERVAL '1 year')) AS avg_value_per_weight_1y
+      FROM sales
+      WHERE material_type IS NOT NULL
+        AND NULLIF(TRIM(material_type), '') IS NOT NULL
+        AND weight_grams IS NOT NULL
+        AND weight_grams > 0
+        AND total IS NOT NULL
+        AND sale_date >= (CURRENT_DATE - INTERVAL '1 year')
+        ${salesTypeCondition}
+      GROUP BY type, LOWER(TRIM(material_type))
+    )
+    SELECT
+      m.type,
+      m.material_type,
+      COALESCE(a.avg_value_per_weight_3m, 0) AS avg_value_per_weight_3m,
+      COALESCE(a.avg_value_per_weight_1y, 0) AS avg_value_per_weight_1y
+    FROM material_types m
+    LEFT JOIN aggregated_sales a
+      ON a.type = m.type
+      AND a.material_type_key = m.material_type_key
+    ORDER BY m.material_type ASC`,
+    values
+  );
+
+  return result.rows.map(r => ({
+    type: r.type,
+    material_type: r.material_type,
+    avg_value_per_weight_3m: Number(r.avg_value_per_weight_3m || 0),
+    avg_value_per_weight_1y: Number(r.avg_value_per_weight_1y || 0),
+  }));
+}
+
+module.exports = {
+  dashboardRepository: {
+    getSummary,
+    getSalesSeries,
+    getKanban,
+    getMonthlyHistory,
+    getWeightPriceByMaterial,
+  },
+};
