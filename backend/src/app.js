@@ -16,6 +16,7 @@ const { materialsRouter } = require('./routes/materials.routes');
 const { settingsRouter } = require('./routes/settings.routes');
 const { usersRouter } = require('./routes/users.routes');
 const { drawingsRouter } = require('./routes/drawings.routes');
+const { financeRouter } = require('./routes/finance.routes');
 const { requireAuth } = require('./middlewares/auth.middleware');
 const { errorHandler } = require('./middlewares/error-handler.middleware');
 
@@ -53,6 +54,7 @@ app.use('/api/materials', materialsRouter);
 app.use('/api/settings', settingsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/drawings', drawingsRouter);
+app.use('/api/finance', financeRouter);
 app.use(errorHandler);
 
 module.exports = { app };

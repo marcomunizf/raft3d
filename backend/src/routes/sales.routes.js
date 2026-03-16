@@ -12,5 +12,6 @@ router.patch('/:id/status', requireRole('ADMIN', 'FUNCIONARIO'), salesController
 router.post('/:id/cancel', requireRole('ADMIN', 'FUNCIONARIO'), salesController.cancel);
 router.get('/:id/payments', salesController.listPayments);
 router.post('/:id/payments', requireRole('ADMIN'), salesController.addPayment);
+router.patch('/:id/items/:itemId/status', requireRole('ADMIN', 'FUNCIONARIO'), salesController.updateItemStatus);
 
 module.exports = { salesRouter: router };

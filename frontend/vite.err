@@ -1,42 +1,31 @@
-[2m10:33:42[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Unexpected keyword 'const'. (250:2)
+[2m13:20:06[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Identifier 'Ic' has already been declared. (2808:2)
 
-[0m [90m 248 |[31m       }
- [90m 249 |[31m     }[33m,[31m
-[31m[1m>[22m[31m[90m 250 |[31m   [36mconst[31m [33mLn[31m [33m=[31m () [33m=>[31m {
- [90m     |[31m   [31m[1m^[22m[31m
- [90m 251 |[31m       wc([33mV[31m)[33m.[31mthen(u [33m=>[31m s(u))[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m,[31m [33mSc[31m([33mV[31m[33m,[31m [32m"day"[31m)[33m.[31mthen(u [33m=>[31m o(u))[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m,[31m [33mBr[31m()[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m;[31m
- [90m 252 |[31m     }[33m,[31m
- [90m 253 |[31m     [33mWl[31m [33m=[31m [36masync[31m () [33m=>[31m {[0m[39m
+[0m [90m 2806 |[31m     items[33m:[31m []
+ [90m 2807 |[31m   }[33m,[31m
+[31m[1m>[22m[31m[90m 2808 |[31m   [33mIc[31m [33m=[31m {
+ [90m      |[31m   [31m[1m^[22m[31m
+ [90m 2809 |[31m     type[33m:[31m [32m"PF"[31m[33m,[31m
+ [90m 2810 |[31m     name[33m:[31m [32m""[31m[33m,[31m
+ [90m 2811 |[31m     phone[33m:[31m [32m""[31m[33m,[31m[0m[39m
   Plugin: [35mvite:react-babel[39m
-  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:250:2
-[33m  248|        }
-  249|      },
-  250|    const Ln = () => {
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:2808:2
+[33m  2806|      items: []
+  2807|    },
+  2808|    Ic = {
      |    ^
-  251|        wc(V).then(u => s(u)).catch(() => {}), Sc(V, "day").then(u => o(u)).catch(() => {}), Br().catch(() => {});
-  252|      },[39m
+  2809|      type: "PF",
+  2810|      name: "",[39m
       at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:365:19)
       at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
-      at JSXParserMixin.checkReservedWord (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12224:12)
-      at JSXParserMixin.parseIdentifierName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12211:12)
-      at JSXParserMixin.parseIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12181:23)
-      at JSXParserMixin.parseBindingAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7356:17)
-      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13402:21)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13412:10)
       at JSXParserMixin.parseVar (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13383:12)
       at JSXParserMixin.parseVarStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13230:10)
       at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12851:23)
-      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
-      at JSXParserMixin.parseStatementListItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12747:17)
-      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:61)
-      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
-      at JSXParserMixin.parseBlock (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13297:10)
-      at JSXParserMixin.parseFunctionBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12100:24)
-      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12086:10)
-      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13445:12
-      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12403:14)
-      at JSXParserMixin.parseFunction (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13444:10)
-      at JSXParserMixin.parseFunctionStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13125:17)
-      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12791:21)
       at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
       at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
       at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
@@ -62,45 +51,34 @@
       at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:287:14)
       at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
       at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
-[2m10:33:42[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Unexpected keyword 'const'. (250:2)
+[2m13:20:12[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Identifier 'Ic' has already been declared. (2809:2)
 
-[0m [90m 248 |[31m       }
- [90m 249 |[31m     }[33m,[31m
-[31m[1m>[22m[31m[90m 250 |[31m   [36mconst[31m [33mLn[31m [33m=[31m () [33m=>[31m {
- [90m     |[31m   [31m[1m^[22m[31m
- [90m 251 |[31m       wc([33mV[31m)[33m.[31mthen(u [33m=>[31m s(u))[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m,[31m [33mSc[31m([33mV[31m[33m,[31m [32m"day"[31m)[33m.[31mthen(u [33m=>[31m o(u))[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m,[31m [33mBr[31m()[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m;[31m
- [90m 252 |[31m     }[33m,[31m
- [90m 253 |[31m     [33mWl[31m [33m=[31m [36masync[31m () [33m=>[31m {[0m[39m
+[0m [90m 2807 |[31m     items[33m:[31m []
+ [90m 2808 |[31m   }[33m,[31m
+[31m[1m>[22m[31m[90m 2809 |[31m   [33mIc[31m [33m=[31m {
+ [90m      |[31m   [31m[1m^[22m[31m
+ [90m 2810 |[31m     type[33m:[31m [32m"PF"[31m[33m,[31m
+ [90m 2811 |[31m     name[33m:[31m [32m""[31m[33m,[31m
+ [90m 2812 |[31m     phone[33m:[31m [32m""[31m[33m,[31m[0m[39m
   Plugin: [35mvite:react-babel[39m
-  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:250:2
-[33m  248|        }
-  249|      },
-  250|    const Ln = () => {
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:2809:2
+[33m  2807|      items: []
+  2808|    },
+  2809|    Ic = {
      |    ^
-  251|        wc(V).then(u => s(u)).catch(() => {}), Sc(V, "day").then(u => o(u)).catch(() => {}), Br().catch(() => {});
-  252|      },[39m
+  2810|      type: "PF",
+  2811|      name: "",[39m
       at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:365:19)
       at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
-      at JSXParserMixin.checkReservedWord (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12224:12)
-      at JSXParserMixin.parseIdentifierName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12211:12)
-      at JSXParserMixin.parseIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12181:23)
-      at JSXParserMixin.parseBindingAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7356:17)
-      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13402:21)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13412:10)
       at JSXParserMixin.parseVar (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13383:12)
       at JSXParserMixin.parseVarStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13230:10)
       at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12851:23)
-      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
-      at JSXParserMixin.parseStatementListItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12747:17)
-      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:61)
-      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
-      at JSXParserMixin.parseBlock (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13297:10)
-      at JSXParserMixin.parseFunctionBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12100:24)
-      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12086:10)
-      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13445:12
-      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12403:14)
-      at JSXParserMixin.parseFunction (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13444:10)
-      at JSXParserMixin.parseFunctionStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13125:17)
-      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12791:21)
       at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
       at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
       at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
@@ -126,45 +104,34 @@
       at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:287:14)
       at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
       at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
-[2m10:34:05[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Unexpected keyword 'const'. (250:2)
+[2m13:20:20[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Identifier 'Ic' has already been declared. (2809:2)
 
-[0m [90m 248 |[31m       }
- [90m 249 |[31m     }[33m,[31m
-[31m[1m>[22m[31m[90m 250 |[31m   [36mconst[31m [33mLn[31m [33m=[31m () [33m=>[31m {
- [90m     |[31m   [31m[1m^[22m[31m
- [90m 251 |[31m       wc([33mV[31m)[33m.[31mthen(u [33m=>[31m s(u))[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m,[31m [33mSc[31m([33mV[31m[33m,[31m [32m"day"[31m)[33m.[31mthen(u [33m=>[31m o(u))[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m,[31m [33mBr[31m()[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m;[31m
- [90m 252 |[31m     }[33m,[31m
- [90m 253 |[31m     [33mWl[31m [33m=[31m [36masync[31m () [33m=>[31m {[0m[39m
+[0m [90m 2807 |[31m     items[33m:[31m []
+ [90m 2808 |[31m   }[33m,[31m
+[31m[1m>[22m[31m[90m 2809 |[31m   [33mIc[31m [33m=[31m {
+ [90m      |[31m   [31m[1m^[22m[31m
+ [90m 2810 |[31m     type[33m:[31m [32m"PF"[31m[33m,[31m
+ [90m 2811 |[31m     name[33m:[31m [32m""[31m[33m,[31m
+ [90m 2812 |[31m     phone[33m:[31m [32m""[31m[33m,[31m[0m[39m
   Plugin: [35mvite:react-babel[39m
-  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:250:2
-[33m  248|        }
-  249|      },
-  250|    const Ln = () => {
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:2809:2
+[33m  2807|      items: []
+  2808|    },
+  2809|    Ic = {
      |    ^
-  251|        wc(V).then(u => s(u)).catch(() => {}), Sc(V, "day").then(u => o(u)).catch(() => {}), Br().catch(() => {});
-  252|      },[39m
+  2810|      type: "PF",
+  2811|      name: "",[39m
       at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:365:19)
       at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
-      at JSXParserMixin.checkReservedWord (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12224:12)
-      at JSXParserMixin.parseIdentifierName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12211:12)
-      at JSXParserMixin.parseIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12181:23)
-      at JSXParserMixin.parseBindingAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7356:17)
-      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13402:21)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13412:10)
       at JSXParserMixin.parseVar (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13383:12)
       at JSXParserMixin.parseVarStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13230:10)
       at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12851:23)
-      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
-      at JSXParserMixin.parseStatementListItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12747:17)
-      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:61)
-      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
-      at JSXParserMixin.parseBlock (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13297:10)
-      at JSXParserMixin.parseFunctionBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12100:24)
-      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12086:10)
-      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13445:12
-      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12403:14)
-      at JSXParserMixin.parseFunction (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13444:10)
-      at JSXParserMixin.parseFunctionStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13125:17)
-      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12791:21)
       at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
       at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
       at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
@@ -190,45 +157,34 @@
       at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:287:14)
       at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
       at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
-[2m10:34:05[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Unexpected keyword 'const'. (250:2)
+[2m13:20:30[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Identifier 'Ic' has already been declared. (2809:2)
 
-[0m [90m 248 |[31m       }
- [90m 249 |[31m     }[33m,[31m
-[31m[1m>[22m[31m[90m 250 |[31m   [36mconst[31m [33mLn[31m [33m=[31m () [33m=>[31m {
- [90m     |[31m   [31m[1m^[22m[31m
- [90m 251 |[31m       wc([33mV[31m)[33m.[31mthen(u [33m=>[31m s(u))[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m,[31m [33mSc[31m([33mV[31m[33m,[31m [32m"day"[31m)[33m.[31mthen(u [33m=>[31m o(u))[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m,[31m [33mBr[31m()[33m.[31m[36mcatch[31m(() [33m=>[31m {})[33m;[31m
- [90m 252 |[31m     }[33m,[31m
- [90m 253 |[31m     [33mWl[31m [33m=[31m [36masync[31m () [33m=>[31m {[0m[39m
+[0m [90m 2807 |[31m     items[33m:[31m []
+ [90m 2808 |[31m   }[33m,[31m
+[31m[1m>[22m[31m[90m 2809 |[31m   [33mIc[31m [33m=[31m {
+ [90m      |[31m   [31m[1m^[22m[31m
+ [90m 2810 |[31m     type[33m:[31m [32m"PF"[31m[33m,[31m
+ [90m 2811 |[31m     name[33m:[31m [32m""[31m[33m,[31m
+ [90m 2812 |[31m     phone[33m:[31m [32m""[31m[33m,[31m[0m[39m
   Plugin: [35mvite:react-babel[39m
-  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:250:2
-[33m  248|        }
-  249|      },
-  250|    const Ln = () => {
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:2809:2
+[33m  2807|      items: []
+  2808|    },
+  2809|    Ic = {
      |    ^
-  251|        wc(V).then(u => s(u)).catch(() => {}), Sc(V, "day").then(u => o(u)).catch(() => {}), Br().catch(() => {});
-  252|      },[39m
+  2810|      type: "PF",
+  2811|      name: "",[39m
       at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:365:19)
       at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
-      at JSXParserMixin.checkReservedWord (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12224:12)
-      at JSXParserMixin.parseIdentifierName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12211:12)
-      at JSXParserMixin.parseIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12181:23)
-      at JSXParserMixin.parseBindingAtom (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7356:17)
-      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13402:21)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13412:10)
       at JSXParserMixin.parseVar (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13383:12)
       at JSXParserMixin.parseVarStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13230:10)
       at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12851:23)
-      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
-      at JSXParserMixin.parseStatementListItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12747:17)
-      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:61)
-      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
-      at JSXParserMixin.parseBlock (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13297:10)
-      at JSXParserMixin.parseFunctionBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12100:24)
-      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12086:10)
-      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13445:12
-      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12403:14)
-      at JSXParserMixin.parseFunction (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13444:10)
-      at JSXParserMixin.parseFunctionStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13125:17)
-      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12791:21)
       at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
       at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
       at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
@@ -254,3 +210,269 @@
       at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:287:14)
       at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
       at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+[2m13:20:48[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Identifier 'Ic' has already been declared. (2862:2)
+
+[0m [90m 2860 |[31m     items[33m:[31m []
+ [90m 2861 |[31m   }[33m,[31m
+[31m[1m>[22m[31m[90m 2862 |[31m   [33mIc[31m [33m=[31m {
+ [90m      |[31m   [31m[1m^[22m[31m
+ [90m 2863 |[31m     type[33m:[31m [32m"PF"[31m[33m,[31m
+ [90m 2864 |[31m     name[33m:[31m [32m""[31m[33m,[31m
+ [90m 2865 |[31m     phone[33m:[31m [32m""[31m[33m,[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:2862:2
+[33m  2860|      items: []
+  2861|    },
+  2862|    Ic = {
+     |    ^
+  2863|      type: "PF",
+  2864|      name: "",[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13412:10)
+      at JSXParserMixin.parseVar (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13383:12)
+      at JSXParserMixin.parseVarStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13230:10)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12851:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+[2m13:21:17[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Identifier 'Ic' has already been declared. (2980:2)
+
+[0m [90m 2978 |[31m     items[33m:[31m []
+ [90m 2979 |[31m   }[33m,[31m
+[31m[1m>[22m[31m[90m 2980 |[31m   [33mIc[31m [33m=[31m {
+ [90m      |[31m   [31m[1m^[22m[31m
+ [90m 2981 |[31m     type[33m:[31m [32m"PF"[31m[33m,[31m
+ [90m 2982 |[31m     name[33m:[31m [32m""[31m[33m,[31m
+ [90m 2983 |[31m     phone[33m:[31m [32m""[31m[33m,[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:2980:2
+[33m  2978|      items: []
+  2979|    },
+  2980|    Ic = {
+     |    ^
+  2981|      type: "PF",
+  2982|      name: "",[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13412:10)
+      at JSXParserMixin.parseVar (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13383:12)
+      at JSXParserMixin.parseVarStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13230:10)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12851:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+[2m13:21:26[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Identifier 'Ic' has already been declared. (2984:2)
+
+[0m [90m 2982 |[31m     items[33m:[31m []
+ [90m 2983 |[31m   }[33m,[31m
+[31m[1m>[22m[31m[90m 2984 |[31m   [33mIc[31m [33m=[31m {
+ [90m      |[31m   [31m[1m^[22m[31m
+ [90m 2985 |[31m     type[33m:[31m [32m"PF"[31m[33m,[31m
+ [90m 2986 |[31m     name[33m:[31m [32m""[31m[33m,[31m
+ [90m 2987 |[31m     phone[33m:[31m [32m""[31m[33m,[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:2984:2
+[33m  2982|      items: []
+  2983|    },
+  2984|    Ic = {
+     |    ^
+  2985|      type: "PF",
+  2986|      name: "",[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13412:10)
+      at JSXParserMixin.parseVar (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13383:12)
+      at JSXParserMixin.parseVarStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13230:10)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12851:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+[2m13:22:06[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Identifier 'Ic' has already been declared. (2998:2)
+
+[0m [90m 2996 |[31m     items[33m:[31m []
+ [90m 2997 |[31m   }[33m,[31m
+[31m[1m>[22m[31m[90m 2998 |[31m   [33mIc[31m [33m=[31m {
+ [90m      |[31m   [31m[1m^[22m[31m
+ [90m 2999 |[31m     type[33m:[31m [32m"PF"[31m[33m,[31m
+ [90m 3000 |[31m     name[33m:[31m [32m""[31m[33m,[31m
+ [90m 3001 |[31m     phone[33m:[31m [32m""[31m[33m,[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:2998:2
+[33m  2996|      items: []
+  2997|    },
+  2998|    Ic = {
+     |    ^
+  2999|      type: "PF",
+  3000|      name: "",[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13412:10)
+      at JSXParserMixin.parseVar (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13383:12)
+      at JSXParserMixin.parseVarStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13230:10)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12851:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+[2m13:22:20[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\src\pages\Dashboard.jsx: Identifier 'Ic' has already been declared. (3055:2)
+
+[0m [90m 3053 |[31m     items[33m:[31m []
+ [90m 3054 |[31m   }[33m,[31m
+[31m[1m>[22m[31m[90m 3055 |[31m   [33mIc[31m [33m=[31m {
+ [90m      |[31m   [31m[1m^[22m[31m
+ [90m 3056 |[31m     type[33m:[31m [32m"PF"[31m[33m,[31m
+ [90m 3057 |[31m     name[33m:[31m [32m""[31m[33m,[31m
+ [90m 3058 |[31m     phone[33m:[31m [32m""[31m[33m,[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/marco/OneDrive/Área de Trabalho/raft3d/frontend/src/pages/Dashboard.jsx[39m:3055:2
+[33m  3053|      items: []
+  3054|    },
+  3055|    Ic = {
+     |    ^
+  3056|      type: "PF",
+  3057|      name: "",[39m
+      at constructor (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:6599:19)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13412:10)
+      at JSXParserMixin.parseVar (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13383:12)
+      at JSXParserMixin.parseVarStatement (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13230:10)
+      at JSXParserMixin.parseStatementContent (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12851:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\marco\OneDrive\Área de Trabalho\raft3d\frontend\node_modules\gensync\index.js:223:11)
+^C^C

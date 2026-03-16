@@ -22,6 +22,11 @@ export async function updateSaleStatus(saleId, payload) {
   await api.patch(`/sales/${saleId}/status`, payload);
 }
 
+export async function updateSaleItemStatus(saleId, itemId, payload) {
+  const response = await api.patch(`/sales/${saleId}/items/${itemId}/status`, payload);
+  return response.data;
+}
+
 export async function cancelSale(saleId, senha) {
   await api.post(`/sales/${saleId}/cancel`, { senha });
 }

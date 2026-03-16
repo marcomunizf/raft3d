@@ -6,7 +6,8 @@ export function todayIsoDate() {
   return `${y}-${m}-${d}`;
 }
 
-export function getSlaVariant(dueDate, status) {
+export function getSlaVariant(dueDate, status, customerNotified = false) {
+  if (status === 'DONE' && customerNotified) return 'sla-green';
   if (!dueDate || status === 'DELIVERED' || status === 'CANCELLED') return 'sla-green';
 
   const now = new Date();

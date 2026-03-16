@@ -5,12 +5,14 @@ import SalesPage from './SalesPage.jsx';
 import CustomersPage from './CustomersPage.jsx';
 import InventoryPage from './InventoryPage.jsx';
 import MaterialsPage from './MaterialsPage.jsx';
+import FinancePage from './FinancePage.jsx';
+import NewSalePage from './NewSalePage.jsx';
 import AdminTypeSidebar from '../components/dashboard/AdminTypeSidebar.jsx';
 import { fetchDashboardSummary, fetchSalesSeries, fetchWeightPriceByMaterial } from '../domains/dashboard/dashboard.service.js';
 import { fetchDrawings } from '../domains/drawings/drawings.service.js';
 import { getDashboardSlaVariant, DASHBOARD_SLA_LABEL } from '../domains/dashboard/dashboard.ui.js';
-import { createSale, fetchSaleDetails, fetchSales, updateSale, updateSaleStatus } from '../domains/sales/sales.service.js';
-import { createEmptySaleForm } from '../domains/sales/sales.forms.js';
+import { createSale, fetchSaleDetails, fetchSales, updateSale, updateSaleStatus, updateSaleItemStatus } from '../domains/sales/sales.service.js';
+import { createEmptySaleForm, createEmptySaleItem } from '../domains/sales/sales.forms.js';
 import { SALE_STATUSES, PAYMENT_STATUSES, STATUS_LABELS, PAYMENT_STATUS_LABELS, PAYMENT_METHOD_LABELS } from '../domains/sales/sales.constants.js';
 import { createCustomer, fetchCustomers, fetchCustomerSales, updateCustomer } from '../domains/customers/customers.service.js';
 import { createEmptyCustomerForm } from '../domains/customers/customers.forms.js';
@@ -50,6 +52,7 @@ const jp = fetchSaleDetails;
 const wp = createSale;
 const Fg = updateSale;
 const $o = updateSaleStatus;
+const Xo = updateSaleItemStatus;
 const sr = fetchCustomers;
 const Sp = createCustomer;
 const Np = updateCustomer;
@@ -65,6 +68,7 @@ const qg = deactivateUser;
 const _p = updateUserPassword;
 const kp = getTokenUserId;
 const Dp = fetchDrawings;
+const QeItem = createEmptySaleItem;
 const SALES_KANBAN_STAGES = [{
   key: "BUDGET",
   label: "Orcamento"
@@ -157,6 +161,7 @@ function Yg({
     [_e, ht] = T.useState(null),
     [mt, pn] = T.useState(null),
     [ke, ue] = T.useState(_c),
+    [Ui, setUi] = T.useState(QeItem),
     [Ye, Ve] = T.useState(kc),
     [Xe, _t] = T.useState(Rc),
     qt = T.useRef(null),
@@ -183,7 +188,7 @@ function Yg({
       "new-sale": () => (ue({
         ..._c,
         type: V
-      }), Promise.resolve()),
+      }), setUi(QeItem), Promise.resolve()),
       "new-customer": () => (Ve(kc), Promise.resolve()),
       "new-item": () => (_t({
         ...Rc,
@@ -358,7 +363,7 @@ function Yg({
     },
     De = u => n(u),
     kt = () => {
-      n(null), lt(null), ee(null), z(null), On(null), ht(null), at(null), oe(null), Fe(null), pn(null), G([]);
+      n(null), lt(null), ee(null), z(null), On(null), ht(null), at(null), oe(null), Fe(null), pn(null), G([]), setUi(QeItem);
     },
     Zl = (() => {
       if (!a.length) return [0, 0, 0, 0, 0, 0, 0];
@@ -366,17 +371,73 @@ function Yg({
         g = Math.max(...u.map(L => Number(L.total)));
       return u.map(L => g > 0 ? Math.round(Number(L.total) / g * 100) : 0);
     })(),
+    tc = u => {
+      const g = (u || []).reduce((L, te) => L + (Number(te.line_total) || 0), 0);
+      return {
+        subtotal: g,
+        total: g
+      };
+    },
+    ac = () => {
+      const u = Number(Ui.line_total || 0);
+      if (!(Ui.description || "").trim() || !(u > 0)) {
+        C("Preencha nome do arquivo e valor do item.");
+        return;
+      }
+      const g = {
+        description: Ui.description,
+        qty: 1,
+        unit_price: u,
+        line_total: u,
+        item_type: Ui.item_type || "",
+        item_color: Ui.item_color || "",
+        weight_grams: Ui.weight_grams === "" ? null : Number(Ui.weight_grams),
+        print_time_hours: Ui.print_time_hours === "" ? null : Number(Ui.print_time_hours),
+        is_done: !1
+      };
+      ue(L => {
+        const te = [...(L.items || []), g];
+        const Wi = tc(te);
+        return {
+          ...L,
+          items: te,
+          subtotal: String(Wi.subtotal),
+          total: String(Wi.total)
+        };
+      }), setUi(QeItem), C("");
+    },
+    oc = u => {
+      if (!["BUDGET", "APPROVED"].includes(ke.status || "BUDGET")) {
+        C("Itens so podem ser removidos antes da producao.");
+        return;
+      }
+      ue(g => {
+        const L = (g.items || []).filter((te, Wi) => Wi !== u);
+        const te = tc(L);
+        return {
+          ...g,
+          items: L,
+          subtotal: String(te.subtotal),
+          total: String(te.total)
+        };
+      });
+    },
     ea = async () => {
       var u, g;
       C("");
       try {
-        const L = Number(ke.subtotal) || Number(ke.total) || 0,
-          te = Number(ke.total) || L;
+        if (!Array.isArray(ke.items) || ke.items.length === 0) {
+          C("Adicione pelo menos um item na venda.");
+          return;
+        }
+        const L = tc(ke.items || []),
+          te = Number(ke.items && ke.items.length ? L.subtotal : (Number(ke.subtotal) || Number(ke.total) || 0)),
+          Wi = Number(ke.items && ke.items.length ? L.total : (Number(ke.total) || te));
         await wp({
           ...ke,
-          subtotal: L,
+          subtotal: te,
           discount_total: Number(ke.discount_total) || 0,
-          total: te,
+          total: Wi,
           due_date: ke.due_date || null,
           customer_name_snapshot: ke.customer_name_snapshot || "Venda generica"
         }), Ln(), kt();
@@ -593,7 +654,7 @@ function Yg({
               })]
             }), l.jsx("button", {
               className: "btn btn-primary",
-              onClick: () => De("new-sale"),
+              onClick: () => setPg("new-sale"),
               type: "button",
               children: "+ Nova venda"
             })]
@@ -808,18 +869,136 @@ function Yg({
               }))
             })]
           }), l.jsxs("label", {
-            children: ["Valor total (R$)", l.jsx("input", {
+            style: {
+              gridColumn: "1 / -1"
+            },
+            children: ["Nome do arquivo", l.jsx("input", {
+              type: "text",
+              value: Ui.description,
+              onChange: u => setUi(g => ({
+                ...g,
+                description: u.target.value
+              })),
+              placeholder: "Ex: peca_tampa.stl"
+            })]
+          }), l.jsxs("label", {
+            children: ["Tipo do item", l.jsx("input", {
+              type: "text",
+              value: Ui.item_type,
+              onChange: u => setUi(g => ({
+                ...g,
+                item_type: u.target.value
+              })),
+              placeholder: "Ex: ABS / Resina"
+            })]
+          }), l.jsxs("label", {
+            children: ["Cor", l.jsx("input", {
+              type: "text",
+              value: Ui.item_color,
+              onChange: u => setUi(g => ({
+                ...g,
+                item_color: u.target.value
+              })),
+              placeholder: "Ex: Preto"
+            })]
+          }), l.jsxs("label", {
+            children: ["Peso (em gramas)", l.jsx("input", {
+              type: "number",
+              min: "0",
+              step: "0.001",
+              value: Ui.weight_grams,
+              onChange: u => setUi(g => ({
+                ...g,
+                weight_grams: u.target.value
+              }))
+            })]
+          }), l.jsxs("label", {
+            children: ["Tempo de impressao (horas)", l.jsx("input", {
+              type: "number",
+              min: "0",
+              step: "0.01",
+              value: Ui.print_time_hours,
+              onChange: u => setUi(g => ({
+                ...g,
+                print_time_hours: u.target.value
+              }))
+            })]
+          }), l.jsxs("label", {
+            children: ["Valor (R$)", l.jsx("input", {
               type: "number",
               min: "0",
               step: "0.01",
               placeholder: "0,00",
-              required: !0,
-              value: ke.total,
-              onChange: u => ue(g => ({
+              value: Ui.line_total,
+              onChange: u => setUi(g => ({
                 ...g,
-                total: u.target.value,
-                subtotal: u.target.value
+                line_total: u.target.value
               }))
+            })]
+          }), l.jsx("div", {
+            className: "modal-actions",
+            children: l.jsx("button", {
+              className: "btn btn-outline",
+              type: "button",
+              onClick: ac,
+              children: "+ criar"
+            })
+          }), (ke.items || []).length > 0 && l.jsxs("div", {
+            style: {
+              gridColumn: "1 / -1"
+            },
+            children: [l.jsx("h4", {
+              children: "Lista de itens"
+            }), l.jsxs("table", {
+              className: "data-table",
+              children: [l.jsx("thead", {
+                children: l.jsxs("tr", {
+                  children: [l.jsx("th", {
+                    children: "Arquivo"
+                  }), l.jsx("th", {
+                    children: "Tipo"
+                  }), l.jsx("th", {
+                    children: "Cor"
+                  }), l.jsx("th", {
+                    children: "Peso"
+                  }), l.jsx("th", {
+                    children: "Tempo"
+                  }), l.jsx("th", {
+                    children: "Valor"
+                  }), l.jsx("th", {
+                    children: "Acao"
+                  })]
+                })
+              }), l.jsx("tbody", {
+                children: (ke.items || []).map((u, g) => l.jsxs("tr", {
+                  children: [l.jsx("td", {
+                    children: u.description
+                  }), l.jsx("td", {
+                    children: u.item_type || "-"
+                  }), l.jsx("td", {
+                    children: u.item_color || "-"
+                  }), l.jsx("td", {
+                    children: u.weight_grams != null ? u.weight_grams : "-"
+                  }), l.jsx("td", {
+                    children: u.print_time_hours != null ? u.print_time_hours : "-"
+                  }), l.jsx("td", {
+                    children: gt(u.line_total || 0)
+                  }), l.jsx("td", {
+                    children: l.jsx("button", {
+                      className: "btn btn-ghost btn--xs",
+                      type: "button",
+                      onClick: () => oc(g),
+                      children: "Excluir"
+                    })
+                  })]
+                }, `new-item-${g}`))
+              })]
+            })]
+          }), l.jsxs("label", {
+            children: ["Valor total (R$)", l.jsx("input", {
+              type: "text",
+              readOnly: !0,
+              value: gt(Number(ke.total || 0))
             })]
           }), l.jsxs("label", {
             children: ["Tipo", l.jsxs("select", {
@@ -1149,6 +1328,63 @@ function Yg({
             }), l.jsxs("p", {
               className: "muted",
               children: ["Observacoes: ", X.notes || "-"]
+            })]
+          }), l.jsxs("div", {
+            style: {
+              marginTop: "16px"
+            },
+            children: [l.jsx("h4", {
+              children: "Itens do pedido"
+            }), !(X.items || []).length ? l.jsx("p", {
+              className: "muted",
+              children: "Nenhum item cadastrado."
+            }) : l.jsxs("table", {
+              className: "data-table",
+              children: [l.jsx("thead", {
+                children: l.jsxs("tr", {
+                  children: [l.jsx("th", {
+                    children: "Feito"
+                  }), l.jsx("th", {
+                    children: "Arquivo"
+                  }), l.jsx("th", {
+                    children: "Tipo"
+                  }), l.jsx("th", {
+                    children: "Cor"
+                  }), l.jsx("th", {
+                    children: "Peso"
+                  }), l.jsx("th", {
+                    children: "Tempo"
+                  }), l.jsx("th", {
+                    children: "Valor"
+                  })]
+                })
+              }), l.jsx("tbody", {
+                children: (X.items || []).map(u => l.jsxs("tr", {
+                  children: [l.jsx("td", {
+                    children: l.jsx("input", {
+                      type: "checkbox",
+                      checked: !!u.is_done,
+                      onChange: () => ia(X.id, u.id),
+                      style: {
+                        width: "16px",
+                        height: "16px"
+                      }
+                    })
+                  }), l.jsx("td", {
+                    children: u.description || "-"
+                  }), l.jsx("td", {
+                    children: u.item_type || "-"
+                  }), l.jsx("td", {
+                    children: u.item_color || "-"
+                  }), l.jsx("td", {
+                    children: u.weight_grams != null ? u.weight_grams : "-"
+                  }), l.jsx("td", {
+                    children: u.print_time_hours != null ? u.print_time_hours : "-"
+                  }), l.jsx("td", {
+                    children: gt(u.line_total || 0)
+                  })]
+                }, u.id))
+              })]
             })]
           }), l.jsx("div", {
             className: "modal-actions",
@@ -2145,6 +2381,20 @@ function Yg({
         O(!1);
       }
     },
+    ia = async (u, g) => {
+      var L, te;
+      try {
+        const Wi = await Xo(u, g, {
+          is_done: !((X == null ? void 0 : X.items) || []).find(Qi => Qi.id === g)?.is_done
+        });
+        On(Qi => Qi ? {
+          ...Qi,
+          items: (Qi.items || []).map(Ki => Ki.id === g ? Wi : Ki)
+        } : Qi);
+      } catch (Wi) {
+        C(((te = (L = Wi == null ? void 0 : Wi.response) == null ? void 0 : L.data) == null ? void 0 : te.message) || "Erro ao atualizar item.");
+      }
+    },
     d = {
       sales: "Vendas",
       "new-sale": "Nova venda",
@@ -2230,9 +2480,11 @@ function Yg({
       return Object.values(L).sort((te, Wi) => Wi.total - te.total || te.name.localeCompare(Wi.name));
     })();
   if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: V, processType: isDrawingSection ? "DRAWING" : V });
+  if (pg === 'new-sale') return T.createElement(NewSalePage, { onBack: () => setPg(null), onSaved: Ln, defaultType: V, processType: isDrawingSection ? "DRAWING" : V, availableTypes: ['RESINA', 'FDM'] });
   if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null), processType: isDrawingSection ? "DRAWING" : V });
   if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: V, processType: isDrawingSection ? "DRAWING" : V, onOpenMaterials: () => setPg('materials') });
   if (pg === 'materials') return T.createElement(MaterialsPage, { onBack: () => setPg('inventory'), defaultType: V, processType: isDrawingSection ? "DRAWING" : V });
+  if (pg === 'finance') return T.createElement(FinancePage, { onBack: () => setPg(null), processType: isDrawingSection ? "DRAWING" : V });
   return l.jsxs("div", {
     className: "dashboard-layout",
     children: [l.jsx(AdminTypeSidebar, {
@@ -2277,7 +2529,7 @@ function Yg({
             children: [l.jsx("button", {
             className: "btn btn-outline",
             type: "button",
-            onClick: () => isDrawingSection ? Fr("desenho", "ORCAMENTO") : De("new-sale"),
+            onClick: () => isDrawingSection ? Fr("desenho", "ORCAMENTO") : setPg("new-sale"),
             children: isDrawingSection ? "+ Orcamento" : "+ Vendas"
           }), l.jsx("button", {
             className: "btn btn-outline",
@@ -2294,6 +2546,11 @@ function Yg({
             type: "button",
             onClick: () => setPg("sales"),
             children: "Todos os pedidos"
+          }), l.jsx("button", {
+            className: "btn btn-outline",
+            type: "button",
+            onClick: () => setPg("finance"),
+            children: "Financeiro"
           }), l.jsxs("div", {
             className: "user-menu",
             ref: we,
@@ -2521,6 +2778,27 @@ function Yg({
               className: "muted",
               children: "em aberto"
             })]
+          }), l.jsxs("div", {
+            className: "kpi-card",
+            role: "button",
+            tabIndex: 0,
+            onClick: () => setPg("finance"),
+            onKeyDown: u => {
+              (u.key === "Enter" || u.key === " ") && (u.preventDefault(), setPg("finance"));
+            },
+            style: {
+              cursor: "pointer"
+            },
+            children: [l.jsx("p", {
+              className: "kpi-label",
+              children: "Financeiro"
+            }), l.jsx("h2", {
+              className: "kpi-value",
+              children: r ? gt(r.finance_net_month || 0) : "-"
+            }), l.jsx("span", {
+              className: "muted",
+              children: r ? `receita ${gt(r.finance_revenue_month || 0)} | atraso ${gt(r.finance_overdue_receivable || 0)}` : "lucro liquido do mes"
+            })]
           })]
         }), l.jsxs("section", {
           className: "dashboard-grid",
@@ -2662,6 +2940,7 @@ function Yg({
         }), t && l.jsx(Yf, {
           title: d[t] || "",
           onClose: kt,
+          closeOnBackdrop: t !== "new-sale",
           children: aa()
         })]
       })

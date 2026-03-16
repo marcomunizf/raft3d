@@ -41,7 +41,18 @@ async function getSummary(filters) {
     values
   );
 
+  const financeMonthResult = await db.query(
+    "SELECT" +
+    " COALESCE(SUM(CASE WHEN entry_type = 'INCOME' AND status != 'CANCELLED' THEN amount ELSE 0 END), 0) AS finance_revenue_month," +
+    " COALESCE(SUM(CASE WHEN entry_type = 'EXPENSE' AND status != 'CANCELLED' THEN amount ELSE 0 END), 0) AS finance_expense_month," +
+    " COALESCE(SUM(CASE WHEN entry_type = 'INCOME' AND status = 'PENDING' AND due_date IS NOT NULL AND due_date < CURRENT_DATE THEN amount ELSE 0 END), 0) AS finance_overdue_receivable" +
+    " FROM financial_entries WHERE date_trunc('month', entry_date::timestamp) = date_trunc('month', CURRENT_DATE::timestamp)" +
+    (whereType ? whereType.replace(/type = /g, 'process_type = ') : ''),
+    values
+  );
+
   const summary = summaryResult.rows[0];
+  const finance = financeMonthResult.rows[0] || {};
 
   return {
     total_sales_month: Number(summary.total_sales_month),
@@ -54,6 +65,10 @@ async function getSummary(filters) {
     low_stock_count: Number(lowStockResult.rows[0].low_stock_count),
     in_production_count: Number(inProductionResult.rows[0].in_production_count),
     received_month: Number(receivedResult.rows[0].received_month),
+    finance_revenue_month: Number(finance.finance_revenue_month || 0),
+    finance_expense_month: Number(finance.finance_expense_month || 0),
+    finance_net_month: Number(finance.finance_revenue_month || 0) - Number(finance.finance_expense_month || 0),
+    finance_overdue_receivable: Number(finance.finance_overdue_receivable || 0),
   };
 }
 
@@ -118,6 +133,7 @@ async function getKanban(filters) {
       s.delivered_at,
       s.status,
       s.type,
+      s.customer_notified,
       si.description AS file_name
     FROM sales s
     LEFT JOIN LATERAL (

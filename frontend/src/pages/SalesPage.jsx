@@ -133,6 +133,7 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
         status: details.status,
         payment_status: details.payment_status,
         payment_method: details.payment_method || '',
+        customer_notified: Boolean(details.customer_notified),
       });
     } catch (err) {
       setModalError(err?.response?.data?.message || 'Erro ao carregar detalhes do pedido.');
@@ -149,8 +150,10 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
         const eventText =
           h.kind === 'PAYMENT'
             ? PAYMENT_STATUS_LABELS[h.payment_status] || h.payment_status
+            : h.kind === 'NOTICE'
+              ? `Cliente avisado: ${h.customer_notified ? 'Sim' : 'Nao'}`
             : STATUS_LABELS[h.status] || h.status;
-        return `<tr><td>${new Date(h.created_at).toLocaleString('pt-BR')}</td><td>${h.kind === 'PAYMENT' ? 'Pagamento' : 'Status'}</td><td>${eventText}</td><td>${h.username || 'usuario'}</td></tr>`;
+        return `<tr><td>${new Date(h.created_at).toLocaleString('pt-BR')}</td><td>${h.kind === 'PAYMENT' ? 'Pagamento' : h.kind === 'NOTICE' ? 'Aviso' : 'Status'}</td><td>${eventText}</td><td>${h.username || 'usuario'}</td></tr>`;
       })
       .join('');
     const itemRows = (sale.items || [])
@@ -229,6 +232,7 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
         status: details.status,
         payment_status: details.payment_status,
         payment_method: details.payment_method || '',
+        customer_notified: Boolean(details.customer_notified),
       });
       loadSales(buildServerParams(filters));
     } catch (err) {
@@ -423,7 +427,7 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
                 </tr>
               ) : (
                 displayedSales.map(sale => {
-                  const sla = getDashboardSlaVariant(sale.due_date, sale.status);
+                  const sla = getDashboardSlaVariant(sale.due_date, sale.status, sale.customer_notified);
                   return (
                     <tr
                       key={sale.id}
@@ -564,6 +568,15 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
                       ))}
                     </select>
                   </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '26px' }}>
+                    <input
+                      type="checkbox"
+                      checked={!!(editForm?.customer_notified ?? selectedSale.customer_notified)}
+                      disabled={(editForm?.status || selectedSale.status) !== 'DONE' || (selectedSale.status === 'DELIVERED' && selectedSale.payment_status === 'PAID')}
+                      onChange={e => setEditForm(prev => ({ ...(prev || {}), customer_notified: e.target.checked }))}
+                    />
+                    Cliente avisado
+                  </label>
 
                   {selectedSale.status === 'DELIVERED' && selectedSale.payment_status === 'PAID' && (
                     <div className="form-error" style={{ gridColumn: '1 / -1' }}>
@@ -663,10 +676,12 @@ export default function SalesPage({ onBack, defaultType = '', availableTypes = [
                       {selectedSale.status_history.map((h, idx) => (
                         <tr key={`${h.created_at}-${idx}`}>
                           <td>{new Date(h.created_at).toLocaleString('pt-BR')}</td>
-                          <td>{h.kind === 'PAYMENT' ? 'Pagamento' : 'Status'}</td>
+                          <td>{h.kind === 'PAYMENT' ? 'Pagamento' : h.kind === 'NOTICE' ? 'Aviso' : 'Status'}</td>
                           <td>
                             {h.kind === 'PAYMENT'
                               ? PAYMENT_STATUS_LABELS[h.payment_status] || h.payment_status
+                              : h.kind === 'NOTICE'
+                                ? `Cliente avisado: ${h.customer_notified ? 'Sim' : 'Nao'}`
                               : STATUS_LABELS[h.status] || h.status}
                           </td>
                           <td>{h.username || 'usuario'}</td>

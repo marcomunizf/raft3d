@@ -39,6 +39,20 @@ async function update(id, data) {
     throw error;
   }
   ensureSaleIsMutable(sale);
+  if (Array.isArray(data.items)) {
+    const oldIds = new Set((sale.items || []).map((item) => item.id));
+    const newIds = new Set((data.items || []).map((item) => item.id).filter(Boolean));
+    const removedCount = [...oldIds].filter((id) => !newIds.has(id)).length;
+    if (removedCount > 0 && ['IN_PRODUCTION', 'DONE', 'DELIVERED', 'CANCELLED'].includes(sale.status)) {
+      const error = new Error('Itens so podem ser removidos antes da producao.');
+      error.statusCode = 400;
+      error.code = 'BUSINESS_RULE';
+      throw error;
+    }
+    if (typeof data.discount_total === 'undefined') {
+      data.discount_total = Number(sale.discount_total || 0);
+    }
+  }
   return salesRepository.update(id, data || {});
 }
 
@@ -51,7 +65,13 @@ async function updateStatus(id, data) {
     throw error;
   }
   ensureSaleIsMutable(sale);
-  return salesRepository.updateStatus(id, data.status, data.payment_status, data.payment_method);
+  return salesRepository.updateStatus(
+    id,
+    data.status,
+    data.payment_status,
+    data.payment_method,
+    data.customer_notified
+  );
 }
 
 function canHandleSaleType(role, permissions, saleType) {
@@ -114,6 +134,28 @@ async function addPayment(id, data, userId) {
   return salesRepository.addPayment(id, { ...data, created_by_user_id: userId });
 }
 
+async function updateItemStatus(saleId, itemId, isDone) {
+  const sale = await salesRepository.findById(saleId);
+  if (!sale) {
+    const error = new Error('Sale not found');
+    error.statusCode = 404;
+    error.code = 'NOT_FOUND';
+    throw error;
+  }
+
+  ensureSaleIsMutable(sale);
+
+  const updated = await salesRepository.updateItemStatus(saleId, itemId, isDone);
+  if (!updated) {
+    const error = new Error('Sale item not found');
+    error.statusCode = 404;
+    error.code = 'NOT_FOUND';
+    throw error;
+  }
+
+  return updated;
+}
+
 module.exports = {
   salesService: {
     list,
@@ -124,5 +166,6 @@ module.exports = {
     cancel,
     listPayments,
     addPayment,
+    updateItemStatus,
   },
 };

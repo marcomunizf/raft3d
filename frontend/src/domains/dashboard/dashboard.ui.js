@@ -13,7 +13,8 @@ export const DASHBOARD_STATUS_LABELS = {
   CANCELLED: 'Cancelado',
 };
 
-export function getDashboardSlaVariant(dueDate, status) {
+export function getDashboardSlaVariant(dueDate, status, customerNotified = false) {
+  if (status === 'DONE' && customerNotified) return 'sla-green';
   if (!dueDate || status === 'DELIVERED' || status === 'CANCELLED') return null;
 
   const now = new Date();

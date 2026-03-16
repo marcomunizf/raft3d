@@ -6,6 +6,7 @@ import CustomersPage from './CustomersPage.jsx';
 import InventoryPage from './InventoryPage.jsx';
 import MaterialsPage from './MaterialsPage.jsx';
 import DrawingsPage from './DrawingsPage.jsx';
+import NewSalePage from './NewSalePage.jsx';
 import FuncionarioTypeSidebar from '../components/funcionario/FuncionarioTypeSidebar.jsx';
 import CustomerSearch from '../domains/customers/CustomerSearch.jsx';
 import { getTokenUserId } from '../domains/auth/auth.utils.js';
@@ -17,8 +18,8 @@ import { createInventoryItem, fetchInventory, updateInventoryItem } from '../dom
 import { fetchMaterials } from '../domains/inventory/materials.service.js';
 import { getAvailableTypes } from '../domains/permissions/permissions.js';
 import { KANBAN_COLUMNS, PAYMENT_METHOD_LABELS, PAYMENT_METHODS, PAYMENT_STATUSES, PAYMENT_STATUS_LABELS, SALE_STATUSES, STATUS_BY_COLUMN, STATUS_LABELS } from '../domains/sales/sales.constants.js';
-import { createEmptySaleForm } from '../domains/sales/sales.forms.js';
-import { cancelSale, createSale, fetchKanban, fetchSaleDetails, fetchSales, updateSale, updateSaleStatus } from '../domains/sales/sales.service.js';
+import { createEmptySaleForm, createEmptySaleItem } from '../domains/sales/sales.forms.js';
+import { cancelSale, createSale, fetchKanban, fetchSaleDetails, fetchSales, updateSale, updateSaleItemStatus, updateSaleStatus } from '../domains/sales/sales.service.js';
 import { getSlaVariant, todayIsoDate } from '../domains/shared/dates.js';
 import { formatCurrency, formatDate, formatDateTime } from '../domains/shared/formatters.js';
 import { createEmptyPasswordForm } from '../domains/users/users.forms.js';
@@ -46,6 +47,7 @@ const Zg = normalizeMeasure;
 const Cp = updateInventoryItem;
 const Fm = fetchMaterials;
 const Fg = updateSale;
+const Yp = updateSaleItemStatus;
 const kp = getTokenUserId;
 const _p = updateUserPassword;
 const fds = fetchDashboardSummary;
@@ -66,6 +68,7 @@ const ev = {
   'sla-green': 'No prazo'
 };
 const bc = createEmptySaleForm('RESINA');
+const qc = createEmptySaleItem;
 const Ic = createEmptyCustomerForm();
 const Mc = createEmptyItemForm('RESINA');
 const Lc = MEASURE_OPTIONS;
@@ -104,6 +107,7 @@ function sv({
       ...bc,
       type: s
     }),
+    [si, setSi] = T.useState(qc),
     [we, D] = T.useState(Ic),
     [M, F] = T.useState({
       ...Mc,
@@ -119,7 +123,8 @@ function sv({
     [Fe, fn] = T.useState({
       status: "APPROVED",
       payment_status: "PENDING",
-      payment_method: ""
+      payment_method: "",
+      customer_notified: !1
     }),
     [G, X] = T.useState(null),
     [On, _e] = T.useState(""),
@@ -202,10 +207,11 @@ function sv({
   const ue = async d => {
       C(""), $(""), O(!0), p(d);
       try {
-        d === "new-sale" && W({
+        d === "new-sale" && (W({
           ...bc,
-          type: s
-        }), d === "customers" && (ve(""), await pn("")), d === "new-customer" && D(Ic), d === "inventory" && (await ke(s)), d === "new-item" && F({
+          type: s,
+          items: []
+        }), setSi(qc)), d === "customers" && (ve(""), await pn("")), d === "new-customer" && D(Ic), d === "inventory" && (await ke(s)), d === "new-item" && F({
           ...Mc,
           type: s
         }), d === "all-sales" && (await mt(s)), d === "change-password" && Z(Va);
@@ -216,7 +222,7 @@ function sv({
       }
     },
     Ye = () => {
-      p(null), _(null), ie(null), X(null), gr(null), J(null), Ot([]), U(null), _e(""), setShowDeleteConfirm(false), C(""), $("");
+      p(null), _(null), ie(null), X(null), gr(null), J(null), Ot([]), U(null), _e(""), setShowDeleteConfirm(false), C(""), $(""), setSi(qc);
     },
     Ve = async () => {
       if (!y) {
@@ -254,7 +260,8 @@ function sv({
         ie(g), fn({
           status: g.status,
           payment_status: g.payment_status,
-          payment_method: g.payment_method || ""
+          payment_method: g.payment_method || "",
+          customer_notified: Boolean(g.customer_notified)
         }), X({
           customer_id: g.customer_id || null,
           customer_name_snapshot: g.customer_name_snapshot || "",
@@ -331,20 +338,95 @@ function sv({
         }
       }
     },
+    Qm = u => {
+      const g = (u || []).reduce((L, te) => L + (Number(te.line_total) || 0), 0);
+      return {
+        subtotal: g,
+        total: g
+      };
+    },
+    Xm = () => {
+      const u = Number(si.line_total || 0);
+      if (!(si.description || "").trim() || !(u > 0)) {
+        C("Preencha nome do arquivo e valor do item.");
+        return;
+      }
+      const g = {
+        description: si.description,
+        qty: 1,
+        unit_price: u,
+        line_total: u,
+        item_type: si.item_type || "",
+        item_color: si.item_color || "",
+        weight_grams: si.weight_grams === "" ? null : Number(si.weight_grams),
+        print_time_hours: si.print_time_hours === "" ? null : Number(si.print_time_hours),
+        is_done: !1
+      };
+      W(L => {
+        const te = [...(L.items || []), g];
+        const Wi = Qm(te);
+        return {
+          ...L,
+          items: te,
+          subtotal: String(Wi.subtotal),
+          total: String(Wi.total)
+        };
+      }), setSi(qc), C("");
+    },
+    ec = u => {
+      if (!["BUDGET", "APPROVED"].includes(he.status || "BUDGET")) {
+        C("Itens so podem ser removidos antes da producao.");
+        return;
+      }
+      W(g => {
+        const L = (g.items || []).filter((te, Wi) => Wi !== u);
+        const te = Qm(L);
+        return {
+          ...g,
+          items: L,
+          subtotal: String(te.subtotal),
+          total: String(te.total)
+        };
+      });
+    },
+    Rm = async (u, g) => {
+      var L, te;
+      try {
+        const Wi = await Yp(u, g, {
+          is_done: !((z == null ? void 0 : z.items) || []).find(Qi => Qi.id === g)?.is_done
+        });
+        ie(Qi => Qi ? {
+          ...Qi,
+          items: (Qi.items || []).map(Ki => Ki.id === g ? Wi : Ki)
+        } : Qi);
+      } catch (Wi) {
+        C(((te = (L = Wi == null ? void 0 : Wi.response) == null ? void 0 : L.data) == null ? void 0 : te.message) || "Erro ao atualizar item.");
+      }
+    },
     Gl = async () => {
       var d, j;
       C("");
       try {
-        const u = Number(he.total) || 0;
+        if (!Array.isArray(he.items) || he.items.length === 0) {
+          C("Adicione pelo menos um item.");
+          return;
+        }
+        const u = Qm(he.items || []);
         await wp({
           ...he,
-          subtotal: u,
+          subtotal: Number(u.subtotal || 0),
           discount_total: 0,
-          total: u,
-          material_type: he.material_type || null,
-          material_color: he.material_color || null,
-          weight_grams: he.weight_grams !== "" ? Number(he.weight_grams) : null,
-          print_time_hours: he.print_time_hours !== "" ? Number(he.print_time_hours) : null,
+          total: Number(u.total || 0),
+          items: (he.items || []).map(g => ({
+            ...g,
+            qty: 1,
+            unit_price: Number(g.line_total || g.unit_price || 0),
+            line_total: Number(g.line_total || 0)
+          })),
+          material_type: null,
+          material_color: null,
+          weight_grams: null,
+          print_time_hours: null,
           due_date: he.due_date || null,
           payment_method: he.payment_method || null,
           customer_name_snapshot: he.customer_name_snapshot || "Venda generica"
@@ -434,6 +516,7 @@ function sv({
           if (Fe.status !== z.status) payload.status = Fe.status;
           if (Fe.payment_status !== z.payment_status) payload.payment_status = Fe.payment_status;
           if ((Fe.payment_method || null) !== (z.payment_method || null)) payload.payment_method = Fe.payment_method || null;
+          if (Boolean(Fe.customer_notified) !== Boolean(z.customer_notified)) payload.customer_notified = Boolean(Fe.customer_notified);
           if (Object.keys(payload).length === 0) {
             await qt(z.id, y);
             return;
@@ -493,8 +576,9 @@ function sv({
       }
     },
     ra = d => f.filter(j => d.statuses.includes(j.status)),
+    ya = d => d && d.status === "DONE" && d.customer_notified ? "sla-green" : Tc(d == null ? void 0 : d.due_date, d == null ? void 0 : d.status),
     sa = f.filter(d => d.status !== "DELIVERED").length,
-    vr = f.filter(d => Tc(d.due_date, d.status) === "sla-red").length,
+    vr = f.filter(d => ya(d) === "sla-red").length,
     xr = () => A ? l.jsx("p", {
       className: "muted",
       children: "Carregando..."
@@ -613,16 +697,17 @@ function sv({
             }))
           })]
         }), l.jsxs("label", {
-          children: ["Valor", l.jsx("input", {
-            type: "number",
-            min: "0",
-            step: "0.01",
-            value: he.total,
-            onChange: d => W(j => ({
+          style: {
+            gridColumn: "1 / -1"
+          },
+          children: ["Nome do arquivo", l.jsx("input", {
+            type: "text",
+            value: si.description,
+            onChange: d => setSi(j => ({
               ...j,
-              total: d.target.value
+              description: d.target.value
             })),
-            required: !0
+            placeholder: "Ex: peca_tampa.stl"
           })]
         }), l.jsxs("label", {
           children: ["Processo", l.jsx("select", {
@@ -645,10 +730,10 @@ function sv({
             children: [l.jsx("input", {
               type: "text",
               list: `func-sale-type-${he.type}`,
-              value: he.material_type || "",
-              onChange: d => W(j => ({
+              value: si.item_type || "",
+              onChange: d => setSi(j => ({
                 ...j,
-                material_type: d.target.value
+                item_type: d.target.value
               }))
             }), l.jsx("datalist", {
               id: `func-sale-type-${he.type}`,
@@ -662,10 +747,10 @@ function sv({
             children: [l.jsx("input", {
               type: "text",
               list: `func-sale-color-${he.type}`,
-              value: he.material_color || "",
-              onChange: d => W(j => ({
+              value: si.item_color || "",
+              onChange: d => setSi(j => ({
                 ...j,
-                material_color: d.target.value
+                item_color: d.target.value
               }))
             }), l.jsx("datalist", {
               id: `func-sale-color-${he.type}`,
@@ -679,8 +764,8 @@ function sv({
             type: "number",
             min: "0",
             step: "0.01",
-            value: he.weight_grams || "",
-            onChange: d => W(j => ({
+            value: si.weight_grams || "",
+            onChange: d => setSi(j => ({
               ...j,
               weight_grams: d.target.value
             }))
@@ -690,11 +775,87 @@ function sv({
             type: "number",
             min: "0",
             step: "0.01",
-            value: he.print_time_hours || "",
-            onChange: d => W(j => ({
+            value: si.print_time_hours || "",
+            onChange: d => setSi(j => ({
               ...j,
               print_time_hours: d.target.value
             }))
+          })]
+        }), l.jsxs("label", {
+          children: ["Valor", l.jsx("input", {
+            type: "number",
+            min: "0",
+            step: "0.01",
+            value: si.line_total || "",
+            onChange: d => setSi(j => ({
+              ...j,
+              line_total: d.target.value
+            }))
+          })]
+        }), l.jsx("div", {
+          className: "modal-actions",
+          children: l.jsx("button", {
+            className: "btn btn-outline",
+            type: "button",
+            onClick: Xm,
+            children: "+ criar"
+          })
+        }), (he.items || []).length > 0 && l.jsxs("div", {
+          style: {
+            gridColumn: "1 / -1"
+          },
+          children: [l.jsx("h4", {
+            children: "Lista de itens"
+          }), l.jsxs("table", {
+            className: "data-table",
+            children: [l.jsx("thead", {
+              children: l.jsxs("tr", {
+                children: [l.jsx("th", {
+                  children: "Arquivo"
+                }), l.jsx("th", {
+                  children: "Tipo"
+                }), l.jsx("th", {
+                  children: "Cor"
+                }), l.jsx("th", {
+                  children: "Peso"
+                }), l.jsx("th", {
+                  children: "Tempo"
+                }), l.jsx("th", {
+                  children: "Valor"
+                }), l.jsx("th", {
+                  children: "Acao"
+                })]
+              })
+            }), l.jsx("tbody", {
+              children: (he.items || []).map((d, j) => l.jsxs("tr", {
+                children: [l.jsx("td", {
+                  children: d.description
+                }), l.jsx("td", {
+                  children: d.item_type || "-"
+                }), l.jsx("td", {
+                  children: d.item_color || "-"
+                }), l.jsx("td", {
+                  children: d.weight_grams != null ? d.weight_grams : "-"
+                }), l.jsx("td", {
+                  children: d.print_time_hours != null ? d.print_time_hours : "-"
+                }), l.jsx("td", {
+                  children: mn(d.line_total || 0)
+                }), l.jsx("td", {
+                  children: l.jsx("button", {
+                    className: "btn btn-ghost btn--xs",
+                    type: "button",
+                    onClick: () => ec(j),
+                    children: "Excluir"
+                  })
+                })]
+              }, `func-new-item-${j}`))
+            })]
+          })]
+        }), l.jsxs("label", {
+          children: ["Valor total", l.jsx("input", {
+            type: "text",
+            readOnly: !0,
+            value: mn(Number(he.total || 0))
           })]
         }), l.jsxs("label", {
           children: ["Status do pedido", l.jsx("select", {
@@ -1662,6 +1823,63 @@ function sv({
           }), l.jsxs("p", {
             className: "muted",
             children: ["Observacoes: ", z.notes || "-"]
+          }), l.jsxs("div", {
+            style: {
+              marginTop: "12px"
+            },
+            children: [l.jsx("h4", {
+              children: "Itens do pedido"
+            }), !(z.items || []).length ? l.jsx("p", {
+              className: "muted",
+              children: "Nenhum item cadastrado."
+            }) : l.jsxs("table", {
+              className: "data-table",
+              children: [l.jsx("thead", {
+                children: l.jsxs("tr", {
+                  children: [l.jsx("th", {
+                    children: "Feito"
+                  }), l.jsx("th", {
+                    children: "Arquivo"
+                  }), l.jsx("th", {
+                    children: "Tipo"
+                  }), l.jsx("th", {
+                    children: "Cor"
+                  }), l.jsx("th", {
+                    children: "Peso"
+                  }), l.jsx("th", {
+                    children: "Tempo"
+                  }), l.jsx("th", {
+                    children: "Valor"
+                  })]
+                })
+              }), l.jsx("tbody", {
+                children: (z.items || []).map(d => l.jsxs("tr", {
+                  children: [l.jsx("td", {
+                    children: l.jsx("input", {
+                      type: "checkbox",
+                      checked: !!d.is_done,
+                      onChange: () => Rm(z.id, d.id),
+                      style: {
+                        width: "16px",
+                        height: "16px"
+                      }
+                    })
+                  }), l.jsx("td", {
+                    children: d.description || "-"
+                  }), l.jsx("td", {
+                    children: d.item_type || "-"
+                  }), l.jsx("td", {
+                    children: d.item_color || "-"
+                  }), l.jsx("td", {
+                    children: d.weight_grams != null ? d.weight_grams : "-"
+                  }), l.jsx("td", {
+                    children: d.print_time_hours != null ? d.print_time_hours : "-"
+                  }), l.jsx("td", {
+                    children: mn(d.line_total || 0)
+                  })]
+                }, d.id))
+              })]
+            })]
           }), l.jsx("div", {
             className: "modal-actions",
             style: {
@@ -1718,6 +1936,22 @@ function sv({
                 children: $a[d] || d
               }, d))]
             })]
+          }), l.jsxs("label", {
+            style: {
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              marginTop: "26px"
+            },
+            children: [l.jsx("input", {
+              type: "checkbox",
+              checked: !!Fe.customer_notified,
+              onChange: d => fn(j => ({
+                ...j,
+                customer_notified: d.target.checked
+              })),
+              disabled: Fe.status !== "DONE"
+            }), "Cliente avisado"]
           }), k && l.jsx("div", {
             className: "form-error",
             style: {
@@ -1761,7 +1995,7 @@ function sv({
             })
           }), Array.isArray(z.status_history) && z.status_history.length > 0 ? z.status_history.map((d, j) => l.jsxs("p", {
             className: "muted",
-            children: d.kind === "PAYMENT" ? ["Pagamento alterado para ", Ms[d.payment_status] || d.payment_status, " por ", d.username, " em ", Is(d.created_at)] : ["Alterado para ", Tr[d.status] || d.status, " por ", d.username, " em ", Is(d.created_at)]
+            children: d.kind === "PAYMENT" ? ["Pagamento alterado para ", Ms[d.payment_status] || d.payment_status, " por ", d.username, " em ", Is(d.created_at)] : d.kind === "NOTICE" ? ["Cliente avisado: ", d.customer_notified ? "Sim" : "Nao", " por ", d.username, " em ", Is(d.created_at)] : ["Alterado para ", Tr[d.status] || d.status, " por ", d.username, " em ", Is(d.created_at)]
           }, `${d.created_at}-status-${j}`)) : l.jsx("p", {
             className: "muted",
             children: "Sem historico registrado."
@@ -1793,6 +2027,7 @@ function sv({
     oa = s === "RESINA" ? "var(--raft-green)" : s === "FDM" ? "var(--raft-magenta)" : "var(--text-muted)";
   const processTheme = isDrawingSection ? 'DRAWING' : s;
   if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
+  if (pg === 'new-sale') return T.createElement(NewSalePage, { onBack: () => setPg(null), onSaved: async () => { await ht(s); }, defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
   if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null), processType: processTheme });
   if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'], onOpenMaterials: () => setPg('materials') });
   if (pg === 'materials') return T.createElement(MaterialsPage, { onBack: () => setPg('inventory'), defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
@@ -1853,7 +2088,7 @@ function sv({
               setDrawingCreateSignal(d => d + 1);
               return;
             }
-            ue("new-sale");
+            setPg("new-sale");
           },
           children: isDrawingSection ? "+ Orçamento" : "+ Vendas"
         }), l.jsx("button", {
@@ -1939,7 +2174,7 @@ function sv({
                   className: "kanban-empty muted",
                   children: "Nenhum pedido"
                 }), j.map(u => {
-                  const g = Tc(u.due_date, u.status);
+                  const g = ya(u);
                   return l.jsxs("div", {
                     className: `kanban-card kanban-card--${g}${V === u.id ? " kanban-card--dragging" : ""}`,
                     draggable: !0,
@@ -1971,6 +2206,9 @@ function sv({
                         className: "kanban-card-date",
                         children: ["Entrega: ", Fn(u.due_date)]
                       })]
+                    }), u.status === "DONE" && l.jsxs("div", {
+                      className: "kanban-card-file",
+                      children: ["Cliente avisado: ", u.customer_notified ? "Sim" : "Nao"]
                     }), l.jsx("div", {
                       className: "kanban-card-footer",
                       children: l.jsx("button", {
@@ -2023,6 +2261,7 @@ function sv({
     }), m && l.jsx(Yf, {
       title: la[m] || "",
       onClose: Ye,
+      closeOnBackdrop: m !== "new-sale",
       children: xr()
     }), showDeleteConfirm && l.jsx(Yf, {
       title: "Excluir pedido",

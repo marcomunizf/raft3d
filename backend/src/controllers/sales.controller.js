@@ -20,10 +20,16 @@ const listSchema = Joi.object({
 });
 
 const saleItemSchema = Joi.object({
+  id: Joi.string().guid({ version: ['uuidv4'] }).optional(),
   description: Joi.string().required(),
   qty: Joi.number().positive().required(),
   unit_price: Joi.number().min(0).required(),
   line_total: Joi.number().min(0).required(),
+  item_type: Joi.string().allow('', null),
+  item_color: Joi.string().allow('', null),
+  weight_grams: Joi.number().min(0).allow(null),
+  print_time_hours: Joi.number().min(0).allow(null),
+  is_done: Joi.boolean().optional(),
 });
 
 const createSchema = Joi.object({
@@ -70,13 +76,18 @@ const statusSchema = Joi.object({
   status: Joi.string().valid(...saleStatus).optional(),
   payment_status: Joi.string().valid(...paymentStatus).optional(),
   payment_method: Joi.string().valid(...paymentMethods).allow('', null),
-}).or('status', 'payment_status', 'payment_method');
+  customer_notified: Joi.boolean().optional(),
+}).or('status', 'payment_status', 'payment_method', 'customer_notified');
 
 const paymentSchema = Joi.object({
   method: Joi.string().valid('PIX', 'CARD', 'CASH', 'TRANSFER', 'BOLETO').required(),
   amount: Joi.number().min(0.01).required(),
   paid_at: Joi.string().isoDate().required(),
   notes: Joi.string().allow('', null),
+});
+
+const itemStatusSchema = Joi.object({
+  is_done: Joi.boolean().required(),
 });
 
 const cancelSchema = Joi.object({
@@ -98,6 +109,21 @@ function ensureSalesTypePermission(req, saleType) {
   throw error;
 }
 
+function applyItemTotals(payload) {
+  if (!Array.isArray(payload.items) || payload.items.length === 0) {
+    return payload;
+  }
+
+  const subtotal = payload.items.reduce((sum, item) => sum + Number(item.line_total || 0), 0);
+  const discount = Number(payload.discount_total || 0);
+
+  return {
+    ...payload,
+    subtotal,
+    total: Math.max(0, subtotal - discount),
+  };
+}
+
 async function list(req, res, next) {
   try {
     const filters = validate(listSchema, req.query);
@@ -111,7 +137,7 @@ async function list(req, res, next) {
 async function create(req, res, next) {
   try {
     const userId = req.user.sub;
-    const payload = validate(createSchema, req.body);
+    const payload = applyItemTotals(validate(createSchema, req.body));
     ensureSalesTypePermission(req, payload.type || 'RESINA');
     const result = await salesService.create(payload, userId);
     await audit({
@@ -147,7 +173,7 @@ async function update(req, res, next) {
   try {
     const userId = req.user.sub;
     const { id } = validate(idSchema, req.params);
-    const payload = validate(updateSchema, req.body);
+    const payload = applyItemTotals(validate(updateSchema, req.body));
     const currentSale = await salesService.getById(id);
     if (!currentSale) {
       const error = new Error('Sale not found');
@@ -215,6 +241,22 @@ async function addPayment(req, res, next) {
   }
 }
 
+async function updateItemStatus(req, res, next) {
+  try {
+    const userId = req.user.sub;
+    const { id, itemId } = validate(Joi.object({
+      id: Joi.string().guid({ version: ['uuidv4'] }).required(),
+      itemId: Joi.string().guid({ version: ['uuidv4'] }).required(),
+    }), req.params);
+    const payload = validate(itemStatusSchema, req.body);
+    const result = await salesService.updateItemStatus(id, itemId, payload.is_done);
+    await audit({ userId, entity: 'sale_items', entityId: itemId, action: 'UPDATE', data: payload });
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   salesController: {
     list,
@@ -225,5 +267,7 @@ module.exports = {
     cancel,
     listPayments,
     addPayment,
+    updateItemStatus,
   },
 };
+

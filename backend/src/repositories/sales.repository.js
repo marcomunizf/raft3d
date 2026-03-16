@@ -45,7 +45,7 @@ async function list(filters) {
 
   const result = await db.query(
     `SELECT s.id, s.sale_date, s.due_date, s.customer_name_snapshot, s.status, s.payment_status, s.total,
-       s.type, s.payment_method,
+       s.type, s.payment_method, s.customer_notified,
        s.material_type, s.material_color, s.weight_grams, s.print_time_hours,
        (SELECT description FROM sale_items WHERE sale_id = s.id ORDER BY id LIMIT 1) AS file_name
      FROM sales s ` + where + ` ORDER BY s.sale_date DESC`,
@@ -113,7 +113,7 @@ async function findById(id) {
        AND a.entity_id = $1
        AND (
          a.action = 'CREATE'
-         OR (a.action = 'UPDATE' AND ((a.data ? 'status') OR (a.data ? 'payment_status')))
+         OR (a.action = 'UPDATE' AND ((a.data ? 'status') OR (a.data ? 'payment_status') OR (a.data ? 'customer_notified')))
          OR a.action = 'CANCEL'
        )
      ORDER BY a.created_at ASC`,
@@ -196,6 +196,16 @@ async function findById(id) {
         lastPaymentValue = data.payment_status;
       }
     }
+
+    if (typeof data.customer_notified !== 'undefined') {
+      status_history.push({
+        action: row.action,
+        kind: 'NOTICE',
+        customer_notified: Boolean(data.customer_notified),
+        username,
+        created_at,
+      });
+    }
   }
 
   return {
@@ -218,6 +228,13 @@ async function create(data) {
   try {
     await client.query('BEGIN');
 
+    const itemSubtotal = Array.isArray(data.items) && data.items.length
+      ? data.items.reduce((sum, item) => sum + Number(item.line_total || 0), 0)
+      : null;
+    const subtotal = itemSubtotal != null ? itemSubtotal : data.subtotal;
+    const discountTotal = Number(data.discount_total || 0);
+    const total = itemSubtotal != null ? Math.max(0, subtotal - discountTotal) : data.total;
+
     const saleResult = await client.query(
       'INSERT INTO sales (customer_id, customer_name_snapshot, type, material_type, material_color, weight_grams, print_time_hours, status, sale_date, due_date, subtotal, discount_total, total, payment_status, payment_method, notes, created_by_user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *',
       [
@@ -231,9 +248,9 @@ async function create(data) {
         data.status,
         data.sale_date,
         data.due_date || null,
-        data.subtotal,
-        data.discount_total || 0,
-        data.total,
+        subtotal,
+        discountTotal,
+        total,
         data.payment_status,
         data.payment_method || null,
         data.notes || null,
@@ -247,8 +264,19 @@ async function create(data) {
     if (Array.isArray(data.items) && data.items.length) {
       for (const item of data.items) {
         const itemResult = await client.query(
-          'INSERT INTO sale_items (sale_id, description, qty, unit_price, line_total) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-          [sale.id, item.description, item.qty, item.unit_price, item.line_total]
+          'INSERT INTO sale_items (sale_id, description, qty, unit_price, line_total, item_type, item_color, weight_grams, print_time_hours, is_done, done_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, CASE WHEN $10 THEN NOW() ELSE NULL END) RETURNING *',
+          [
+            sale.id,
+            item.description,
+            item.qty,
+            item.unit_price,
+            item.line_total,
+            item.item_type || null,
+            item.item_color || null,
+            typeof item.weight_grams === 'number' ? item.weight_grams : null,
+            typeof item.print_time_hours === 'number' ? item.print_time_hours : null,
+            Boolean(item.is_done),
+          ]
         );
         items.push(itemResult.rows[0]);
       }
@@ -275,6 +303,15 @@ async function update(id, data) {
     const values = [];
     let index = 1;
 
+    const itemSubtotal = Array.isArray(data.items) && data.items.length
+      ? data.items.reduce((sum, item) => sum + Number(item.line_total || 0), 0)
+      : null;
+    const computedSubtotal = itemSubtotal != null ? itemSubtotal : data.subtotal;
+    const computedDiscount = typeof data.discount_total !== 'undefined' ? Number(data.discount_total || 0) : undefined;
+    const computedTotal = itemSubtotal != null
+      ? Math.max(0, computedSubtotal - Number(typeof data.discount_total !== 'undefined' ? data.discount_total : 0))
+      : data.total;
+
     const map = {
       customer_id: data.customer_id,
       customer_name_snapshot: data.customer_name_snapshot,
@@ -286,9 +323,9 @@ async function update(id, data) {
       status: data.status,
       sale_date: data.sale_date,
       due_date: data.due_date,
-      subtotal: data.subtotal,
-      discount_total: data.discount_total,
-      total: data.total,
+      subtotal: computedSubtotal,
+      discount_total: computedDiscount,
+      total: computedTotal,
       payment_status: data.payment_status,
       payment_method: data.payment_method,
       notes: data.notes,
@@ -321,8 +358,20 @@ async function update(id, data) {
 
       for (const item of data.items) {
         await client.query(
-          'INSERT INTO sale_items (sale_id, description, qty, unit_price, line_total) VALUES ($1, $2, $3, $4, $5)',
-          [id, item.description, item.qty, item.unit_price, item.line_total]
+          'INSERT INTO sale_items (id, sale_id, description, qty, unit_price, line_total, item_type, item_color, weight_grams, print_time_hours, is_done, done_at) VALUES (COALESCE($1, gen_random_uuid()), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, CASE WHEN $11 THEN NOW() ELSE NULL END)',
+          [
+            item.id || null,
+            id,
+            item.description,
+            item.qty,
+            item.unit_price,
+            item.line_total,
+            item.item_type || null,
+            item.item_color || null,
+            typeof item.weight_grams === 'number' ? item.weight_grams : null,
+            typeof item.print_time_hours === 'number' ? item.print_time_hours : null,
+            Boolean(item.is_done),
+          ]
         );
       }
     }
@@ -347,7 +396,7 @@ async function update(id, data) {
   }
 }
 
-async function updateStatus(id, status, paymentStatus, paymentMethod) {
+async function updateStatus(id, status, paymentStatus, paymentMethod, customerNotified) {
   const fields = [];
   const values = [];
   let index = 1;
@@ -374,6 +423,13 @@ async function updateStatus(id, status, paymentStatus, paymentMethod) {
     fields.push('payment_method = $' + index);
     values.push(paymentMethod || null);
     index += 1;
+  }
+
+  if (typeof customerNotified !== 'undefined') {
+    fields.push('customer_notified = $' + index);
+    values.push(Boolean(customerNotified));
+    index += 1;
+    fields.push('customer_notified_at = CASE WHEN $' + (index - 1) + ' THEN COALESCE(customer_notified_at, NOW()) ELSE NULL END');
   }
 
   if (!fields.length) {
@@ -462,6 +518,19 @@ async function addPayment(saleId, data) {
   }
 }
 
+async function updateItemStatus(saleId, itemId, isDone) {
+  const result = await db.query(
+    `UPDATE sale_items
+     SET is_done = $3,
+         done_at = CASE WHEN $3 THEN NOW() ELSE NULL END
+     WHERE id = $1 AND sale_id = $2
+     RETURNING *`,
+    [itemId, saleId, Boolean(isDone)]
+  );
+
+  return result.rows[0] || null;
+}
+
 module.exports = {
   salesRepository: {
     list,
@@ -472,5 +541,6 @@ module.exports = {
     cancel,
     listPayments,
     addPayment,
+    updateItemStatus,
   },
 };

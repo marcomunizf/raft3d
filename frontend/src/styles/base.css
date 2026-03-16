@@ -822,12 +822,16 @@ textarea {
 }
 
 .kanban-matrix--resina {
-  border-color: var(--raft-green);
-  background: linear-gradient(180deg, rgba(123, 194, 28, 0.18), rgba(123, 194, 28, 0.06));
+  border-color: var(--raft-green-dark);
+  background: var(--raft-green);
 }
 
 .kanban-matrix--resina .kanban-matrix-badge {
   color: var(--raft-green-dark);
+}
+
+.kanban-matrix--resina h4 {
+  color: #fff;
 }
 
 .kanban-matrix--resina .kanban-matrix-item {
@@ -835,12 +839,16 @@ textarea {
 }
 
 .kanban-matrix--fdm {
-  border-color: var(--raft-magenta);
-  background: linear-gradient(180deg, rgba(156, 37, 104, 0.2), rgba(156, 37, 104, 0.07));
+  border-color: var(--raft-magenta-dark);
+  background: var(--raft-magenta);
 }
 
 .kanban-matrix--fdm .kanban-matrix-badge {
   color: var(--raft-magenta-dark);
+}
+
+.kanban-matrix--fdm h4 {
+  color: #fff;
 }
 
 .kanban-matrix--fdm .kanban-matrix-item {
@@ -848,12 +856,16 @@ textarea {
 }
 
 .kanban-matrix--drawing {
-  border-color: var(--accent);
-  background: linear-gradient(180deg, rgba(204, 91, 43, 0.2), rgba(204, 91, 43, 0.07));
+  border-color: var(--accent-strong);
+  background: var(--accent);
 }
 
 .kanban-matrix--drawing .kanban-matrix-badge {
   color: var(--accent-strong);
+}
+
+.kanban-matrix--drawing h4 {
+  color: #fff;
 }
 
 .kanban-matrix--drawing .kanban-matrix-item {
@@ -894,13 +906,26 @@ textarea {
 
 .kanban-matrix-item--alert {
   border-color: #e11d48 !important;
-  background: linear-gradient(180deg, rgba(225, 29, 72, 0.16), rgba(225, 29, 72, 0.06));
-  box-shadow: 0 0 0 1px rgba(225, 29, 72, 0.25), 0 8px 16px rgba(225, 29, 72, 0.2);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 18px rgba(50, 36, 18, 0.18);
 }
 
 .kanban-matrix-overdue {
-  color: #9f1239;
+  color: #dc2626;
   font-weight: 700;
+  animation: overdue-blink 1s steps(2, start) infinite;
+}
+
+@keyframes overdue-blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kanban-matrix-overdue {
+    animation: none;
+  }
 }
 
 .kanban-stage-list {
