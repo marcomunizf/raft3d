@@ -2,52 +2,19 @@
 > resinaraft-frontend@0.1.0 dev
 > vite --host 0.0.0.0 --port 5173
 
+Re-optimizing dependencies because lockfile has changed
 
-  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m995[22m[2m[0m ms[22m
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m438[22m[2m[0m ms[22m
 
   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.10.58:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://172.23.224.1:[1m5173[22m/[39m
-  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.100.68:[1m5173[22m/[39m
-[2m11:53:54[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
-[2m11:55:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
-[2m11:55:38[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
-[2m12:01:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
-[2m12:15:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m12:31:42[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FinancePage.jsx[22m
-[2m12:31:54[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FinancePage.jsx[22m
-[2m13:19:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx[22m
-[2m13:19:49[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx[22m
-[2m13:20:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m13:20:12[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m13:20:20[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m13:20:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m13:20:48[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m13:21:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m13:21:26[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m13:22:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m13:22:20[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m13:23:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m13:25:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m13:26:01[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m13:26:15[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m13:26:33[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m13:26:56[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m13:27:32[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m13:27:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m14:08:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Modal.jsx[22m
-[2m14:08:44[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m14:08:49[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m14:11:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m14:12:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m14:12:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m14:21:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/NewSalePage.jsx[22m
-[2m14:21:49[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
-[2m14:21:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m18:39:48[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m18:39:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m18:40:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m18:40:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
-[2m18:40:36[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
-[2m18:40:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx[22m
-[2m18:40:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
-[2m18:40:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx, /src/pages/NewSalePage.jsx[22m
+[2m09:41:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/button.jsx, /src/styles/base.css[22m
+[2m09:41:30[22m [36m[1m[vite][22m[39m [33mhmr invalidate [39m[2m/src/components/ui/button.jsx[22m Could not Fast Refresh ("buttonVariants" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m09:41:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Landing.jsx, /src/styles/base.css, /src/pages/Login.jsx, /src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/DrawingsPage.jsx, /src/pages/MaterialsPage.jsx, /src/pages/CustomersPage.jsx, /src/pages/SalesPage.jsx, /src/pages/InventoryPage.jsx, /src/pages/SaleDetailsPage.jsx, /src/pages/NewSalePage.jsx, /src/pages/FinancePage.jsx, /src/pages/DrawingDetailsPage.jsx, /src/pages/DrawingNewPage.jsx, /src/components/shared/Pagination.jsx, /src/components/shared/PageHeader.jsx[22m
+[2m09:41:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/customers/CustomerSearch.jsx, /src/styles/base.css[22m
+[2m09:41:42[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m09:45:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/shared/StatusBadge.jsx, /src/styles/base.css[22m
+[2m09:45:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/customers/CustomerSearch.jsx, /src/styles/base.css[22m
+[2m09:45:22[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m09:47:03[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Modal.jsx, /src/styles/base.css[22m

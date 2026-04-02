@@ -4,7 +4,7 @@ const { Joi, validate } = require('../utils/validation');
 
 const listSchema = Joi.object({
   type: Joi.string().valid('RESINA', 'FDM').optional(),
-  status: Joi.string().valid('ORCAMENTO', 'DESENHANDO', 'PRONTO', 'ENVIAR_PARA_PRODUCAO').optional(),
+  status: Joi.string().valid('ORCAMENTO', 'DESENHANDO', 'PRONTO', 'IMPRESSAO_TESTE', 'ENVIAR_PARA_PRODUCAO').optional(),
   designer_id: Joi.string().guid({ version: ['uuidv4'] }).optional(),
 });
 
@@ -19,7 +19,7 @@ const createSchema = Joi.object({
   customer_name_snapshot: Joi.string().allow('', null).optional(),
   designer_id: Joi.string().guid({ version: ['uuidv4'] }).allow(null).optional(),
   type: Joi.string().valid('RESINA', 'FDM').optional(),
-  status: Joi.string().valid('ORCAMENTO', 'DESENHANDO', 'PRONTO', 'ENVIAR_PARA_PRODUCAO').optional(),
+  status: Joi.string().valid('ORCAMENTO', 'DESENHANDO', 'PRONTO', 'IMPRESSAO_TESTE', 'ENVIAR_PARA_PRODUCAO').optional(),
   start_date: Joi.string().isoDate().optional(),
   end_date: Joi.string().isoDate().optional(),
   drawing_value: Joi.number().precision(2).min(0).allow(null).optional(),
@@ -33,7 +33,7 @@ const updateSchema = Joi.object({
   customer_name_snapshot: Joi.string().allow('', null).optional(),
   designer_id: Joi.string().guid({ version: ['uuidv4'] }).allow(null).optional(),
   type: Joi.string().valid('RESINA', 'FDM').optional(),
-  status: Joi.string().valid('ORCAMENTO', 'DESENHANDO', 'PRONTO', 'ENVIAR_PARA_PRODUCAO').optional(),
+  status: Joi.string().valid('ORCAMENTO', 'DESENHANDO', 'PRONTO', 'IMPRESSAO_TESTE', 'ENVIAR_PARA_PRODUCAO').optional(),
   start_date: Joi.string().isoDate().optional(),
   end_date: Joi.string().isoDate().optional(),
   drawing_value: Joi.number().precision(2).min(0).allow(null).optional(),

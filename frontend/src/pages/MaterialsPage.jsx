@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import Modal from '../components/Modal.jsx';
 import { getMaterialLabel, PROCESS_LABELS } from '../domains/inventory/materials.constants.js';
 import { deactivateMaterial, fetchMaterials, updateMaterial } from '../domains/inventory/materials.service.js';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 const EMPTY_FILTERS = {
   process: '',
@@ -142,9 +145,9 @@ export default function MaterialsPage({ onBack, defaultType = 'RESINA', availabl
   return (
     <div className={`sales-page process-theme ${resolvedProcessType === 'DRAWING' ? 'process-theme--drawing' : resolvedProcessType === 'FDM' ? 'process-theme--fdm' : 'process-theme--resina'}`}>
       <div className="sales-page-header">
-        <button className="btn btn-ghost" type="button" onClick={onBack}>
+        <Button variant="ghost" type="button" onClick={onBack}>
           {'<-'} Voltar
-        </button>
+        </Button>
         <h2>Lista de materiais</h2>
       </div>
 
@@ -218,8 +221,9 @@ export default function MaterialsPage({ onBack, defaultType = 'RESINA', availabl
                     <td>{item.brand}</td>
                     <td>{PROCESS_LABELS[item.process] || item.process}</td>
                     <td>
-                      <button
-                        className="btn btn-ghost btn--xs"
+                      <Button
+                        variant="ghost"
+                        className="btn--xs"
                         type="button"
                         onClick={() => openEdit(item)}
                         disabled={deletingId === item.id}
@@ -227,16 +231,17 @@ export default function MaterialsPage({ onBack, defaultType = 'RESINA', availabl
                         style={{ marginRight: '8px' }}
                       >
                         Editar
-                      </button>
-                      <button
-                        className="btn btn-ghost btn--xs"
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="btn--xs"
                         type="button"
                         onClick={() => handleDelete(item)}
                         title="Excluir material"
                         disabled={deletingId === item.id}
                       >
                         {deletingId === item.id ? 'Excluindo...' : 'Excluir'}
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 ))
@@ -263,7 +268,7 @@ export default function MaterialsPage({ onBack, defaultType = 'RESINA', availabl
               </label>
               <label>
                 Tipo
-                <input
+                <Input
                   type="text"
                   required
                   list={`edit-material-type-${editForm.process}`}
@@ -278,7 +283,7 @@ export default function MaterialsPage({ onBack, defaultType = 'RESINA', availabl
               </label>
               <label>
                 Cor
-                <input
+                <Input
                   type="text"
                   required
                   list={`edit-material-color-${editForm.process}`}
@@ -293,7 +298,7 @@ export default function MaterialsPage({ onBack, defaultType = 'RESINA', availabl
               </label>
               <label>
                 Marca
-                <input
+                <Input
                   type="text"
                   required
                   list={`edit-material-brand-${editForm.process}`}
@@ -307,12 +312,12 @@ export default function MaterialsPage({ onBack, defaultType = 'RESINA', availabl
                 </datalist>
               </label>
               <div className="modal-actions" style={{ gridColumn: '1 / -1' }}>
-                <button className="btn btn-primary" type="submit" disabled={savingEdit}>
+                <Button type="submit" disabled={savingEdit}>
                   {savingEdit ? 'Salvando...' : 'Salvar'}
-                </button>
-                <button className="btn btn-ghost" type="button" onClick={() => setEditingItem(null)} disabled={savingEdit}>
+                </Button>
+                <Button variant="ghost" type="button" onClick={() => setEditingItem(null)} disabled={savingEdit}>
                   Cancelar
-                </button>
+                </Button>
               </div>
             </form>
           </div>

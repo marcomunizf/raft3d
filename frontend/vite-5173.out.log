@@ -1,4 +1,42 @@
 
 > resinaraft-frontend@0.1.0 dev
-> vite --host 0.0.0.0 --port 5173 --strictPort
+> vite --host 0.0.0.0 --port 5173
 
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m447[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.10.59:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.23.224.1:[1m5173[22m/[39m
+[2m10:21:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx[22m
+[2m10:21:56[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/InventoryPage.jsx[22m
+[2m10:22:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m10:26:26[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m10:26:32[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/base.css[22m
+[2m10:42:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx, /src/pages/SaleDetailsPage.jsx, /src/pages/NewSalePage.jsx[22m
+[2m10:43:22[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/NewSalePage.jsx[22m
+[2m10:43:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/NewSalePage.jsx[22m
+[2m10:43:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/NewSalePage.jsx[22m
+[2m10:43:58[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/NewSalePage.jsx[22m
+[2m10:45:12[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/NewSalePage.jsx[22m
+[2m10:45:26[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/NewSalePage.jsx[22m
+[2m10:45:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SaleDetailsPage.jsx[22m
+[2m10:46:03[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
+[2m10:46:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
+[2m10:47:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:47:15[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m10:47:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx, /src/pages/NewSalePage.jsx[22m
+[2m10:47:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx[22m
+[2m10:48:08[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx, /src/pages/NewSalePage.jsx[22m
+[2m10:48:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/pages/SalesPage.jsx[22m
+[2m10:48:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:49:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
+[2m10:53:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SaleDetailsPage.jsx[22m
+[2m10:53:54[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SalesPage.jsx[22m
+[2m10:54:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m10:54:19[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m11:00:50[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SaleDetailsPage.jsx[22m
+[2m11:31:08[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m11:31:19[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m11:31:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m
+[2m11:31:38[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx[22m

@@ -1,14 +1,23 @@
 import { useState, useEffect } from 'react';
 import Modal from '../components/Modal.jsx';
-import { fetchCustomers, createCustomer, updateCustomer, fetchCustomerSales } from '../domains/customers/customers.service.js';
+import PageHeader from '../components/shared/PageHeader.jsx';
+import LoadingState from '../components/shared/LoadingState.jsx';
+import EmptyRow from '../components/shared/EmptyRow.jsx';
+import Pagination from '../components/shared/Pagination.jsx';
+import { fetchCustomersPaginated, createCustomer, updateCustomer, fetchCustomerSales } from '../domains/customers/customers.service.js';
 import { createEmptyCustomerForm } from '../domains/customers/customers.forms.js';
 import { PAYMENT_METHOD_LABELS, PAYMENT_STATUS_LABELS, STATUS_LABELS } from '../domains/sales/sales.constants.js';
 import { formatDate, formatCurrency, formatDateTime } from '../domains/shared/formatters.js';
+import SaleDetailsPage from './SaleDetailsPage.jsx';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 
 const EMPTY_FORM = createEmptyCustomerForm();
 
 export default function CustomersPage({ onBack, processType = 'RESINA' }) {
   const [customers, setCustomers] = useState([]);
+  const [pagination, setPagination] = useState(null);
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -19,17 +28,19 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
   const [editForm, setEditForm] = useState(null);
   const [customerSales, setCustomerSales] = useState([]);
   const [modalError, setModalError] = useState('');
+  const [detailSaleId, setDetailSaleId] = useState(null);
 
   useEffect(() => {
     load('');
   }, []);
 
-  async function load(q) {
+  async function load(q, page = 1) {
     setLoading(true);
     setError('');
     try {
-      const data = await fetchCustomers(q ? { q } : {});
-      setCustomers(data);
+      const result = await fetchCustomersPaginated(q ? { q, page, limit: 50 } : { page, limit: 50 });
+      setCustomers(result.data);
+      setPagination(result.meta);
     } catch {
       setError('Erro ao carregar clientes.');
     } finally {
@@ -57,6 +68,10 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
     setModalError('');
     setModal('edit');
     fetchCustomerSales(customer.id).then(setCustomerSales).catch(() => {});
+  }
+
+  function openSaleDetails(saleId) {
+    setDetailSaleId(saleId);
   }
 
   async function handleCreate(e) {
@@ -87,31 +102,45 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
 
   const resolvedProcessType = processType === 'DRAWING' ? 'DRAWING' : processType === 'FDM' ? 'FDM' : 'RESINA';
 
+  if (detailSaleId) {
+    return (
+      <SaleDetailsPage
+        saleId={detailSaleId}
+        onBackToKanban={() => setDetailSaleId(null)}
+        processType={resolvedProcessType}
+        onChanged={async () => {
+          if (!selected?.id) return;
+          try {
+            const sales = await fetchCustomerSales(selected.id);
+            setCustomerSales(sales);
+          } catch {
+            setCustomerSales([]);
+          }
+        }}
+      />
+    );
+  }
+
   return (
     <div className={`sales-page process-theme ${resolvedProcessType === 'DRAWING' ? 'process-theme--drawing' : resolvedProcessType === 'FDM' ? 'process-theme--fdm' : 'process-theme--resina'}`}>
-      <div className="sales-page-header">
-        <button className="btn btn-ghost" type="button" onClick={onBack}>
-          ← Voltar
-        </button>
-        <h2>Clientes</h2>
-        <button
-          className="btn btn-primary"
-          type="button"
-          onClick={() => {
+      <PageHeader
+        onBack={onBack}
+        title="Clientes"
+        action={{
+          label: '+ Novo cliente',
+          onClick: () => {
             setNewForm({ ...EMPTY_FORM });
             setModalError('');
             setModal('new');
-          }}
-        >
-          + Novo cliente
-        </button>
-      </div>
+          },
+        }}
+      />
 
       <div className="sales-filters">
         <div className="sales-filters-row">
           <label className="filter-field filter-field--wide">
             <span>Buscar</span>
-            <input
+            <Input
               type="text"
               placeholder="Nome, CPF/CNPJ..."
               value={query}
@@ -125,7 +154,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
 
       <div className="sales-page-table-wrap">
         {loading ? (
-          <p className="muted" style={{ padding: '24px' }}>Carregando...</p>
+          <LoadingState />
         ) : (
           <table className="data-table">
             <thead>
@@ -139,16 +168,12 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
             </thead>
             <tbody>
               {customers.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="muted" style={{ textAlign: 'center', padding: '32px' }}>
-                    Nenhum cliente encontrado.
-                  </td>
-                </tr>
+                <EmptyRow colSpan={5} message="Nenhum cliente encontrado." />
               ) : (
                 customers.map(c => (
                   <tr key={c.id} className="row-clickable" onClick={() => openEdit(c)}>
                     <td><strong>{c.name}</strong></td>
-                    <td><span className="pill">{c.type}</span></td>
+                    <td><Badge variant="secondary">{c.type}</Badge></td>
                     <td>{c.document || '—'}</td>
                     <td>{c.phone}</td>
                     <td>{c.email || '—'}</td>
@@ -159,6 +184,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
           </table>
         )}
       </div>
+      <Pagination meta={pagination} onChange={(page) => load(query, page)} />
 
       {modal === 'new' && (
         <Modal title="Novo cliente" onClose={() => setModal(null)}>
@@ -166,7 +192,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
             <form className="form-grid" onSubmit={handleCreate}>
               <label>
                 Nome
-                <input
+                <Input
                   type="text"
                   placeholder="Nome completo ou razao social"
                   required
@@ -183,7 +209,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
               </label>
               <label>
                 Telefone / WhatsApp
-                <input
+                <Input
                   type="text"
                   placeholder="11 99999-0000"
                   value={newForm.phone}
@@ -192,7 +218,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
               </label>
               <label>
                 CPF / CNPJ
-                <input
+                <Input
                   type="text"
                   placeholder="Opcional"
                   value={newForm.document}
@@ -201,7 +227,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
               </label>
               <label>
                 Email
-                <input
+                <Input
                   type="email"
                   placeholder="Opcional"
                   value={newForm.email}
@@ -210,7 +236,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
               </label>
               <label style={{ gridColumn: '1 / -1' }}>
                 Observacoes
-                <input
+                <Input
                   type="text"
                   placeholder="Opcional"
                   value={newForm.notes}
@@ -219,8 +245,8 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
               </label>
               {modalError && <div className="form-error" style={{ gridColumn: '1 / -1' }}>{modalError}</div>}
               <div className="modal-actions" style={{ gridColumn: '1 / -1' }}>
-                <button className="btn btn-primary" type="submit">Salvar</button>
-                <button className="btn btn-ghost" type="button" onClick={() => setModal(null)}>Cancelar</button>
+                <Button type="submit">Salvar</Button>
+                <Button variant="ghost" type="button" onClick={() => setModal(null)}>Cancelar</Button>
               </div>
             </form>
           </div>
@@ -236,7 +262,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
             <form className="form-grid" onSubmit={handleUpdate}>
               <label>
                 Nome
-                <input
+                <Input
                   type="text"
                   required
                   value={editForm.name}
@@ -252,7 +278,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
               </label>
               <label>
                 Telefone / WhatsApp
-                <input
+                <Input
                   type="text"
                   value={editForm.phone}
                   onChange={e => setEditForm(p => ({ ...p, phone: e.target.value }))}
@@ -260,7 +286,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
               </label>
               <label>
                 CPF / CNPJ
-                <input
+                <Input
                   type="text"
                   value={editForm.document}
                   onChange={e => setEditForm(p => ({ ...p, document: e.target.value }))}
@@ -268,7 +294,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
               </label>
               <label>
                 Email
-                <input
+                <Input
                   type="email"
                   value={editForm.email}
                   onChange={e => setEditForm(p => ({ ...p, email: e.target.value }))}
@@ -276,7 +302,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
               </label>
               <label style={{ gridColumn: '1 / -1' }}>
                 Observacoes
-                <input
+                <Input
                   type="text"
                   value={editForm.notes}
                   onChange={e => setEditForm(p => ({ ...p, notes: e.target.value }))}
@@ -284,8 +310,8 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
               </label>
               {modalError && <div className="form-error" style={{ gridColumn: '1 / -1' }}>{modalError}</div>}
               <div className="modal-actions" style={{ gridColumn: '1 / -1' }}>
-                <button className="btn btn-primary" type="submit">Salvar alteracoes</button>
-                <button className="btn btn-ghost" type="button" onClick={() => { setModal(null); setSelected(null); }}>Cancelar</button>
+                <Button type="submit">Salvar alteracoes</Button>
+                <Button variant="ghost" type="button" onClick={() => { setModal(null); setSelected(null); }}>Cancelar</Button>
               </div>
             </form>
 
@@ -307,7 +333,7 @@ export default function CustomersPage({ onBack, processType = 'RESINA' }) {
                   </thead>
                   <tbody>
                     {customerSales.map(s => (
-                      <tr key={s.id}>
+                      <tr key={s.id} className="row-clickable" onClick={() => openSaleDetails(s.id)}>
                         <td>{formatDate(s.sale_date)}</td>
                         <td>{s.file_name || '—'}</td>
                         <td>{formatCurrency(s.total)}</td>

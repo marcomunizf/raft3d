@@ -42,17 +42,36 @@ async function list(filters) {
   }
 
   const where = conditions.length ? 'WHERE ' + conditions.join(' AND ') : '';
+  const page = Math.max(1, Number(filters.page) || 1);
+  const limit = Math.min(200, Math.max(1, Number(filters.limit) || 50));
+  const offset = (page - 1) * limit;
 
-  const result = await db.query(
-    `SELECT s.id, s.sale_date, s.due_date, s.customer_name_snapshot, s.status, s.payment_status, s.total,
-       s.type, s.payment_method, s.customer_notified,
-       s.material_type, s.material_color, s.weight_grams, s.print_time_hours,
-       (SELECT description FROM sale_items WHERE sale_id = s.id ORDER BY id LIMIT 1) AS file_name
-     FROM sales s ` + where + ` ORDER BY s.sale_date DESC`,
+  const countResult = await db.query(
+    `SELECT COUNT(*) AS total FROM sales s ` + where,
     values
   );
 
-  return result.rows;
+  const dataValues = [...values, limit, offset];
+  const result = await db.query(
+    `SELECT s.id, s.sale_date, s.due_date, s.delivered_at, s.customer_name_snapshot, s.status, s.payment_status, s.total,
+       s.type, s.payment_method, s.customer_notified,
+       s.material_type, s.material_color, s.weight_grams, s.print_time_hours,
+       (SELECT description FROM sale_items WHERE sale_id = s.id ORDER BY id LIMIT 1) AS file_name
+     FROM sales s ` + where + ` ORDER BY s.sale_date DESC LIMIT $` + (index) + ` OFFSET $` + (index + 1),
+    dataValues
+  );
+
+  const total = Number(countResult.rows[0].total);
+
+  return {
+    data: result.rows,
+    meta: {
+      total,
+      page,
+      limit,
+      pages: Math.ceil(total / limit),
+    },
+  };
 }
 
 async function findById(id) {

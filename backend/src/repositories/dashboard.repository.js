@@ -32,23 +32,30 @@ async function getSummary(filters) {
   );
 
   const inProductionResult = await db.query(
-    "SELECT COUNT(*) AS in_production_count FROM sales WHERE status = 'IN_PRODUCTION'" + (whereType ? ' AND ' + whereType.replace(/^ AND /, '') : ''),
+    "SELECT COUNT(*) AS in_production_count FROM sales WHERE status = 'IN_PRODUCTION'" + whereType,
     values
   );
 
+  const receivedValues = filters && filters.type ? [filters.type] : [];
+  const receivedTypeCondition = filters && filters.type
+    ? ' AND s.type = $1'
+    : '';
   const receivedResult = await db.query(
-    "SELECT COALESCE(SUM(p.amount), 0) AS received_month FROM payments p JOIN sales s ON s.id = p.sale_id WHERE date_trunc('month', p.paid_at::timestamp) = date_trunc('month', CURRENT_DATE::timestamp)" + whereType.replace(/type = /g, 's.type = '),
-    values
+    "SELECT COALESCE(SUM(p.amount), 0) AS received_month FROM payments p JOIN sales s ON s.id = p.sale_id WHERE date_trunc('month', p.paid_at::timestamp) = date_trunc('month', CURRENT_DATE::timestamp)" + receivedTypeCondition,
+    receivedValues
   );
 
+  const financeValues = filters && filters.type ? [filters.type] : [];
+  const financeTypeCondition = filters && filters.type
+    ? ' AND process_type = $1'
+    : '';
   const financeMonthResult = await db.query(
     "SELECT" +
     " COALESCE(SUM(CASE WHEN entry_type = 'INCOME' AND status != 'CANCELLED' THEN amount ELSE 0 END), 0) AS finance_revenue_month," +
     " COALESCE(SUM(CASE WHEN entry_type = 'EXPENSE' AND status != 'CANCELLED' THEN amount ELSE 0 END), 0) AS finance_expense_month," +
     " COALESCE(SUM(CASE WHEN entry_type = 'INCOME' AND status = 'PENDING' AND due_date IS NOT NULL AND due_date < CURRENT_DATE THEN amount ELSE 0 END), 0) AS finance_overdue_receivable" +
-    " FROM financial_entries WHERE date_trunc('month', entry_date::timestamp) = date_trunc('month', CURRENT_DATE::timestamp)" +
-    (whereType ? whereType.replace(/type = /g, 'process_type = ') : ''),
-    values
+    " FROM financial_entries WHERE date_trunc('month', entry_date::timestamp) = date_trunc('month', CURRENT_DATE::timestamp)" + financeTypeCondition,
+    financeValues
   );
 
   const summary = summaryResult.rows[0];
@@ -113,7 +120,7 @@ async function getSalesSeries(filters) {
 async function getKanban(filters) {
   const conditions = [
     "s.status IN ('BUDGET', 'APPROVED', 'IN_PRODUCTION', 'DONE', 'DELIVERED')",
-    "(s.status != 'DELIVERED' OR s.delivered_at IS NULL OR s.delivered_at > NOW() - INTERVAL '7 days')",
+    "(s.status != 'DELIVERED' OR s.payment_status != 'PAID' OR s.delivered_at IS NULL OR s.delivered_at > NOW() - INTERVAL '1 day')",
   ];
   const values = [];
   let index = 1;
@@ -132,6 +139,7 @@ async function getKanban(filters) {
       s.due_date,
       s.delivered_at,
       s.status,
+      s.payment_status,
       s.type,
       s.customer_notified,
       si.description AS file_name

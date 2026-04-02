@@ -105,8 +105,8 @@ async function sendToProduction(id, userId, role, permissions = []) {
 
   await ensureCanManage(role, permissions);
 
-  if (drawing.status !== 'PRONTO') {
-    const error = new Error('Drawing must be PRONTO before sending to production');
+  if (drawing.status !== 'IMPRESSAO_TESTE') {
+    const error = new Error('Drawing must be IMPRESSAO_TESTE before sending to production');
     error.statusCode = 400;
     error.code = 'BUSINESS_RULE';
     throw error;

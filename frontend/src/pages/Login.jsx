@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function Login({ onSubmit, onBack, errorMessage, isSubmitting }) {
   const [form, setForm] = useState({ usuario: '', senha: '' });
@@ -20,9 +23,10 @@ export default function Login({ onSubmit, onBack, errorMessage, isSubmitting }) 
         <p>Entre com o usuario e senha do MVP.</p>
 
         <form className="login-form" onSubmit={handleSubmit}>
-          <label>
-            Usuario
-            <input
+          <div className="grid gap-2">
+            <Label htmlFor="usuario">Usuario</Label>
+            <Input
+              id="usuario"
               type="text"
               name="usuario"
               value={form.usuario}
@@ -30,10 +34,11 @@ export default function Login({ onSubmit, onBack, errorMessage, isSubmitting }) 
               placeholder="admin"
               disabled={isSubmitting}
             />
-          </label>
-          <label>
-            Senha
-            <input
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="senha">Senha</Label>
+            <Input
+              id="senha"
               type="password"
               name="senha"
               value={form.senha}
@@ -41,15 +46,15 @@ export default function Login({ onSubmit, onBack, errorMessage, isSubmitting }) 
               placeholder="admin"
               disabled={isSubmitting}
             />
-          </label>
+          </div>
           {errorMessage ? <div className="form-error">{errorMessage}</div> : null}
           <div className="form-actions">
-            <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'Entrando...' : 'Entrar'}
-            </button>
-            <button className="btn btn-ghost" type="button" onClick={onBack}>
+            </Button>
+            <Button variant="ghost" type="button" onClick={onBack}>
               Voltar
-            </button>
+            </Button>
           </div>
         </form>
       </div>

@@ -12,7 +12,7 @@ function ensureSaleIsMutable(sale) {
 }
 
 async function list(filters) {
-  return salesRepository.list(filters || {});
+  return salesRepository.list(filters || { page: 1, limit: 50 });
 }
 
 async function create(data, userId) {

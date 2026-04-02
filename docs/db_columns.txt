@@ -1,0 +1,137 @@
+﻿     table_name      |      column_name       |          data_type          | is_nullable |              column_default              
+---------------------+------------------------+-----------------------------+-------------+------------------------------------------
+ audit_logs          | id                     | uuid                        | NO          | gen_random_uuid()
+ audit_logs          | user_id                | uuid                        | YES         | 
+ audit_logs          | entity                 | text                        | NO          | 
+ audit_logs          | entity_id              | uuid                        | NO          | 
+ audit_logs          | action                 | text                        | NO          | 
+ audit_logs          | data                   | jsonb                       | NO          | '{}'::jsonb
+ audit_logs          | created_at             | timestamp with time zone    | NO          | now()
+ customers           | id                     | uuid                        | NO          | gen_random_uuid()
+ customers           | type                   | text                        | NO          | 
+ customers           | name                   | text                        | NO          | 
+ customers           | document               | text                        | YES         | 
+ customers           | phone                  | text                        | NO          | 
+ customers           | email                  | text                        | YES         | 
+ customers           | notes                  | text                        | YES         | 
+ customers           | is_active              | boolean                     | NO          | true
+ customers           | created_at             | timestamp with time zone    | NO          | now()
+ drawings            | id                     | uuid                        | NO          | gen_random_uuid()
+ drawings            | title                  | text                        | NO          | 
+ drawings            | description            | text                        | YES         | 
+ drawings            | designer_id            | uuid                        | YES         | 
+ drawings            | type                   | text                        | NO          | 'RESINA'::text
+ drawings            | status                 | text                        | NO          | 'ORCAMENTO'::text
+ drawings            | start_date             | date                        | YES         | 
+ drawings            | end_date               | date                        | YES         | 
+ drawings            | created_by_user_id     | uuid                        | NO          | 
+ drawings            | created_at             | timestamp with time zone    | NO          | now()
+ drawings            | customer_id            | uuid                        | YES         | 
+ drawings            | customer_name_snapshot | text                        | YES         | 
+ drawings            | drawing_value          | numeric                     | YES         | 
+ drawings            | print_value            | numeric                     | YES         | 
+ financial_entries   | id                     | uuid                        | NO          | gen_random_uuid()
+ financial_entries   | entry_type             | text                        | NO          | 
+ financial_entries   | category               | text                        | NO          | 
+ financial_entries   | description            | text                        | NO          | 
+ financial_entries   | amount                 | numeric                     | NO          | 
+ financial_entries   | entry_date             | date                        | NO          | CURRENT_DATE
+ financial_entries   | due_date               | date                        | YES         | 
+ financial_entries   | paid_date              | date                        | YES         | 
+ financial_entries   | status                 | text                        | NO          | 'PENDING'::text
+ financial_entries   | process_type           | text                        | NO          | 'GENERAL'::text
+ financial_entries   | payment_method         | text                        | YES         | 
+ financial_entries   | customer_name_snapshot | text                        | YES         | 
+ financial_entries   | supplier_name_snapshot | text                        | YES         | 
+ financial_entries   | sale_id                | uuid                        | YES         | 
+ financial_entries   | notes                  | text                        | YES         | 
+ financial_entries   | created_by_user_id     | uuid                        | NO          | 
+ financial_entries   | created_at             | timestamp with time zone    | NO          | now()
+ financial_entries   | updated_at             | timestamp with time zone    | NO          | now()
+ financial_entries   | customer_id            | uuid                        | YES         | 
+ inventory_items     | id                     | uuid                        | NO          | gen_random_uuid()
+ inventory_items     | name                   | text                        | NO          | 
+ inventory_items     | category               | text                        | NO          | 
+ inventory_items     | unit                   | text                        | NO          | 
+ inventory_items     | min_qty                | numeric                     | NO          | 
+ inventory_items     | current_qty            | numeric                     | NO          | 
+ inventory_items     | unit_cost              | numeric                     | YES         | 
+ inventory_items     | is_active              | boolean                     | NO          | true
+ inventory_items     | created_at             | timestamp with time zone    | NO          | now()
+ inventory_items     | brand                  | text                        | YES         | 
+ inventory_items     | type                   | text                        | NO          | 'RESINA'::text
+ inventory_items     | material_id            | uuid                        | YES         | 
+ inventory_movements | id                     | uuid                        | NO          | gen_random_uuid()
+ inventory_movements | item_id                | uuid                        | NO          | 
+ inventory_movements | type                   | text                        | NO          | 
+ inventory_movements | qty                    | numeric                     | NO          | 
+ inventory_movements | movement_date          | timestamp with time zone    | NO          | 
+ inventory_movements | reason                 | text                        | NO          | 
+ inventory_movements | sale_id                | uuid                        | YES         | 
+ inventory_movements | created_by_user_id     | uuid                        | YES         | 
+ inventory_movements | created_at             | timestamp with time zone    | NO          | now()
+ materials           | id                     | uuid                        | NO          | gen_random_uuid()
+ materials           | process                | text                        | NO          | 
+ materials           | type                   | text                        | NO          | 
+ materials           | color                  | text                        | NO          | 
+ materials           | brand                  | text                        | NO          | 
+ materials           | is_active              | boolean                     | NO          | true
+ materials           | created_at             | timestamp with time zone    | NO          | now()
+ payments            | id                     | uuid                        | NO          | gen_random_uuid()
+ payments            | sale_id                | uuid                        | NO          | 
+ payments            | method                 | text                        | NO          | 
+ payments            | amount                 | numeric                     | NO          | 
+ payments            | paid_at                | timestamp with time zone    | NO          | 
+ payments            | notes                  | text                        | YES         | 
+ payments            | created_by_user_id     | uuid                        | YES         | 
+ payments            | created_at             | timestamp with time zone    | NO          | now()
+ pgmigrations        | id                     | integer                     | NO          | nextval('pgmigrations_id_seq'::regclass)
+ pgmigrations        | name                   | character varying           | NO          | 
+ pgmigrations        | run_on                 | timestamp without time zone | NO          | 
+ sale_items          | id                     | uuid                        | NO          | gen_random_uuid()
+ sale_items          | sale_id                | uuid                        | NO          | 
+ sale_items          | description            | text                        | NO          | 
+ sale_items          | qty                    | numeric                     | NO          | 
+ sale_items          | unit_price             | numeric                     | NO          | 
+ sale_items          | line_total             | numeric                     | NO          | 
+ sale_items          | item_type              | text                        | YES         | 
+ sale_items          | item_color             | text                        | YES         | 
+ sale_items          | weight_grams           | numeric                     | YES         | 
+ sale_items          | print_time_hours       | numeric                     | YES         | 
+ sale_items          | is_done                | boolean                     | NO          | false
+ sale_items          | done_at                | timestamp with time zone    | YES         | 
+ sales               | id                     | uuid                        | NO          | gen_random_uuid()
+ sales               | customer_id            | uuid                        | YES         | 
+ sales               | customer_name_snapshot | text                        | NO          | 
+ sales               | status                 | text                        | NO          | 
+ sales               | sale_date              | date                        | NO          | 
+ sales               | due_date               | date                        | YES         | 
+ sales               | subtotal               | numeric                     | NO          | 
+ sales               | discount_total         | numeric                     | NO          | 0
+ sales               | total                  | numeric                     | NO          | 
+ sales               | payment_status         | text                        | NO          | 
+ sales               | notes                  | text                        | YES         | 
+ sales               | created_by_user_id     | uuid                        | YES         | 
+ sales               | created_at             | timestamp with time zone    | NO          | now()
+ sales               | delivered_at           | timestamp with time zone    | YES         | 
+ sales               | payment_method         | text                        | YES         | 
+ sales               | type                   | text                        | NO          | 'RESINA'::text
+ sales               | material_type          | text                        | YES         | 
+ sales               | material_color         | text                        | YES         | 
+ sales               | weight_grams           | numeric                     | YES         | 
+ sales               | print_time_hours       | numeric                     | YES         | 
+ sales               | customer_notified      | boolean                     | NO          | false
+ sales               | customer_notified_at   | timestamp with time zone    | YES         | 
+ settings            | key                    | text                        | NO          | 
+ settings            | value                  | text                        | NO          | 
+ settings            | updated_at             | timestamp with time zone    | NO          | now()
+ users               | id                     | uuid                        | NO          | gen_random_uuid()
+ users               | name                   | text                        | NO          | 
+ users               | email                  | text                        | NO          | 
+ users               | password_hash          | text                        | NO          | 
+ users               | role                   | text                        | NO          | 
+ users               | is_active              | boolean                     | NO          | true
+ users               | created_at             | timestamp with time zone    | NO          | now()
+ users               | permissions            | ARRAY                       | NO          | '{}'::text[]
+(133 rows)
+

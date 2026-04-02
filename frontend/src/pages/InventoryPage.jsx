@@ -16,6 +16,9 @@ import {
   PROCESS_LABELS,
 } from '../domains/inventory/materials.constants.js';
 import { formatDateTime } from '../domains/shared/formatters.js';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 const EMPTY_STOCK_FORM = {
   process: 'RESINA',
@@ -210,17 +213,18 @@ export default function InventoryPage({
   }
 
   const resolvedProcessType = processType === 'DRAWING' ? 'DRAWING' : (processType || initialType || 'RESINA') === 'FDM' ? 'FDM' : 'RESINA';
+  const showProcessColumn = availableTypes.length > 1 && !typeFilter;
 
   return (
     <div className={`sales-page process-theme ${resolvedProcessType === 'DRAWING' ? 'process-theme--drawing' : resolvedProcessType === 'FDM' ? 'process-theme--fdm' : 'process-theme--resina'}`}>
       <div className="sales-page-header">
-        <button className="btn btn-ghost" type="button" onClick={onBack}>
+        <Button variant="ghost" type="button" onClick={onBack}>
           {'<-'} Voltar
-        </button>
+        </Button>
         <h2>Estoque</h2>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-          <button
-            className="btn btn-ghost"
+          <Button
+            variant="ghost"
             type="button"
             onClick={() => {
               setModalError('');
@@ -229,12 +233,11 @@ export default function InventoryPage({
             }}
           >
             Cadastro de material
-          </button>
-          <button className="btn btn-ghost" type="button" onClick={() => onOpenMaterials?.()}>
+          </Button>
+          <Button variant="ghost" type="button" onClick={() => onOpenMaterials?.()}>
             Lista de materiais
-          </button>
-          <button
-            className="btn btn-primary"
+          </Button>
+          <Button
             type="button"
             onClick={() => {
               setModalError('');
@@ -243,7 +246,7 @@ export default function InventoryPage({
             }}
           >
             + Novo item
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -274,6 +277,7 @@ export default function InventoryPage({
               <tr>
                 <th>Item</th>
                 <th>Marca</th>
+                {showProcessColumn && <th>Processo</th>}
                 <th>Qtd atual</th>
                 <th>Qtd mínima</th>
                 <th>Status</th>
@@ -283,13 +287,13 @@ export default function InventoryPage({
             <tbody>
               {items.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="muted" style={{ textAlign: 'center', padding: '32px' }}>
+                  <td colSpan={showProcessColumn ? 7 : 6} className="muted" style={{ textAlign: 'center', padding: '32px' }}>
                     Nenhum item no estoque.
                   </td>
                 </tr>
               ) : (
                 items.map(item => {
-                  const process = item.process || item.type || 'RESINA';
+                  const process = (item.process || item.type || 'RESINA') === 'FDM' ? 'FDM' : 'RESINA';
                   const low = Number(item.current_qty) <= Number(item.min_qty);
                   const label = item.material_type || item.material_color
                     ? getMaterialLabel(process, item.material_type, item.material_color)
@@ -298,6 +302,13 @@ export default function InventoryPage({
                     <tr key={item.id} className="row-clickable" onClick={() => openEdit(item)}>
                       <td><strong>{label}</strong></td>
                       <td>{item.material_brand || item.brand || '-'}</td>
+                      {showProcessColumn && (
+                        <td>
+                          <span className={`pill pill--process-${process.toLowerCase()}`}>
+                            {PROCESS_LABELS[process] || process}
+                          </span>
+                        </td>
+                      )}
                       <td>{Number(item.current_qty)}</td>
                       <td>{Number(item.min_qty)}</td>
                       <td>
@@ -306,14 +317,15 @@ export default function InventoryPage({
                         </span>
                       </td>
                       <td>
-                        <button
-                          className="btn btn-ghost btn--xs"
+                        <Button
+                          variant="ghost"
+                          className="btn--xs"
                           type="button"
                           onClick={e => openLog(item, e)}
                           title="Ver histórico"
                         >
                           Log
-                        </button>
+                        </Button>
                       </td>
                     </tr>
                   );
@@ -375,7 +387,7 @@ export default function InventoryPage({
               </label>
               <label>
                 Tipo
-                <input
+                <Input
                   type="text"
                   required
                   list={`material-types-${newMaterialForm.process}`}
@@ -390,7 +402,7 @@ export default function InventoryPage({
               </label>
               <label>
                 Cor
-                <input
+                <Input
                   type="text"
                   required
                   list={`material-colors-${newMaterialForm.process}`}
@@ -405,7 +417,7 @@ export default function InventoryPage({
               </label>
               <label>
                 Marca
-                <input
+                <Input
                   type="text"
                   required
                   list={`material-brands-${newMaterialForm.process}`}
@@ -422,8 +434,8 @@ export default function InventoryPage({
               {loadingMaterials && <div className="muted">Carregando sugestões...</div>}
               {modalError && <div className="form-error" style={{ gridColumn: '1 / -1' }}>{modalError}</div>}
               <div className="modal-actions" style={{ gridColumn: '1 / -1' }}>
-                <button className="btn btn-primary" type="submit">Salvar</button>
-                <button className="btn btn-ghost" type="button" onClick={() => setModal(null)}>Cancelar</button>
+                <Button type="submit">Salvar</Button>
+                <Button variant="ghost" type="button" onClick={() => setModal(null)}>Cancelar</Button>
               </div>
             </form>
           </div>
@@ -545,7 +557,7 @@ function StockForm({
       </label>
       <label>
         Quantidade atual
-        <input
+        <Input
           type="number"
           min="0"
           step="0.001"
@@ -556,7 +568,7 @@ function StockForm({
       </label>
       <label>
         Quantidade mínima
-        <input
+        <Input
           type="number"
           min="0"
           step="0.001"
@@ -568,7 +580,7 @@ function StockForm({
 
       {modalError && <div className="form-error" style={{ gridColumn: '1 / -1' }}>{modalError}</div>}
       <div className="modal-actions" style={{ gridColumn: '1 / -1' }}>
-        <button className="btn btn-primary" type="submit">{submitLabel}</button>
+        <Button type="submit">{submitLabel}</Button>
       </div>
     </form>
   );

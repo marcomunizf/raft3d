@@ -9,6 +9,9 @@ import {
 } from '../domains/finance/finance.service.js';
 import { fetchCustomers } from '../domains/customers/customers.service.js';
 import { formatCurrency, formatDate } from '../domains/shared/formatters.js';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 const ENTRY_TYPES = {
   INCOME: 'Receita',
@@ -249,24 +252,24 @@ export default function FinancePage({ onBack, processType = 'RESINA' }) {
   return (
     <div className={`sales-page process-theme ${resolvedProcessType === 'DRAWING' ? 'process-theme--drawing' : resolvedProcessType === 'FDM' ? 'process-theme--fdm' : 'process-theme--resina'}`}>
       <div className="sales-page-header">
-        <button className="btn btn-ghost" type="button" onClick={onBack}>
+        <Button variant="ghost" type="button" onClick={onBack}>
           {'<-'} Voltar
-        </button>
+        </Button>
         <h2>Controle Financeiro</h2>
         <div style={{ display: 'flex', gap: '8px' }}>
-          <button className="btn btn-primary" type="button" onClick={() => openNew('INCOME')}>
+          <Button type="button" onClick={() => openNew('INCOME')}>
             + Nova receita
-          </button>
-          <button className="btn btn-outline" type="button" onClick={() => openNew('EXPENSE')}>
+          </Button>
+          <Button variant="outline" type="button" onClick={() => openNew('EXPENSE')}>
             + Novo custo
-          </button>
+          </Button>
         </div>
       </div>
 
       <div className="sales-filters" style={{ paddingBottom: '10px' }}>
         <div className="sales-filters-row">
-          <button className={`btn ${activeType === 'INCOME' ? 'btn-primary' : 'btn-outline'}`} type="button" onClick={() => switchType('INCOME')}>Receitas</button>
-          <button className={`btn ${activeType === 'EXPENSE' ? 'btn-primary' : 'btn-outline'}`} type="button" onClick={() => switchType('EXPENSE')}>Custos</button>
+          <Button className={`btn ${activeType === 'INCOME' ? 'btn-primary' : 'btn-outline'}`} type="button" onClick={() => switchType('INCOME')}>Receitas</Button>
+          <Button className={`btn ${activeType === 'EXPENSE' ? 'btn-primary' : 'btn-outline'}`} type="button" onClick={() => switchType('EXPENSE')}>Custos</Button>
         </div>
       </div>
 
@@ -274,11 +277,11 @@ export default function FinancePage({ onBack, processType = 'RESINA' }) {
         <div className="sales-filters-row">
           <label className="filter-field">
             <span>De</span>
-            <input type="date" value={filters.start_date} onChange={(e) => setFilters((p) => ({ ...p, start_date: e.target.value }))} />
+            <Input type="date" value={filters.start_date} onChange={(e) => setFilters((p) => ({ ...p, start_date: e.target.value }))} />
           </label>
           <label className="filter-field">
             <span>Ate</span>
-            <input type="date" value={filters.end_date} onChange={(e) => setFilters((p) => ({ ...p, end_date: e.target.value }))} />
+            <Input type="date" value={filters.end_date} onChange={(e) => setFilters((p) => ({ ...p, end_date: e.target.value }))} />
           </label>
           <label className="filter-field">
             <span>Status</span>
@@ -300,7 +303,7 @@ export default function FinancePage({ onBack, processType = 'RESINA' }) {
           </label>
           <label className="filter-field filter-field--wide">
             <span>Buscar</span>
-            <input
+            <Input
               type="text"
               placeholder="Descricao, categoria, cliente, fornecedor"
               value={filters.q}
@@ -308,8 +311,8 @@ export default function FinancePage({ onBack, processType = 'RESINA' }) {
             />
           </label>
           <div className="filter-actions">
-            <button className="btn btn-primary" type="submit">Buscar</button>
-            <button className="btn btn-outline" type="button" onClick={clearFilters}>Limpar</button>
+            <Button type="submit">Buscar</Button>
+            <Button variant="outline" type="button" onClick={clearFilters}>Limpar</Button>
           </div>
         </div>
       </form>
@@ -403,8 +406,9 @@ export default function FinancePage({ onBack, processType = 'RESINA' }) {
                   <td>{formatDate(entry.paid_date)}</td>
                   <td>
                     {entry.status === 'PENDING' ? (
-                      <button
-                        className="btn btn-ghost btn--xs"
+                      <Button
+                        variant="ghost"
+                        className="btn--xs"
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -412,7 +416,7 @@ export default function FinancePage({ onBack, processType = 'RESINA' }) {
                         }}
                       >
                         Marcar pago
-                      </button>
+                      </Button>
                     ) : '-'}
                   </td>
                 </tr>
@@ -427,7 +431,7 @@ export default function FinancePage({ onBack, processType = 'RESINA' }) {
           <form className="form-grid" onSubmit={submitForm}>
             <label>
               Tipo
-              <input type="text" value={ENTRY_TYPES[form.entry_type]} disabled />
+              <Input type="text" value={ENTRY_TYPES[form.entry_type]} disabled />
             </label>
             <label>
               Status
@@ -463,7 +467,7 @@ export default function FinancePage({ onBack, processType = 'RESINA' }) {
             ) : (
               <label>
                 Fornecedor
-                <input
+                <Input
                   type="text"
                   required
                   value={form.supplier_name_snapshot}
@@ -474,23 +478,23 @@ export default function FinancePage({ onBack, processType = 'RESINA' }) {
 
             <label>
               Categoria
-              <input type="text" required value={form.category} onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))} />
+              <Input type="text" required value={form.category} onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))} />
             </label>
             <label>
               Valor
-              <input type="number" min="0" step="0.01" required value={form.amount} onChange={(e) => setForm((p) => ({ ...p, amount: e.target.value }))} />
+              <Input type="number" min="0" step="0.01" required value={form.amount} onChange={(e) => setForm((p) => ({ ...p, amount: e.target.value }))} />
             </label>
             <label>
               Data (competencia)
-              <input type="date" required value={form.entry_date} onChange={(e) => setForm((p) => ({ ...p, entry_date: e.target.value }))} />
+              <Input type="date" required value={form.entry_date} onChange={(e) => setForm((p) => ({ ...p, entry_date: e.target.value }))} />
             </label>
             <label>
               Vencimento
-              <input type="date" value={form.due_date} onChange={(e) => setForm((p) => ({ ...p, due_date: e.target.value }))} />
+              <Input type="date" value={form.due_date} onChange={(e) => setForm((p) => ({ ...p, due_date: e.target.value }))} />
             </label>
             <label>
               Pago em
-              <input type="date" value={form.paid_date} onChange={(e) => setForm((p) => ({ ...p, paid_date: e.target.value }))} />
+              <Input type="date" value={form.paid_date} onChange={(e) => setForm((p) => ({ ...p, paid_date: e.target.value }))} />
             </label>
             <label>
               Processo
@@ -511,16 +515,16 @@ export default function FinancePage({ onBack, processType = 'RESINA' }) {
             </label>
             <label style={{ gridColumn: '1 / -1' }}>
               Descricao
-              <input type="text" required value={form.description} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} />
+              <Input type="text" required value={form.description} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} />
             </label>
             <label style={{ gridColumn: '1 / -1' }}>
               Observacoes
-              <textarea rows="3" value={form.notes} onChange={(e) => setForm((p) => ({ ...p, notes: e.target.value }))} />
+              <Textarea rows="3" value={form.notes} onChange={(e) => setForm((p) => ({ ...p, notes: e.target.value }))} />
             </label>
             {modalError && <p className="form-error" style={{ gridColumn: '1 / -1' }}>{modalError}</p>}
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', gridColumn: '1 / -1' }}>
-              <button className="btn btn-outline" type="button" onClick={() => setModal(null)}>Cancelar</button>
-              <button className="btn btn-primary" type="submit">Salvar</button>
+              <Button variant="outline" type="button" onClick={() => setModal(null)}>Cancelar</Button>
+              <Button type="submit">Salvar</Button>
             </div>
           </form>
         </Modal>

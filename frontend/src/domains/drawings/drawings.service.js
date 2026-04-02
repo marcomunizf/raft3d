@@ -5,6 +5,11 @@ export async function fetchDrawings(filters = {}) {
   return response.data;
 }
 
+export async function fetchDrawingById(id) {
+  const response = await api.get(`/drawings/${id}`);
+  return response.data;
+}
+
 export async function fetchDrawingDesigners() {
   const response = await api.get('/drawings/designers');
   return response.data;

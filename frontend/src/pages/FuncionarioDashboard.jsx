@@ -7,6 +7,7 @@ import InventoryPage from './InventoryPage.jsx';
 import MaterialsPage from './MaterialsPage.jsx';
 import DrawingsPage from './DrawingsPage.jsx';
 import NewSalePage from './NewSalePage.jsx';
+import SaleDetailsPage from './SaleDetailsPage.jsx';
 import FuncionarioTypeSidebar from '../components/funcionario/FuncionarioTypeSidebar.jsx';
 import CustomerSearch from '../domains/customers/CustomerSearch.jsx';
 import { getTokenUserId } from '../domains/auth/auth.utils.js';
@@ -25,6 +26,10 @@ import { formatCurrency, formatDate, formatDateTime } from '../domains/shared/fo
 import { createEmptyPasswordForm } from '../domains/users/users.forms.js';
 import { updateUserPassword } from '../domains/users/users.service.js';
 import { fetchDashboardSummary, fetchMonthlyHistory } from '../domains/dashboard/dashboard.service.js';
+import PrintPlanningModal from '../components/sales/PrintPlanningModal.jsx';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 const l = {
   jsx,
   jsxs,
@@ -130,13 +135,16 @@ function sv({
     [On, _e] = T.useState(""),
     [showDeleteConfirm, setShowDeleteConfirm] = T.useState(false),
     [pg, setPg] = T.useState(null),
+    [saleDetailId, setSaleDetailId] = T.useState(null),
+    [saleEditSeed, setSaleEditSeed] = T.useState(null),
     [activeSection, setActiveSection] = T.useState('production'),
     [drawingCreateSignal, setDrawingCreateSignal] = T.useState(0),
     [monthlySummary, setMonthlySummary] = T.useState(null),
     [showHistory, setShowHistory] = T.useState(false),
     [monthlyHistory, setMonthlyHistory] = T.useState([]),
     [historyLoading, setHistoryLoading] = T.useState(false),
-    [saleMaterials, setSaleMaterials] = T.useState([]);
+    [saleMaterials, setSaleMaterials] = T.useState([]),
+    [showPlanModal, setShowPlanModal] = T.useState(false);
   const canViewResumoForType = type => !!type && (e.includes(LEGACY_SUMMARY_PERMISSION) || e.includes(SUMMARY_PERMISSION_BY_TYPE[type]));
   const hasVerResumo = canViewResumoForType(s);
   const canOpenDrawings = e.includes('projetista') || e.includes('producao');
@@ -575,9 +583,9 @@ function sv({
         C(((j = (d = u == null ? void 0 : u.response) == null ? void 0 : d.data) == null ? void 0 : j.message) || "Erro ao alterar senha.");
       }
     },
-    ra = d => f.filter(j => d.statuses.includes(j.status)),
+    ra = d => f.filter(j => d.statuses.includes(j.status) && !isDeliveredPaidOlderThanOneDay(j)),
     ya = d => d && d.status === "DONE" && d.customer_notified ? "sla-green" : Tc(d == null ? void 0 : d.due_date, d == null ? void 0 : d.status),
-    sa = f.filter(d => d.status !== "DELIVERED").length,
+    sa = f.filter(d => d.status !== "DELIVERED" && !isDeliveredPaidOlderThanOneDay(d)).length,
     vr = f.filter(d => ya(d) === "sla-red").length,
     xr = () => A ? l.jsx("p", {
       className: "muted",
@@ -1043,7 +1051,7 @@ function sv({
             var j;
             return l.jsxs("tr", {
               className: "row-clickable",
-              onClick: () => qt(d.id, "customer-detail"),
+              onClick: () => (setSaleDetailId(d.id), setPg("sale-detail-page")),
               children: [l.jsx("td", {
                 children: Fn(d.sale_date)
               }), l.jsx("td", {
@@ -1563,7 +1571,7 @@ function sv({
             var j;
             return l.jsxs("tr", {
               className: "row-clickable",
-              onClick: () => qt(d.id, "all-sales"),
+              onClick: () => (setSaleDetailId(d.id), setPg("sale-detail-page")),
               children: [l.jsx("td", {
                 children: Fn(d.sale_date)
               }), l.jsx("td", {
@@ -2027,7 +2035,18 @@ function sv({
     oa = s === "RESINA" ? "var(--raft-green)" : s === "FDM" ? "var(--raft-magenta)" : "var(--text-muted)";
   const processTheme = isDrawingSection ? 'DRAWING' : s;
   if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
-  if (pg === 'new-sale') return T.createElement(NewSalePage, { onBack: () => setPg(null), onSaved: async () => { await ht(s); }, defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
+  if (pg === 'sale-detail-page' && saleDetailId) return T.createElement(SaleDetailsPage, { saleId: saleDetailId, onBackToKanban: () => setPg(null), processType: processTheme, onChanged: async () => { await ht(s); }, onEditSale: d => {
+      setSaleEditSeed(d), setPg("new-sale");
+    } });
+  if (pg === 'new-sale') return T.createElement(NewSalePage, { onBack: () => {
+      saleEditSeed ? (setSaleEditSeed(null), setPg("sale-detail-page")) : setPg(null);
+    }, onSaved: async d => {
+      if (saleEditSeed) {
+        await ht(s), d != null && d.id ? setSaleDetailId(d.id) : null, setSaleEditSeed(null), setPg("sale-detail-page");
+      } else {
+        await ht(s), setPg(null);
+      }
+    }, defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'], mode: saleEditSeed ? "edit" : "create", saleId: saleEditSeed ? saleEditSeed.id : null, initialSaleData: saleEditSeed || null });
   if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null), processType: processTheme });
   if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'], onOpenMaterials: () => setPg('materials') });
   if (pg === 'materials') return T.createElement(MaterialsPage, { onBack: () => setPg('inventory'), defaultType: s, processType: processTheme, availableTypes: r.length ? r : ['RESINA', 'FDM'] });
@@ -2064,13 +2083,13 @@ function sv({
             children: [l.jsx("span", {
               className: "sla-dot sla-dot--red"
             }), " ", vr, " urgente", vr > 1 ? "s" : ""]
-          }), hasVerResumo && monthlySummary && l.jsxs("span", {
+          }), !isDrawingSection && hasVerResumo && monthlySummary && l.jsxs("span", {
             className: "func-stat",
             children: ["Pedido no mes: ", l.jsx("strong", { children: mn(monthlySummary.active_sales_month) })]
-          }), hasVerResumo && monthlySummary && l.jsxs("span", {
+          }), !isDrawingSection && hasVerResumo && monthlySummary && l.jsxs("span", {
             className: "func-stat",
             children: ["Recebido no mes: ", l.jsx("strong", { children: mn(monthlySummary.paid_sales_month) })]
-          }), hasVerResumo && l.jsx("button", {
+          }), !isDrawingSection && hasVerResumo && l.jsx("button", {
             type: "button",
             className: "btn btn-ghost",
             style: { fontSize: "12px", padding: "2px 8px" },
@@ -2168,6 +2187,14 @@ function sv({
                   className: "kanban-count",
                   children: j.length
                 })]
+              }), d.key === 'APPROVED' && l.jsx("div", {
+                className: "kanban-plan-bar",
+                children: l.jsx("button", {
+                  className: "btn btn--secondary",
+                  style: { width: '100%' },
+                  onClick: () => setShowPlanModal(true),
+                  children: "📋 Planejar Impressão"
+                })
               }), l.jsxs("div", {
                 className: "kanban-cards",
                 children: [j.length === 0 && l.jsx("p", {
@@ -2214,7 +2241,7 @@ function sv({
                       children: l.jsx("button", {
                         className: "btn btn-ghost btn-card-detail",
                         type: "button",
-                        onClick: () => qt(u.id),
+                        onClick: () => (setSaleDetailId(u.id), setPg("sale-detail-page")),
                         children: "Ver detalhes"
                       })
                     })]
@@ -2225,6 +2252,9 @@ function sv({
           })
         })
       })]
+    }), showPlanModal && l.jsx(PrintPlanningModal, {
+      type: s,
+      onClose: () => setShowPlanModal(false)
     }), showHistory && l.jsx(Yf, {
       title: "Historico mensal",
       onClose: () => setShowHistory(false),
@@ -2318,6 +2348,14 @@ function sv({
 
 function mr(values) {
   return Array.from(new Set((values || []).filter(Boolean))).sort((a, b) => String(a).localeCompare(String(b)));
+}
+
+function isDeliveredPaidOlderThanOneDay(sale) {
+  if (!sale || sale.status !== 'DELIVERED' || sale.payment_status !== 'PAID') return false;
+  if (!sale.delivered_at) return false;
+  const deliveredAt = new Date(sale.delivered_at);
+  if (Number.isNaN(deliveredAt.getTime())) return false;
+  return Date.now() - deliveredAt.getTime() >= 24 * 60 * 60 * 1000;
 }
 
 export default sv;

@@ -1,0 +1,17 @@
+﻿     table_name      | column_name |     constraint_name      
+---------------------+-------------+--------------------------
+ audit_logs          | id          | audit_logs_pkey
+ customers           | id          | customers_pkey
+ drawings            | id          | drawings_pkey
+ financial_entries   | id          | financial_entries_pkey
+ inventory_items     | id          | inventory_items_pkey
+ inventory_movements | id          | inventory_movements_pkey
+ materials           | id          | materials_pkey
+ payments            | id          | payments_pkey
+ pgmigrations        | id          | pgmigrations_pkey
+ sale_items          | id          | sale_items_pkey
+ sales               | id          | sales_pkey
+ settings            | key         | settings_pkey
+ users               | id          | users_pkey
+(13 rows)
+

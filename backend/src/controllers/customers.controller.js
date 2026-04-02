@@ -9,6 +9,8 @@ const idSchema = Joi.object({
 const listSchema = Joi.object({
   q: Joi.string().allow('', null).optional(),
   is_active: Joi.boolean().truthy('true').falsy('false').optional(),
+  page: Joi.number().integer().min(1).default(1),
+  limit: Joi.number().integer().min(1).max(200).default(50),
 });
 
 const createSchema = Joi.object({

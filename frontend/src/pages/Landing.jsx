@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui/button';
+
 const WHATSAPP_LINK = 'https://wa.me/5511999999999';
 const MAPS_LINK = 'https://www.google.com/maps/dir/?api=1&destination=-23.5505,-46.6333';
 
@@ -15,11 +17,11 @@ export default function Landing({ onLoginClick }) {
           <a href="#orcamentos">Orcamentos</a>
           <a href="#localizacao">Contato</a>
         </div>
-        <button className="gear-button" type="button" onClick={onLoginClick} aria-label="Login">
+        <Button variant="ghost" size="icon" className="gear-button" type="button" onClick={onLoginClick} aria-label="Login">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 8.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Zm9 3.2-.82-.27a7.3 7.3 0 0 0-.55-1.34l.4-.77a1 1 0 0 0-.2-1.17l-1.51-1.51a1 1 0 0 0-1.17-.2l-.77.4a7.3 7.3 0 0 0-1.34-.55L14.8 3a1 1 0 0 0-.95-.7h-2.7a1 1 0 0 0-.95.7l-.27.82a7.3 7.3 0 0 0-1.34.55l-.77-.4a1 1 0 0 0-1.17.2L5.14 5.68a1 1 0 0 0-.2 1.17l.4.77c-.22.43-.41.87-.55 1.34L4 12a1 1 0 0 0 .7.95v2.7a1 1 0 0 0 .7.95l.82.27c.14.47.33.91.55 1.34l-.4.77a1 1 0 0 0 .2 1.17l1.51 1.51a1 1 0 0 0 1.17.2l.77-.4c.43.22.87.41 1.34.55l.27.82a1 1 0 0 0 .95.7h2.7a1 1 0 0 0 .95-.7l.27-.82c.47-.14.91-.33 1.34-.55l.77.4a1 1 0 0 0 1.17-.2l1.51-1.51a1 1 0 0 0 .2-1.17l-.4-.77c.22-.43.41-.87.55-1.34L21 14.8a1 1 0 0 0 .7-.95v-2.7a1 1 0 0 0-.7-.95Z" />
           </svg>
-        </button>
+        </Button>
       </nav>
 
       <main className="landing-main">
@@ -35,12 +37,12 @@ export default function Landing({ onLoginClick }) {
               entregamos qualidade e prazo.
             </p>
             <div className="hero-actions">
-              <a className="btn btn-primary" href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
-                Solicitar orcamento
-              </a>
-              <a className="btn btn-outline" href="#servicos">
-                Nossos servicos
-              </a>
+              <Button asChild>
+                <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">Solicitar orcamento</a>
+              </Button>
+              <Button variant="outline" asChild>
+                <a href="#servicos">Nossos servicos</a>
+              </Button>
             </div>
           </div>
           <div className="hero-panel">
@@ -104,9 +106,9 @@ export default function Landing({ onLoginClick }) {
                 cor, quantidade e prazo. Respondemos em ate 24 horas uteis com o
                 valor e previsao de entrega.
               </p>
-              <a className="btn" href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
-                Chamar no WhatsApp
-              </a>
+              <Button asChild>
+                <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">Chamar no WhatsApp</a>
+              </Button>
             </div>
           </div>
         </section>
@@ -124,10 +126,9 @@ export default function Landing({ onLoginClick }) {
                   Atendemos presencialmente e por envio via Correios e transportadoras.
                   Retirada no estudio disponivel mediante agendamento.
                 </p>
-                <a className="btn btn-outline" href={MAPS_LINK} target="_blank" rel="noreferrer"
-                   style={{ borderColor: 'var(--raft-green)', color: 'var(--raft-green)' }}>
-                  Como chegar
-                </a>
+                <Button variant="outline" asChild>
+                  <a href={MAPS_LINK} target="_blank" rel="noreferrer">Como chegar</a>
+                </Button>
               </div>
             </div>
           </div>

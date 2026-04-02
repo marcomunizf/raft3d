@@ -7,11 +7,12 @@ import InventoryPage from './InventoryPage.jsx';
 import MaterialsPage from './MaterialsPage.jsx';
 import FinancePage from './FinancePage.jsx';
 import NewSalePage from './NewSalePage.jsx';
+import SaleDetailsPage from './SaleDetailsPage.jsx';
 import AdminTypeSidebar from '../components/dashboard/AdminTypeSidebar.jsx';
 import { fetchDashboardSummary, fetchSalesSeries, fetchWeightPriceByMaterial } from '../domains/dashboard/dashboard.service.js';
 import { fetchDrawings } from '../domains/drawings/drawings.service.js';
 import { getDashboardSlaVariant, DASHBOARD_SLA_LABEL } from '../domains/dashboard/dashboard.ui.js';
-import { createSale, fetchSaleDetails, fetchSales, updateSale, updateSaleStatus, updateSaleItemStatus } from '../domains/sales/sales.service.js';
+import { createSale, fetchSales, updateSale, updateSaleStatus, updateSaleItemStatus } from '../domains/sales/sales.service.js';
 import { createEmptySaleForm, createEmptySaleItem } from '../domains/sales/sales.forms.js';
 import { SALE_STATUSES, PAYMENT_STATUSES, STATUS_LABELS, PAYMENT_STATUS_LABELS, PAYMENT_METHOD_LABELS } from '../domains/sales/sales.constants.js';
 import { createCustomer, fetchCustomers, fetchCustomerSales, updateCustomer } from '../domains/customers/customers.service.js';
@@ -23,6 +24,9 @@ import { createEmptyUserForm, createEmptyPasswordForm } from '../domains/users/u
 import { PERMISSION_LABELS } from '../domains/users/users.constants.js';
 import { formatDate, formatCurrency } from '../domains/shared/formatters.js';
 import { getTokenUserId } from '../domains/auth/auth.utils.js';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 const za = createEmptyUserForm();
 const Ua = createEmptyPasswordForm();
 const _c = createEmptySaleForm();
@@ -48,7 +52,6 @@ const wc = fetchDashboardSummary;
 const Sc = fetchSalesSeries;
 const Pc = fetchWeightPriceByMaterial;
 const zn = fetchSales;
-const jp = fetchSaleDetails;
 const wp = createSale;
 const Fg = updateSale;
 const $o = updateSaleStatus;
@@ -94,6 +97,9 @@ const DRAWINGS_KANBAN_STAGES = [{
 }, {
   key: "PRONTO",
   label: "Pronto"
+}, {
+  key: "IMPRESSAO_TESTE",
+  label: "Impressao de teste"
 }, {
   key: "ENVIAR_PARA_PRODUCAO",
   label: "Enviar para Producao"
@@ -166,6 +172,8 @@ function Yg({
     [Xe, _t] = T.useState(Rc),
     qt = T.useRef(null),
     [pg, setPg] = T.useState(null),
+    [saleDetailId, setSaleDetailId] = T.useState(null),
+    [saleEditSeed, setSaleEditSeed] = T.useState(null),
     [xg, setXg] = T.useState(null),
     [yg, setYg] = T.useState(null),
     [Ag, setAg] = T.useState(null),
@@ -228,6 +236,8 @@ function Yg({
         }), zn({
           type: "FDM"
         }), Dp()]);
+        const visibleResina = (u || []).filter(tv => !isDeliveredPaidOlderThanOneDay(tv));
+        const visibleFdm = (g || []).filter(tv => !isDeliveredPaidOlderThanOneDay(tv));
         const te = tv => {
             if (!tv) return !1;
             const Ue = new Date();
@@ -254,8 +264,8 @@ function Yg({
             };
           });
         setXg({
-          resina: Wi(u || [], "status", SALES_KANBAN_STAGES, "sale"),
-          fdm: Wi(g || [], "status", SALES_KANBAN_STAGES, "sale"),
+          resina: Wi(visibleResina, "status", SALES_KANBAN_STAGES, "sale"),
+          fdm: Wi(visibleFdm, "status", SALES_KANBAN_STAGES, "sale"),
           desenho: Wi(L || [], "status", DRAWINGS_KANBAN_STAGES, "drawing")
         }), setLg(Array.isArray(L) ? L : []);
       } catch {
@@ -2369,17 +2379,8 @@ function Yg({
         })
       }) : null;
     },
-    oa = async u => {
-      var g, L;
-      C(""), O(!0);
-      try {
-        const te = await jp(u);
-        On(te), n("customer-sale-detail");
-      } catch (te) {
-        C(((L = (g = te == null ? void 0 : te.response) == null ? void 0 : g.data) == null ? void 0 : L.message) || "Erro ao carregar detalhes do pedido.");
-      } finally {
-        O(!1);
-      }
+    oa = u => {
+      C(""), setSaleDetailId(typeof u == "string" ? u : u == null ? void 0 : u.id), setPg("sale-detail-page");
     },
     ia = async (u, g) => {
       var L, te;
@@ -2480,7 +2481,18 @@ function Yg({
       return Object.values(L).sort((te, Wi) => Wi.total - te.total || te.name.localeCompare(Wi.name));
     })();
   if (pg === 'sales') return T.createElement(SalesPage, { onBack: () => setPg(null), defaultType: V, processType: isDrawingSection ? "DRAWING" : V });
-  if (pg === 'new-sale') return T.createElement(NewSalePage, { onBack: () => setPg(null), onSaved: Ln, defaultType: V, processType: isDrawingSection ? "DRAWING" : V, availableTypes: ['RESINA', 'FDM'] });
+  if (pg === 'sale-detail-page' && saleDetailId) return T.createElement(SaleDetailsPage, { saleId: saleDetailId, onBackToKanban: () => setPg(null), processType: isDrawingSection ? "DRAWING" : V, onChanged: Ln, onEditSale: u => {
+      setSaleEditSeed(u), setPg("new-sale");
+    } });
+  if (pg === 'new-sale') return T.createElement(NewSalePage, { onBack: () => {
+      saleEditSeed ? (setSaleEditSeed(null), setPg("sale-detail-page")) : setPg(null);
+    }, onSaved: async u => {
+      if (saleEditSeed) {
+        await Ln(), u != null && u.id ? setSaleDetailId(u.id) : null, setSaleEditSeed(null), setPg("sale-detail-page");
+      } else {
+        await Ln(), setPg(null);
+      }
+    }, defaultType: V, processType: isDrawingSection ? "DRAWING" : V, availableTypes: ['RESINA', 'FDM'], mode: saleEditSeed ? "edit" : "create", saleId: saleEditSeed ? saleEditSeed.id : null, initialSaleData: saleEditSeed || null });
   if (pg === 'customers') return T.createElement(CustomersPage, { onBack: () => setPg(null), processType: isDrawingSection ? "DRAWING" : V });
   if (pg === 'inventory') return T.createElement(InventoryPage, { onBack: () => setPg(null), defaultType: V, processType: isDrawingSection ? "DRAWING" : V, onOpenMaterials: () => setPg('materials') });
   if (pg === 'materials') return T.createElement(MaterialsPage, { onBack: () => setPg('inventory'), defaultType: V, processType: isDrawingSection ? "DRAWING" : V });
@@ -2546,11 +2558,6 @@ function Yg({
             type: "button",
             onClick: () => setPg("sales"),
             children: "Todos os pedidos"
-          }), l.jsx("button", {
-            className: "btn btn-outline",
-            type: "button",
-            onClick: () => setPg("finance"),
-            children: "Financeiro"
           }), l.jsxs("div", {
             className: "user-menu",
             ref: we,
@@ -2780,15 +2787,6 @@ function Yg({
             })]
           }), l.jsxs("div", {
             className: "kpi-card",
-            role: "button",
-            tabIndex: 0,
-            onClick: () => setPg("finance"),
-            onKeyDown: u => {
-              (u.key === "Enter" || u.key === " ") && (u.preventDefault(), setPg("finance"));
-            },
-            style: {
-              cursor: "pointer"
-            },
             children: [l.jsx("p", {
               className: "kpi-label",
               children: "Financeiro"
@@ -2982,6 +2980,12 @@ function Tc(e, t) {
   r.setHours(0, 0, 0, 0);
   const o = Math.floor((r - n) / 864e5);
   return o <= 1 ? "sla-red" : o <= 2 ? "sla-yellow" : "sla-green";
+}
+function isDeliveredPaidOlderThanOneDay(e) {
+  if (!e || e.status !== "DELIVERED" || e.payment_status !== "PAID") return !1;
+  if (!e.delivered_at) return !1;
+  const t = new Date(e.delivered_at);
+  return Number.isNaN(t.getTime()) ? !1 : Date.now() - t.getTime() >= 864e5;
 }
 const ev = {
     "sla-red": "Urgente",

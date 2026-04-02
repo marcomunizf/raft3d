@@ -1,0 +1,20 @@
+﻿    source_table     |   source_column    |  target_table   | target_column | update_rule | delete_rule |               constraint_name               
+---------------------+--------------------+-----------------+---------------+-------------+-------------+---------------------------------------------
+ audit_logs          | user_id            | users           | id            | NO ACTION   | SET NULL    | audit_logs_user_id_fkey
+ drawings            | created_by_user_id | users           | id            | NO ACTION   | NO ACTION   | drawings_created_by_user_id_fkey
+ drawings            | customer_id        | customers       | id            | NO ACTION   | NO ACTION   | drawings_customer_id_fkey
+ drawings            | designer_id        | users           | id            | NO ACTION   | NO ACTION   | drawings_designer_id_fkey
+ financial_entries   | created_by_user_id | users           | id            | NO ACTION   | NO ACTION   | financial_entries_created_by_user_id_fkey
+ financial_entries   | customer_id        | customers       | id            | NO ACTION   | SET NULL    | financial_entries_customer_id_fkey
+ financial_entries   | sale_id            | sales           | id            | NO ACTION   | SET NULL    | financial_entries_sale_id_fkey
+ inventory_items     | material_id        | materials       | id            | NO ACTION   | NO ACTION   | inventory_items_material_id_fkey
+ inventory_movements | created_by_user_id | users           | id            | NO ACTION   | SET NULL    | inventory_movements_created_by_user_id_fkey
+ inventory_movements | item_id            | inventory_items | id            | NO ACTION   | NO ACTION   | inventory_movements_item_id_fkey
+ inventory_movements | sale_id            | sales           | id            | NO ACTION   | NO ACTION   | inventory_movements_sale_id_fkey
+ payments            | created_by_user_id | users           | id            | NO ACTION   | SET NULL    | payments_created_by_user_id_fkey
+ payments            | sale_id            | sales           | id            | NO ACTION   | CASCADE     | payments_sale_id_fkey
+ sale_items          | sale_id            | sales           | id            | NO ACTION   | CASCADE     | sale_items_sale_id_fkey
+ sales               | created_by_user_id | users           | id            | NO ACTION   | SET NULL    | sales_created_by_user_id_fkey
+ sales               | customer_id        | customers       | id            | NO ACTION   | NO ACTION   | sales_customer_id_fkey
+(16 rows)
+

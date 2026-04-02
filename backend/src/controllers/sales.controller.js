@@ -17,6 +17,8 @@ const listSchema = Joi.object({
   payment_status: Joi.string().valid(...paymentStatus).optional(),
   customer_id: Joi.string().guid({ version: ['uuidv4'] }).optional(),
   type: Joi.string().valid('RESINA', 'FDM').optional(),
+  page: Joi.number().integer().min(1).default(1),
+  limit: Joi.number().integer().min(1).max(200).default(50),
 });
 
 const saleItemSchema = Joi.object({
@@ -109,6 +111,16 @@ function ensureSalesTypePermission(req, saleType) {
   throw error;
 }
 
+function ensureSaleMutable(sale) {
+  if (!sale) return;
+  if (sale.status === 'DELIVERED' && sale.payment_status === 'PAID') {
+    const error = new Error('Pedido entregue e pago nao pode mais ser alterado.');
+    error.statusCode = 409;
+    error.code = 'SALE_LOCKED';
+    throw error;
+  }
+}
+
 function applyItemTotals(payload) {
   if (!Array.isArray(payload.items) || payload.items.length === 0) {
     return payload;
@@ -181,6 +193,7 @@ async function update(req, res, next) {
       error.code = 'NOT_FOUND';
       throw error;
     }
+    ensureSaleMutable(currentSale);
     ensureSalesTypePermission(req, payload.type || currentSale.type || 'RESINA');
     const result = await salesService.update(id, payload);
     await audit({ userId, entity: 'sales', entityId: id, action: 'UPDATE', data: payload });
@@ -194,6 +207,14 @@ async function updateStatus(req, res, next) {
   try {
     const userId = req.user.sub;
     const { id } = validate(idSchema, req.params);
+    const currentSale = await salesService.getById(id);
+    if (!currentSale) {
+      const error = new Error('Sale not found');
+      error.statusCode = 404;
+      error.code = 'NOT_FOUND';
+      throw error;
+    }
+    ensureSaleMutable(currentSale);
     const payload = validate(statusSchema, req.body);
     const result = await salesService.updateStatus(id, payload);
     await audit({ userId, entity: 'sales', entityId: id, action: 'UPDATE', data: payload });
@@ -209,6 +230,14 @@ async function cancel(req, res, next) {
     const role = req.user.role;
     const permissions = req.user.permissions || [];
     const { id } = validate(idSchema, req.params);
+    const currentSale = await salesService.getById(id);
+    if (!currentSale) {
+      const error = new Error('Sale not found');
+      error.statusCode = 404;
+      error.code = 'NOT_FOUND';
+      throw error;
+    }
+    ensureSaleMutable(currentSale);
     const payload = validate(cancelSchema, req.body);
     const result = await salesService.cancel(id, userId, role, permissions, payload.senha);
     await audit({ userId, entity: 'sales', entityId: id, action: 'CANCEL' });
@@ -232,6 +261,14 @@ async function addPayment(req, res, next) {
   try {
     const userId = req.user.sub;
     const { id } = validate(idSchema, req.params);
+    const currentSale = await salesService.getById(id);
+    if (!currentSale) {
+      const error = new Error('Sale not found');
+      error.statusCode = 404;
+      error.code = 'NOT_FOUND';
+      throw error;
+    }
+    ensureSaleMutable(currentSale);
     const payload = validate(paymentSchema, req.body);
     const result = await salesService.addPayment(id, payload, userId);
     await audit({ userId, entity: 'payments', entityId: result.id, action: 'CREATE', data: { amount: result.amount, method: result.method } });
@@ -248,6 +285,14 @@ async function updateItemStatus(req, res, next) {
       id: Joi.string().guid({ version: ['uuidv4'] }).required(),
       itemId: Joi.string().guid({ version: ['uuidv4'] }).required(),
     }), req.params);
+    const currentSale = await salesService.getById(id);
+    if (!currentSale) {
+      const error = new Error('Sale not found');
+      error.statusCode = 404;
+      error.code = 'NOT_FOUND';
+      throw error;
+    }
+    ensureSaleMutable(currentSale);
     const payload = validate(itemStatusSchema, req.body);
     const result = await salesService.updateItemStatus(id, itemId, payload.is_done);
     await audit({ userId, entity: 'sale_items', entityId: itemId, action: 'UPDATE', data: payload });

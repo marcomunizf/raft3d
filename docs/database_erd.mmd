@@ -1,0 +1,176 @@
+﻿erDiagram
+  audit_logs {
+    uuid id PK
+    uuid user_id FK
+    text entity
+    uuid entity_id
+    text action
+    jsonb data
+    timestamptz created_at
+  }
+  customers {
+    uuid id PK
+    text type
+    text name
+    text document
+    text phone
+    text email
+    text notes
+    boolean is_active
+    timestamptz created_at
+  }
+  drawings {
+    uuid id PK
+    text title
+    text description
+    uuid designer_id FK
+    text type
+    text status
+    date start_date
+    date end_date
+    uuid created_by_user_id FK
+    timestamptz created_at
+    uuid customer_id FK
+    text customer_name_snapshot
+    numeric drawing_value
+    numeric print_value
+  }
+  financial_entries {
+    uuid id PK
+    text entry_type
+    text category
+    text description
+    numeric amount
+    date entry_date
+    date due_date
+    date paid_date
+    text status
+    text process_type
+    text payment_method
+    text customer_name_snapshot
+    text supplier_name_snapshot
+    uuid sale_id FK
+    text notes
+    uuid created_by_user_id FK
+    timestamptz created_at
+    timestamptz updated_at
+    uuid customer_id FK
+  }
+  inventory_items {
+    uuid id PK
+    text name
+    text category
+    text unit
+    numeric min_qty
+    numeric current_qty
+    numeric unit_cost
+    boolean is_active
+    timestamptz created_at
+    text brand
+    text type
+    uuid material_id FK
+  }
+  inventory_movements {
+    uuid id PK
+    uuid item_id FK
+    text type
+    numeric qty
+    timestamptz movement_date
+    text reason
+    uuid sale_id FK
+    uuid created_by_user_id FK
+    timestamptz created_at
+  }
+  materials {
+    uuid id PK
+    text process
+    text type
+    text color
+    text brand
+    boolean is_active
+    timestamptz created_at
+  }
+  payments {
+    uuid id PK
+    uuid sale_id FK
+    text method
+    numeric amount
+    timestamptz paid_at
+    text notes
+    uuid created_by_user_id FK
+    timestamptz created_at
+  }
+  pgmigrations {
+    integer id PK
+    varchar name
+    timestamp run_on
+  }
+  sale_items {
+    uuid id PK
+    uuid sale_id FK
+    text description
+    numeric qty
+    numeric unit_price
+    numeric line_total
+    text item_type
+    text item_color
+    numeric weight_grams
+    numeric print_time_hours
+    boolean is_done
+    timestamptz done_at
+  }
+  sales {
+    uuid id PK
+    uuid customer_id FK
+    text customer_name_snapshot
+    text status
+    date sale_date
+    date due_date
+    numeric subtotal
+    numeric discount_total
+    numeric total
+    text payment_status
+    text notes
+    uuid created_by_user_id FK
+    timestamptz created_at
+    timestamptz delivered_at
+    text payment_method
+    text type
+    text material_type
+    text material_color
+    numeric weight_grams
+    numeric print_time_hours
+    boolean customer_notified
+    timestamptz customer_notified_at
+  }
+  settings {
+    text key PK
+    text value
+    timestamptz updated_at
+  }
+  users {
+    uuid id PK
+    text name
+    text email
+    text password_hash
+    text role
+    boolean is_active
+    timestamptz created_at
+    ARRAY permissions
+  }
+  users ||--o{ audit_logs : user_id
+  users ||--o{ drawings : created_by_user_id
+  customers ||--o{ drawings : customer_id
+  users ||--o{ drawings : designer_id
+  users ||--o{ financial_entries : created_by_user_id
+  customers ||--o{ financial_entries : customer_id
+  sales ||--o{ financial_entries : sale_id
+  materials ||--o{ inventory_items : material_id
+  users ||--o{ inventory_movements : created_by_user_id
+  inventory_items ||--o{ inventory_movements : item_id
+  sales ||--o{ inventory_movements : sale_id
+  users ||--o{ payments : created_by_user_id
+  sales ||--o{ payments : sale_id
+  sales ||--o{ sale_items : sale_id
+  users ||--o{ sales : created_by_user_id
+  customers ||--o{ sales : customer_id

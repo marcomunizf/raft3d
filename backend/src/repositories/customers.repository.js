@@ -20,13 +20,32 @@ async function list(filters) {
   }
 
   const where = conditions.length ? 'WHERE ' + conditions.join(' AND ') : '';
+  const page = Math.max(1, Number(filters.page) || 1);
+  const limit = Math.min(200, Math.max(1, Number(filters.limit) || 50));
+  const offset = (page - 1) * limit;
 
-  const result = await db.query(
-    'SELECT * FROM customers ' + where + ' ORDER BY created_at DESC',
+  const countResult = await db.query(
+    'SELECT COUNT(*) AS total FROM customers ' + where,
     values
   );
 
-  return result.rows;
+  const dataValues = [...values, limit, offset];
+  const result = await db.query(
+    'SELECT * FROM customers ' + where + ' ORDER BY created_at DESC LIMIT $' + index + ' OFFSET $' + (index + 1),
+    dataValues
+  );
+
+  const total = Number(countResult.rows[0].total);
+
+  return {
+    data: result.rows,
+    meta: {
+      total,
+      page,
+      limit,
+      pages: Math.ceil(total / limit),
+    },
+  };
 }
 
 async function findById(id) {

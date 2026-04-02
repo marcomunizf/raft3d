@@ -1,20 +1,22 @@
-import * as T from 'react';
-import Modal from '../components/Modal.jsx';
-import CustomerSearch from '../domains/customers/CustomerSearch.jsx';
+﻿import * as T from 'react';
+import DrawingDetailsPage from './DrawingDetailsPage.jsx';
+import DrawingNewPage from './DrawingNewPage.jsx';
 import {
   createDrawing,
-  deleteDrawing,
   fetchDrawingDesigners,
   fetchDrawings,
   sendDrawingToProduction,
   updateDrawing,
 } from '../domains/drawings/drawings.service.js';
 import { formatCurrency, formatDate } from '../domains/shared/formatters.js';
+import { getDrawingSlaVariant } from '../domains/shared/dates.js';
+import { Button } from '@/components/ui/button';
 
 const DRAWING_STATUSES = [
   { key: 'ORCAMENTO', label: 'Orcamento' },
   { key: 'DESENHANDO', label: 'Desenhando' },
   { key: 'PRONTO', label: 'Desenho Pronto' },
+  { key: 'IMPRESSAO_TESTE', label: 'Impressao de teste' },
   { key: 'ENVIAR_PARA_PRODUCAO', label: 'Enviar para Producao' },
 ];
 const SLA_LABELS = {
@@ -22,20 +24,6 @@ const SLA_LABELS = {
   'sla-yellow': 'Atencao',
   'sla-green': 'No prazo',
 };
-
-function getDrawingSlaVariant(endDate, status) {
-  if (!endDate || status === 'ENVIAR_PARA_PRODUCAO') return 'sla-green';
-  const now = new Date();
-  now.setHours(0, 0, 0, 0);
-  const deadline = new Date(endDate);
-  deadline.setHours(0, 0, 0, 0);
-  const days = Math.floor((deadline - now) / 86400000);
-
-  // Desenho com ate 2 dias de prazo entra como urgente.
-  if (days <= 2) return 'sla-red';
-  if (days <= 4) return 'sla-yellow';
-  return 'sla-green';
-}
 
 function parseMoneyValue(value) {
   if (value === '' || value === null || typeof value === 'undefined') return null;
@@ -54,15 +42,11 @@ export default function DrawingsPage({
   const [loading, setLoading] = T.useState(false);
   const [error, setError] = T.useState('');
   const [showCreate, setShowCreate] = T.useState(false);
-  const [selectedDrawing, setSelectedDrawing] = T.useState(null);
+  const [detailDrawingId, setDetailDrawingId] = T.useState(null);
   const [designers, setDesigners] = T.useState([]);
   const [draggingId, setDraggingId] = T.useState(null);
   const [overColumn, setOverColumn] = T.useState(null);
   const lastCreateSignalRef = T.useRef(createSignal);
-  const [detailForm, setDetailForm] = T.useState({
-    drawing_value: '',
-    print_value: '',
-  });
   const [form, setForm] = T.useState({
     description: '',
     customer_id: null,
@@ -110,28 +94,14 @@ export default function DrawingsPage({
     setShowCreate(true);
   }, [embedded, canManage, createSignal]);
 
-  T.useEffect(() => {
-    if (!selectedDrawing) return;
-    setDetailForm({
-      drawing_value:
-        selectedDrawing.drawing_value === null || typeof selectedDrawing.drawing_value === 'undefined'
-          ? ''
-          : String(selectedDrawing.drawing_value),
-      print_value:
-        selectedDrawing.print_value === null || typeof selectedDrawing.print_value === 'undefined'
-          ? ''
-          : String(selectedDrawing.print_value),
-    });
-  }, [selectedDrawing]);
-
   const handleMove = async (drawing, nextStatus) => {
     if (!drawing || !nextStatus || drawing.status === nextStatus) return;
     setLoading(true);
     setError('');
     try {
       if (nextStatus === 'ENVIAR_PARA_PRODUCAO') {
-        if (drawing.status !== 'PRONTO') {
-          setError('Somente desenhos em "Desenho Pronto" podem ser enviados para producao.');
+        if (drawing.status !== 'IMPRESSAO_TESTE') {
+          setError('Somente desenhos em "Impressao de teste" podem ser enviados para producao.');
           return;
         }
         await sendDrawingToProduction(drawing.id);
@@ -215,45 +185,8 @@ export default function DrawingsPage({
     return acc;
   }, {});
 
-  const handleSaveValues = async () => {
-    if (!selectedDrawing) return;
-    setLoading(true);
-    setError('');
-    try {
-      const payload = {
-        drawing_value: parseMoneyValue(detailForm.drawing_value),
-        print_value: parseMoneyValue(detailForm.print_value),
-      };
-      await updateDrawing(selectedDrawing.id, payload);
-      setSelectedDrawing((prev) => (prev ? { ...prev, ...payload } : prev));
-      await loadDrawings();
-    } catch {
-      setError('Erro ao salvar valores do desenho.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDeleteDrawing = async () => {
-    if (!selectedDrawing) return;
-    const confirmed = window.confirm('Tem certeza que deseja excluir este desenho?');
-    if (!confirmed) return;
-
-    setLoading(true);
-    setError('');
-    try {
-      await deleteDrawing(selectedDrawing.id);
-      setSelectedDrawing(null);
-      await loadDrawings();
-    } catch {
-      setError('Erro ao excluir desenho.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const board = (
-    <section className="kanban-board" style={{ gridTemplateColumns: 'repeat(4, minmax(220px, 1fr))' }}>
+    <section className="kanban-board" style={{ gridTemplateColumns: 'repeat(5, minmax(220px, 1fr))' }}>
       {DRAWING_STATUSES.map((status) => (
         <div
           key={status.key}
@@ -280,9 +213,6 @@ export default function DrawingsPage({
                     {SLA_LABELS[getDrawingSlaVariant(drawing.end_date, drawing.status)]}
                   </span>
                 </div>
-                <div className="kanban-card-file">
-                  {drawing.title}
-                </div>
                 <div className="kanban-card-meta">
                   <span className="kanban-card-value">{formatCurrency(drawing.drawing_value)}</span>
                   <span className="kanban-card-date">Entrega: {formatDate(drawing.end_date)}</span>
@@ -305,13 +235,14 @@ export default function DrawingsPage({
                 )}
 
                 <div className="kanban-card-footer">
-                  <button
-                    className="btn btn-ghost btn-card-detail"
+                  <Button
+                    variant="ghost"
                     type="button"
-                    onClick={() => setSelectedDrawing(drawing)}
+                    className="btn-card-detail"
+                    onClick={() => setDetailDrawingId(drawing.id)}
                   >
                     Ver detalhes
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}
@@ -326,197 +257,36 @@ export default function DrawingsPage({
     </section>
   );
 
-  const createModal = showCreate && (
-    <Modal title="Novo orcamento" onClose={() => setShowCreate(false)}>
-      <div className="modal-section">
-        <form
-          className="form-grid"
-          onSubmit={(event) => {
-            event.preventDefault();
-            handleCreate();
-          }}
-        >
-          <label style={{ gridColumn: '1 / -1' }}>
-            Cliente
-            <CustomerSearch
-              value={form.customer_name_snapshot || ''}
-              onSelect={(customerId, customerName) =>
-                setForm((prev) => ({
-                  ...prev,
-                  customer_id: customerId,
-                  customer_name_snapshot: customerName || '',
-                }))
-              }
-              placeholder="Buscar por nome ou CPF/CNPJ"
-            />
-          </label>
+  if (detailDrawingId) {
+    return (
+      <DrawingDetailsPage
+        drawingId={detailDrawingId}
+        onBackToKanban={() => setDetailDrawingId(null)}
+        onChanged={loadDrawings}
+        canManage={canManage}
+      />
+    );
+  }
 
-          <label>
-            Tipo
-            <select value={form.type} onChange={(event) => setForm((prev) => ({ ...prev, type: event.target.value }))}>
-              <option value="RESINA">Resina</option>
-              <option value="FDM">FDM</option>
-            </select>
-          </label>
-
-          <label>
-            Projetista
-            <select
-              value={form.designer_id}
-              onChange={(event) => setForm((prev) => ({ ...prev, designer_id: event.target.value }))}
-            >
-              <option value="">Nao selecionado</option>
-              {designers.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.name || user.email}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            Fim do desenho
-            <input
-              type="date"
-              value={form.end_date}
-              onChange={(event) => setForm((prev) => ({ ...prev, end_date: event.target.value }))}
-            />
-          </label>
-
-          <label>
-            Valor do desenho (R$)
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={form.drawing_value}
-              onChange={(event) => setForm((prev) => ({ ...prev, drawing_value: event.target.value }))}
-              placeholder="0,00"
-            />
-          </label>
-
-          <label>
-            Valor da impressao (R$)
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={form.print_value}
-              onChange={(event) => setForm((prev) => ({ ...prev, print_value: event.target.value }))}
-              placeholder="Opcional"
-            />
-          </label>
-
-          <label style={{ gridColumn: '1 / -1' }}>
-            Descricao
-            <textarea
-              rows={3}
-              value={form.description}
-              onChange={(event) => setForm((prev) => ({ ...prev, description: event.target.value }))}
-            />
-          </label>
-
-          {error && (
-            <div className="form-error" style={{ gridColumn: '1 / -1' }}>
-              {error}
-            </div>
-          )}
-
-          <div className="modal-actions" style={{ gridColumn: '1 / -1' }}>
-            <button className="btn btn-primary" type="submit">
-              Criar orcamento
-            </button>
-            <button className="btn btn-ghost" type="button" onClick={() => setShowCreate(false)}>
-              Cancelar
-            </button>
-          </div>
-        </form>
-      </div>
-    </Modal>
-  );
-
-  const detailModal = selectedDrawing && (
-    <Modal title="Detalhes do desenho" onClose={() => setSelectedDrawing(null)}>
-      <div className="modal-section">
-        <div className="detail-header">
-          <h3>{selectedDrawing.title}</h3>
-          <p className="muted">Cliente: {selectedDrawing.customer_name_snapshot || '-'}</p>
-          <p className="muted">Tipo: {selectedDrawing.type === 'FDM' ? 'FDM' : 'Resina'}</p>
-        </div>
-        <div className="form-grid">
-          <label>
-            Projetista
-            <input type="text" value={selectedDrawing.designer_name || '-'} readOnly />
-          </label>
-          <label>
-            Status
-            <input
-              type="text"
-              value={DRAWING_STATUSES.find((item) => item.key === selectedDrawing.status)?.label || selectedDrawing.status}
-              readOnly
-            />
-          </label>
-          <label>
-            Valor do desenho (R$)
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={detailForm.drawing_value}
-              onChange={(event) => setDetailForm((prev) => ({ ...prev, drawing_value: event.target.value }))}
-            />
-          </label>
-          <label>
-            Valor da impressao (R$)
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={detailForm.print_value}
-              onChange={(event) => setDetailForm((prev) => ({ ...prev, print_value: event.target.value }))}
-              placeholder="Preencher depois"
-            />
-          </label>
-          <label>
-            Inicio do desenho
-            <input type="text" value={formatDate(selectedDrawing.start_date)} readOnly />
-          </label>
-          <label>
-            Fim do desenho
-            <input type="text" value={formatDate(selectedDrawing.end_date)} readOnly />
-          </label>
-          <label style={{ gridColumn: '1 / -1' }}>
-            Descricao
-            <textarea rows={3} value={selectedDrawing.description || '-'} readOnly />
-          </label>
-        </div>
-        <div className="modal-actions">
-          <button
-            className="btn btn-ghost"
-            type="button"
-            onClick={handleDeleteDrawing}
-            style={{ color: '#b14c24', borderColor: '#e4b79a' }}
-          >
-            Excluir desenho
-          </button>
-          <button className="btn btn-primary" type="button" onClick={handleSaveValues}>
-            Salvar valores
-          </button>
-          <button className="btn btn-ghost" type="button" onClick={() => setSelectedDrawing(null)}>
-            Fechar
-          </button>
-        </div>
-      </div>
-    </Modal>
-  );
+  if (showCreate) {
+    return (
+      <DrawingNewPage
+        form={form}
+        setForm={setForm}
+        designers={designers}
+        loading={loading}
+        error={error}
+        onBack={() => setShowCreate(false)}
+        onCreate={handleCreate}
+      />
+    );
+  }
 
   if (embedded) {
     return (
       <>
         {error && <div className="alert alert-error">{error}</div>}
         {board}
-        {createModal}
-        {detailModal}
       </>
     );
   }
@@ -532,13 +302,13 @@ export default function DrawingsPage({
               <span className="muted">Gerencie desenhos tecnicos e envie para producao</span>
             </div>
             <div className="user-menu" style={{ display: 'flex', gap: '8px' }}>
-              <button className="btn btn-ghost" type="button" onClick={onBack}>
+              <Button variant="ghost" type="button" onClick={onBack}>
                 Voltar
-              </button>
+              </Button>
               {canManage && (
-                <button className="btn btn-primary" type="button" onClick={() => setShowCreate(true)}>
-                  + Orçamento
-                </button>
+                <Button type="button" onClick={() => setShowCreate(true)}>
+                  + Orcamento
+                </Button>
               )}
             </div>
           </header>
@@ -547,8 +317,7 @@ export default function DrawingsPage({
           {board}
         </div>
       </div>
-      {createModal}
-      {detailModal}
     </div>
   );
 }
+

@@ -1,0 +1,17 @@
+﻿     table_name      
+---------------------
+ audit_logs
+ customers
+ drawings
+ financial_entries
+ inventory_items
+ inventory_movements
+ materials
+ payments
+ pgmigrations
+ sale_items
+ sales
+ settings
+ users
+(13 rows)
+

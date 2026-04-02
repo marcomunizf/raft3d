@@ -3,6 +3,7 @@ import Landing from './pages/Landing.jsx';
 import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import FuncionarioDashboard from './pages/FuncionarioDashboard.jsx';
+import ErrorBoundary from './components/shared/ErrorBoundary.jsx';
 import { loginWithCredentials, logoutSession, restoreAuthSession } from './domains/auth/auth.service.js';
 import { AUTH_INVALID_EVENT } from './services/api.js';
 
@@ -83,10 +84,14 @@ export default function App() {
         />
       )}
       {view === 'dashboard' && userRole === 'FUNCIONARIO' && (
-        <FuncionarioDashboard permissions={userPermissions} username={userName} onLogout={handleLogout} />
+        <ErrorBoundary>
+          <FuncionarioDashboard permissions={userPermissions} username={userName} onLogout={handleLogout} />
+        </ErrorBoundary>
       )}
       {view === 'dashboard' && userRole !== 'FUNCIONARIO' && (
-        <Dashboard onLogout={handleLogout} />
+        <ErrorBoundary>
+          <Dashboard onLogout={handleLogout} />
+        </ErrorBoundary>
       )}
     </div>
   );
